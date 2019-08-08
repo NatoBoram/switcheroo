@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.natoboram.fabric_switcheroo.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "MainMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

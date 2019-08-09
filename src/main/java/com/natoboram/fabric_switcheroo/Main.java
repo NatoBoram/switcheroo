@@ -1,6 +1,8 @@
 package com.natoboram.fabric_switcheroo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -10,9 +12,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityGroup;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
@@ -42,26 +49,32 @@ public class Main implements ModInitializer {
 				}
 			});
 
+			// If there's no effective tools, check for the mining speed.
+			if (tools.isEmpty()) {
+				player.inventory.main.forEach((item) -> {
+					if (item.getMiningSpeed(block) > 1.0F) {
+						tools.add(item);
+					}
+				});
+			}
+
 			// Filters enchanted items with 1 durability
 			preserveEnchantedItems(tools);
 
+			// Safety before launching streams
+			if (tools.isEmpty()) {
+				return ActionResult.PASS;
+			}
+
 			// Get best or worst tool
 			if (MinecraftClient.getInstance().options.keySprint.isPressed()) {
-				float miningSpeed = 0;
-				tools.forEach((item) -> {
-					miningSpeed = Math.max(miningSpeed, item.getMiningSpeed(block));
-				});
-				tools.removeIf((item) -> {
-					return miningSpeed > item.getMiningSpeed(block);
-				});
+				float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
+						.getMiningSpeed(block);
+				tools.removeIf((item) -> max > item.getMiningSpeed(block));
 			} else {
-				float miningSpeed = Float.MAX_VALUE;
-				tools.forEach((item) -> {
-					miningSpeed = Math.min(miningSpeed, item.getMiningSpeed(block));
-				});
-				tools.removeIf((item) -> {
-					return miningSpeed < item.getMiningSpeed(block);
-				});
+				float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
+						.getMiningSpeed(block);
+				tools.removeIf((item) -> min < item.getMiningSpeed(block));
 			}
 
 			// Get most damaged item
@@ -103,23 +116,22 @@ public class Main implements ModInitializer {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			EntityGroup entityGroup = livingEntity.getGroup();
 
+			// Safety before launching streams
+			if (swords.isEmpty()) {
+				return ActionResult.PASS;
+			}
+
 			// Get the most damaging or least damaging
 			if (MinecraftClient.getInstance().options.keySprint.isPressed()) {
-				float attackDamage = 0;
-				swords.forEach((item) -> {
-					attackDamage = Math.max(attackDamage, EnchantmentHelper.getAttackDamage(item, entityGroup));
-				});
-				swords.removeIf((item) -> {
-					return attackDamage > EnchantmentHelper.getAttackDamage(item, entityGroup);
-				});
+				float max = getDamage(
+						swords.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
+						entityGroup);
+				swords.removeIf((item) -> max > getDamage(item, entityGroup));
 			} else {
-				float attackDamage = Float.MAX_VALUE;
-				swords.forEach((item) -> {
-					attackDamage = Math.min(attackDamage, EnchantmentHelper.getAttackDamage(item, entityGroup));
-				});
-				swords.removeIf((item) -> {
-					return attackDamage < EnchantmentHelper.getAttackDamage(item, entityGroup);
-				});
+				float min = getDamage(
+						swords.stream().min(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
+						entityGroup);
+				swords.removeIf((item) -> min < getDamage(item, entityGroup));
 			}
 
 			// Get most damaged items
@@ -147,20 +159,32 @@ public class Main implements ModInitializer {
 	}
 
 	private void mostDamagedItems(ArrayList<ItemStack> items) {
-		float damage = 0;
-		items.forEach((item) -> {
-			damage = Math.max(damage, item.getDamage());
-		});
-		items.removeIf((item) -> {
-			return damage > item.getDamage();
-		});
+		float max = items.stream().max(Comparator.comparing(item -> item.getDamage())).get().getDamage();
+		items.removeIf((item) -> max > item.getDamage());
 	}
 
 	private void switcheroo(PlayerEntity player, ItemStack item) {
-		ItemStack held = player.getStackInHand(Hand.MAIN_HAND).copy();
-		int index = player.inventory.main.indexOf(item);
+		Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
+				player.inventory.main.indexOf(player.getStackInHand(Hand.MAIN_HAND)));
+	}
 
-		player.setStackInHand(Hand.MAIN_HAND, item);
-		player.inventory.main.set(index, held);
+	private float getDamage(ItemStack stack, EntityGroup entityGroup) {
+		float damage = 0;
+
+		// Stack Enchantments
+		damage += EnchantmentHelper.getAttackDamage(stack, entityGroup);
+
+		// Item Modifiers
+		Item item = stack.getItem();
+		item.getModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.ATTACK_DAMAGE.getId()).stream()
+				.mapToDouble(EntityAttributeModifier::getAmount).sum();
+
+		// Sword Attack Damage
+		if (item instanceof SwordItem) {
+			SwordItem sword = (SwordItem) item;
+			damage += sword.getAttackDamage();
+		}
+
+		return damage;
 	}
 }

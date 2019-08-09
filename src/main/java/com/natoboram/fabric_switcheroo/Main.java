@@ -165,16 +165,16 @@ public class Main implements ModInitializer {
 
 		// Check if we already have the appropriate item in hand
 		CropBlock cropBlock = (CropBlock) block;
-		ItemStack newSeedStack = cropBlock.getPickStack(world, pos, blockState);
+		Item seedItem = Item.fromBlock(cropBlock);
 		ItemStack mainHandStack = player.inventory.getMainHandStack();
-		if (mainHandStack.isItemEqualIgnoreDamage(newSeedStack)) {
+		if (mainHandStack.getItem().equals(seedItem)) {
 			return ActionResult.PASS;
 		}
 
 		// Get all the appropriate seeds
 		ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
 		player.inventory.main.forEach((item) -> {
-			if (item.getItem() == newSeedStack.getItem()) {
+			if (item.getItem().equals(seedItem)) {
 				seeds.add(item);
 			}
 		});
@@ -187,7 +187,7 @@ public class Main implements ModInitializer {
 		if (seeds.isEmpty()) {
 			return ActionResult.PASS;
 		}
-		switcheroo(player, newSeedStack);
+		switcheroo(player, seeds.get(0));
 
 		// Plant the seed!
 		MinecraftClient minecraftClient = MinecraftClient.getInstance();

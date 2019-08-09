@@ -196,7 +196,7 @@ public class Main implements ModInitializer {
 		BlockHitResult bhr = new BlockHitResult(vec3d, Direction.UP, pos.down(), true);
 		minecraftClient.interactionManager.interactBlock(minecraftClient.player, minecraftClient.world, hand, bhr);
 
-		return ActionResult.SUCCESS;
+		return ActionResult.PASS;
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class Main implements ModInitializer {
 		}
 
 		switcheroo(player, tools.get(0));
-		return ActionResult.SUCCESS;
+		return ActionResult.PASS;
 	}
 
 	/**
@@ -298,6 +298,6 @@ public class Main implements ModInitializer {
 		}
 
 		switcheroo(player, swords.get(0));
-		return ActionResult.SUCCESS;
+		return ActionResult.PASS;
 	}
 }

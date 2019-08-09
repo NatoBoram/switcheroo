@@ -1,7 +1,6 @@
 package com.natoboram.fabric_switcheroo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import net.fabricmc.api.ModInitializer;
@@ -21,7 +20,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 
 public class Main implements ModInitializer {
 	@Override
@@ -148,26 +146,49 @@ public class Main implements ModInitializer {
 
 	}
 
+	/**
+	 * Checks if the switcheroo action should be cancelled.
+	 * 
+	 * @param player Player that's about to execute a switcheroo.
+	 */
 	private boolean cancelSwitcheroo(PlayerEntity player) {
 		return player.isSpectator() || player.isSneaking();
 	}
 
+	/**
+	 * Removes enchanted items that have only one durability left from the
+	 * switcheroo.
+	 */
 	private void preserveEnchantedItems(ArrayList<ItemStack> items) {
 		items.removeIf((item) -> {
 			return !item.getEnchantments().isEmpty() && item.getMaxDamage() - item.getDamage() <= 1;
 		});
 	}
 
+	/**
+	 * Only keep the most damaged items.
+	 */
 	private void mostDamagedItems(ArrayList<ItemStack> items) {
 		float max = items.stream().max(Comparator.comparing(item -> item.getDamage())).get().getDamage();
 		items.removeIf((item) -> max > item.getDamage());
 	}
 
+	/**
+	 * Perform the actual switcheroo.
+	 * 
+	 * @param player PlayerEntity that's about to execute the switcheroo.
+	 * @param item   Item that should be but in its hand.
+	 */
 	private void switcheroo(PlayerEntity player, ItemStack item) {
-		Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
-				player.inventory.main.indexOf(player.getStackInHand(Hand.MAIN_HAND)));
+		// Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
+		// player.inventory.main.indexOf(player.getStackInHand(Hand.MAIN_HAND)));
+
+		MinecraftClient.getInstance().interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
 	}
 
+	/**
+	 * Gets the damage that would be done by an ItemStack to an EntityGroup.
+	 */
 	private float getDamage(ItemStack stack, EntityGroup entityGroup) {
 		float damage = 0;
 

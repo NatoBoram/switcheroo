@@ -34,6 +34,8 @@ import net.minecraft.world.World;
 
 public class Main implements ModInitializer {
 
+	private MinecraftClient client = MinecraftClient.getInstance();
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -76,10 +78,11 @@ public class Main implements ModInitializer {
 	/**
 	 * Execute a switcheroo action when attacking a block.
 	 */
-	private ActionResult onAttackBlock(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction) {
+	private ActionResult onAttackBlock(final PlayerEntity player, final World world, final Hand hand,
+			final BlockPos pos, final Direction direction) {
 
-		BlockState block = world.getBlockState(pos);
-		ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
+		final BlockState block = world.getBlockState(pos);
+		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 
 		// Get all effective tools from the inventory
 		player.inventory.main.forEach((item) -> {
@@ -106,12 +109,12 @@ public class Main implements ModInitializer {
 		}
 
 		// Get best or worst tool
-		if (MinecraftClient.getInstance().options.keySprint.isPressed()) {
-			float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
+		if (this.client.options.keySprint.isPressed()) {
+			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
 					.getMiningSpeed(block);
 			tools.removeIf((item) -> max > item.getMiningSpeed(block));
 		} else {
-			float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
+			final float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
 					.getMiningSpeed(block);
 			tools.removeIf((item) -> min < item.getMiningSpeed(block));
 		}
@@ -130,10 +133,11 @@ public class Main implements ModInitializer {
 	/**
 	 * Execute a switcheroo action when attacking crops.
 	 */
-	private ActionResult onAttackCrop(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction) {
+	private ActionResult onAttackCrop(final PlayerEntity player, final World world, final Hand hand, final BlockPos pos,
+			final Direction direction) {
 
-		BlockState blockState = world.getBlockState(pos);
-		Block block = blockState.getBlock();
+		final BlockState blockState = world.getBlockState(pos);
+		final Block block = blockState.getBlock();
 
 		// Check if it's a crop.
 		if (!(block instanceof CropBlock)) {
@@ -141,15 +145,15 @@ public class Main implements ModInitializer {
 		}
 
 		// Check if we already have the appropriate item in hand
-		CropBlock cropBlock = (CropBlock) block;
-		Item seedItem = Item.fromBlock(cropBlock);
-		ItemStack mainHandStack = player.inventory.getMainHandStack();
+		final CropBlock cropBlock = (CropBlock) block;
+		final Item seedItem = Item.fromBlock(cropBlock);
+		final ItemStack mainHandStack = player.inventory.getMainHandStack();
 		if (mainHandStack.getItem().equals(seedItem)) {
 			return ActionResult.PASS;
 		}
 
 		// Get all the appropriate seeds
-		ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
 		player.inventory.main.forEach((item) -> {
 			if (item.getItem().equals(seedItem)) {
 				seeds.add(item);
@@ -167,10 +171,10 @@ public class Main implements ModInitializer {
 		switcheroo(player, seeds.get(0));
 
 		// Plant the seed!
-		MinecraftClient minecraftClient = MinecraftClient.getInstance();
-		HitResult hitResult = minecraftClient.hitResult;
-		Vec3d vec3d = new Vec3d(hitResult.getPos().x, hitResult.getPos().y - 1, hitResult.getPos().z);
-		BlockHitResult bhr = new BlockHitResult(vec3d, Direction.UP, pos.down(), true);
+		final MinecraftClient minecraftClient = this.client;
+		final HitResult hitResult = minecraftClient.crosshairTarget;
+		final Vec3d vec3d = new Vec3d(hitResult.getPos().x, hitResult.getPos().y - 1, hitResult.getPos().z);
+		final BlockHitResult bhr = new BlockHitResult(vec3d, Direction.UP, pos.down(), true);
 		minecraftClient.interactionManager.interactBlock(minecraftClient.player, minecraftClient.world, hand, bhr);
 
 		return ActionResult.PASS;
@@ -179,10 +183,10 @@ public class Main implements ModInitializer {
 	/**
 	 * Execute a switcheroo action when attacking an entity.
 	 */
-	private ActionResult onAttackEntity(PlayerEntity player, World world, Hand hand, Entity entity,
-			/* Nullable */ EntityHitResult hitResult) {
+	private ActionResult onAttackEntity(final PlayerEntity player, final World world, final Hand hand,
+			final Entity entity, /* Nullable */ final EntityHitResult hitResult) {
 
-		ArrayList<ItemStack> swords = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> swords = new ArrayList<ItemStack>();
 
 		// Get all swords
 		player.inventory.main.forEach((item) -> {
@@ -194,8 +198,8 @@ public class Main implements ModInitializer {
 		// Filters enchanted items with 1 durability
 		removeDamagedEnchantedItems(swords);
 
-		LivingEntity livingEntity = (LivingEntity) entity;
-		EntityGroup entityGroup = livingEntity.getGroup();
+		final LivingEntity livingEntity = (LivingEntity) entity;
+		final EntityGroup entityGroup = livingEntity.getGroup();
 
 		// Safety before launching streams
 		if (swords.isEmpty()) {
@@ -203,13 +207,13 @@ public class Main implements ModInitializer {
 		}
 
 		// Get the most damaging or least damaging
-		if (MinecraftClient.getInstance().options.keySprint.isPressed()) {
-			float max = getDamage(swords.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
-					entityGroup);
+		if (this.client.options.keySprint.isPressed()) {
+			final float max = getDamage(
+					swords.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
 			swords.removeIf((item) -> max > getDamage(item, entityGroup));
 		} else {
-			float min = getDamage(swords.stream().min(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
-					entityGroup);
+			final float min = getDamage(
+					swords.stream().min(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
 			swords.removeIf((item) -> min < getDamage(item, entityGroup));
 		}
 
@@ -226,30 +230,30 @@ public class Main implements ModInitializer {
 
 	/**
 	 * Checks if the switcheroo action should be cancelled.
-	 * 
+	 *
 	 * @param player Player that's about to execute a switcheroo.
 	 */
-	private boolean cancelSwitcheroo(PlayerEntity player) {
+	private boolean cancelSwitcheroo(final PlayerEntity player) {
 		return player.isSpectator() || player.isSneaking();
 	}
 
 	/**
 	 * Gets the damage that would be done by an ItemStack to an EntityGroup.
 	 */
-	private float getDamage(ItemStack stack, EntityGroup entityGroup) {
+	private float getDamage(final ItemStack stack, final EntityGroup entityGroup) {
 		float damage = 0;
 
 		// Stack Enchantments
 		damage += EnchantmentHelper.getAttackDamage(stack, entityGroup);
 
 		// Item Modifiers
-		Item item = stack.getItem();
+		final Item item = stack.getItem();
 		item.getModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.ATTACK_DAMAGE.getId()).stream()
 				.mapToDouble(EntityAttributeModifier::getAmount).sum();
 
 		// Sword Attack Damage
 		if (item instanceof SwordItem) {
-			SwordItem sword = (SwordItem) item;
+			final SwordItem sword = (SwordItem) item;
 			damage += sword.getAttackDamage();
 		}
 
@@ -260,7 +264,7 @@ public class Main implements ModInitializer {
 	 * Removes enchanted items that have only one durability left from the
 	 * switcheroo.
 	 */
-	private void removeDamagedEnchantedItems(ArrayList<ItemStack> items) {
+	private void removeDamagedEnchantedItems(final ArrayList<ItemStack> items) {
 		items.removeIf((item) -> {
 			return !item.getEnchantments().isEmpty() && item.getMaxDamage() - item.getDamage() <= 1;
 		});
@@ -269,26 +273,26 @@ public class Main implements ModInitializer {
 	/**
 	 * Only keep the most damaged items.
 	 */
-	private void keepMostDamagedItems(ArrayList<ItemStack> items) {
-		float max = items.stream().max(Comparator.comparing(item -> item.getDamage())).get().getDamage();
+	private void keepMostDamagedItems(final ArrayList<ItemStack> items) {
+		final float max = items.stream().max(Comparator.comparing(item -> item.getDamage())).get().getDamage();
 		items.removeIf((item) -> max > item.getDamage());
 	}
 
 	/**
 	 * Only keep the lowest stacks.
 	 */
-	private void keepLowestStacks(ArrayList<ItemStack> items) {
-		float min = items.stream().min(Comparator.comparing(item -> item.getCount())).get().getDamage();
+	private void keepLowestStacks(final ArrayList<ItemStack> items) {
+		final float min = items.stream().min(Comparator.comparing(item -> item.getCount())).get().getDamage();
 		items.removeIf((item) -> min < item.getCount());
 	}
 
 	/**
 	 * Perform the actual switcheroo.
-	 * 
+	 *
 	 * @param player PlayerEntity that's about to execute the switcheroo.
 	 * @param item   Item that should be but in its hand.
 	 */
-	private void switcheroo(PlayerEntity player, ItemStack item) {
+	private void switcheroo(final PlayerEntity player, final ItemStack item) {
 
 		// Only works in single player because it actually edits the world.
 		// Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
@@ -299,7 +303,7 @@ public class Main implements ModInitializer {
 			return;
 		}
 
-		MinecraftClient.getInstance().interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
+		this.client.interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
 	}
 
 }

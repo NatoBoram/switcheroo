@@ -1,11 +1,14 @@
 {
-	// Language Support for Java(TM) by Red Hat
+	"[json]": {
+		"editor.codeActionsOnSave": {
+			"source.fixAll": false
+		}
+	},
 	"files.exclude": {
 		"**/.classpath": true,
+		"**/.factorypath": true,
 		"**/.project": true,
-		"**/.settings": true,
-		"**/.factorypath": true
+		"**/.settings": true
 	},
 	"java.configuration.updateBuildConfiguration": "automatic"
-	// Custom
 }

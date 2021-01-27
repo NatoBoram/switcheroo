@@ -6,7 +6,7 @@ import java.util.Comparator;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.tools.FabricToolTags;
+import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
@@ -94,7 +94,7 @@ public class Main implements ModInitializer {
 		// If there's no effective tools, check for the mining speed.
 		if (tools.isEmpty()) {
 			player.inventory.main.forEach((item) -> {
-				if (item.getMiningSpeed(block) > 1.0F) {
+				if (item.getMiningSpeedMultiplier(block) > 1.0F) {
 					tools.add(item);
 				}
 			});
@@ -110,13 +110,13 @@ public class Main implements ModInitializer {
 
 		// Get best or worst tool
 		if (this.client.options.keySprint.isPressed()) {
-			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
-					.getMiningSpeed(block);
-			tools.removeIf((item) -> max > item.getMiningSpeed(block));
+			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
+					.get().getMiningSpeedMultiplier(block);
+			tools.removeIf((item) -> max > item.getMiningSpeedMultiplier(block));
 		} else {
-			final float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeed(block))).get()
-					.getMiningSpeed(block);
-			tools.removeIf((item) -> min < item.getMiningSpeed(block));
+			final float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
+					.get().getMiningSpeedMultiplier(block);
+			tools.removeIf((item) -> min < item.getMiningSpeedMultiplier(block));
 		}
 
 		// Get most damaged item
@@ -248,8 +248,8 @@ public class Main implements ModInitializer {
 
 		// Item Modifiers
 		final Item item = stack.getItem();
-		item.getModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.ATTACK_DAMAGE.getId()).stream()
-				.mapToDouble(EntityAttributeModifier::getAmount).sum();
+		item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_DAMAGE).stream()
+				.mapToDouble(EntityAttributeModifier::getValue).sum();
 
 		// Sword Attack Damage
 		if (item instanceof SwordItem) {

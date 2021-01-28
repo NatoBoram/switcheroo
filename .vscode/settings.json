@@ -4,11 +4,16 @@
 			"source.fixAll": false
 		}
 	},
+	"editor.rulers": [
+		120
+	],
+	"editor.wordWrapColumn": 120,
 	"files.exclude": {
 		"**/.classpath": true,
 		"**/.factorypath": true,
 		"**/.project": true,
 		"**/.settings": true
 	},
-	"java.configuration.updateBuildConfiguration": "automatic"
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"yaml.format.printWidth": 120
 }

@@ -1,3 +1,6 @@
+# Minecraft profile when debugging Fabric client
+run/
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,linux,gradle,windows,intellij,visualstudiocode,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,gradle,windows,intellij,visualstudiocode,eclipse
 

@@ -183,7 +183,8 @@ public class Main implements ModInitializer {
 		});
 
 		// In desperate situations, use tools
-		if (weapons.isEmpty())
+		final Boolean useTools = weapons.isEmpty();
+		if (useTools)
 			player.inventory.main.forEach(stack -> {
 				final Item item = stack.getItem();
 
@@ -202,7 +203,7 @@ public class Main implements ModInitializer {
 			return ActionResult.PASS;
 
 		// Get the most damaging or least damaging
-		if (this.client.options.keySprint.isPressed()) {
+		if (this.client.options.keySprint.isPressed() || useTools) {
 			final double max = getDamage(
 					weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
 					entityGroup);
@@ -287,5 +288,4 @@ public class Main implements ModInitializer {
 
 		this.client.interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
 	}
-
 }

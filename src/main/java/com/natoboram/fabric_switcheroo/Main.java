@@ -19,7 +19,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
@@ -174,23 +173,13 @@ public class Main implements ModInitializer {
 
 		final ArrayList<ItemStack> weapons = new ArrayList<ItemStack>();
 
-		// Get all weapons
+		// Get all potential weapons
 		player.inventory.main.forEach(stack -> {
 			final Item item = stack.getItem();
 
-			if (item instanceof SwordItem || item instanceof AxeItem || item instanceof TridentItem)
+			if (item instanceof SwordItem || item instanceof TridentItem || item instanceof MiningToolItem)
 				weapons.add(stack);
 		});
-
-		// In desperate situations, use tools
-		final Boolean useTools = weapons.isEmpty();
-		if (useTools)
-			player.inventory.main.forEach(stack -> {
-				final Item item = stack.getItem();
-
-				if (item instanceof MiningToolItem)
-					weapons.add(stack);
-			});
 
 		// Filters enchanted items with 1 durability
 		removeDamagedEnchantedItems(weapons);
@@ -202,18 +191,10 @@ public class Main implements ModInitializer {
 		if (weapons.isEmpty())
 			return ActionResult.PASS;
 
-		// Get the most damaging or least damaging
-		if (this.client.options.keySprint.isPressed() || useTools) {
-			final double max = getDamage(
-					weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
-					entityGroup);
-			weapons.removeIf(item -> max > getDamage(item, entityGroup));
-		} else {
-			final double min = getDamage(
-					weapons.stream().min(Comparator.comparing(item -> getDamage(item, entityGroup))).get(),
-					entityGroup);
-			weapons.removeIf(item -> min < getDamage(item, entityGroup));
-		}
+		// Get the most damaging items
+		final double max = getDamage(
+				weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
+		weapons.removeIf(item -> max > getDamage(item, entityGroup));
 
 		// Get most damaged items
 		keepMostDamagedItems(weapons);

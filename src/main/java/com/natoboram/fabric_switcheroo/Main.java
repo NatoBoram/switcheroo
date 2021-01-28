@@ -3,6 +3,9 @@ package com.natoboram.fabric_switcheroo;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -34,8 +37,10 @@ import net.minecraft.world.World;
 
 public class Main implements ModInitializer {
 
-	private final Boolean enableOnAttackCrop = false;
-	private final MinecraftClient client = MinecraftClient.getInstance();
+	private static final Logger logger = LogManager.getLogger();
+	private static final MinecraftClient client = MinecraftClient.getInstance();
+
+	private static final Boolean enableCrop = false;
 
 	@Override
 	public void onInitialize() {
@@ -43,13 +48,13 @@ public class Main implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		System.out.println("Loaded Switcheroo!");
+		logger.info("Loaded Switcheroo!");
 
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 			if (player.isCreative() || player.isSpectator() || player.isSneaking())
 				return ActionResult.PASS;
 
-			if (world.getBlockState(pos).getBlock() instanceof CropBlock && enableOnAttackCrop) {
+			if (world.getBlockState(pos).getBlock() instanceof CropBlock && enableCrop) {
 				return onAttackCrop.interact(player, world, hand, pos, direction);
 			} else {
 				return onAttackBlock.interact(player, world, hand, pos, direction);
@@ -96,7 +101,7 @@ public class Main implements ModInitializer {
 			return ActionResult.PASS;
 
 		// Get best or worst tool
-		if (this.client.options.keySprint.isPressed()) {
+		if (client.options.keySprint.isPressed()) {
 			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
 					.get().getMiningSpeedMultiplier(block);
 			tools.removeIf(item -> max > item.getMiningSpeedMultiplier(block));
@@ -125,9 +130,6 @@ public class Main implements ModInitializer {
 	 */
 	private final AttackBlockCallback onAttackCrop = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {
-
-		if (!enableOnAttackCrop)
-			return ActionResult.PASS;
 
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
@@ -161,7 +163,7 @@ public class Main implements ModInitializer {
 
 		// Plant the seed!
 		BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
-		ActionResult placeSeedResult = this.client.interactionManager.interactBlock(client.player, client.world, hand,
+		ActionResult placeSeedResult = client.interactionManager.interactBlock(client.player, client.world, hand,
 				blockHitResult);
 		if (placeSeedResult.isAccepted() && placeSeedResult.shouldSwingHand())
 			client.player.swingHand(hand);
@@ -275,6 +277,6 @@ public class Main implements ModInitializer {
 		if (player.inventory.getMainHandStack().isItemEqualIgnoreDamage(item))
 			return;
 
-		this.client.interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
+		client.interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
 	}
 }

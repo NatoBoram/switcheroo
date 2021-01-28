@@ -106,6 +106,10 @@ public class Main implements ModInitializer {
 			tools.removeIf(item -> min < item.getMiningSpeedMultiplier(block));
 		}
 
+		// Stop if there's already a valid item in hand
+		if (tools.stream().anyMatch(stack -> stack.getItem().equals(client.player.getMainHandStack().getItem())))
+			return ActionResult.PASS;
+
 		// Get most damaged item
 		keepMostDamagedItems(tools);
 

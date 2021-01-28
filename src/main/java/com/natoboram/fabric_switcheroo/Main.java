@@ -141,9 +141,9 @@ public class Main implements ModInitializer {
 
 		// Get all the appropriate seeds
 		final ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
-		player.inventory.main.forEach(item -> {
-			if (item.getItem().equals(seedItem))
-				seeds.add(item);
+		player.inventory.main.forEach(stack -> {
+			if (stack.getItem().equals(seedItem))
+				seeds.add(stack);
 		});
 
 		if (seeds.isEmpty())
@@ -195,6 +195,10 @@ public class Main implements ModInitializer {
 		final double max = getDamage(
 				weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
 		weapons.removeIf(item -> max > getDamage(item, entityGroup));
+
+		// Stop if there's already a valid item in hand
+		if (weapons.stream().anyMatch(stack -> stack.getItem().equals(client.player.getMainHandStack().getItem())))
+			return ActionResult.PASS;
 
 		// Get most damaged items
 		keepMostDamagedItems(weapons);

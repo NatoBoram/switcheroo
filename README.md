@@ -19,13 +19,13 @@ By default, the switcheroo will use the least effective tool to break blocks and
 
 ### What works
 
-* Switcheroo when attacking blocks
-* Switcheroo when attacking mobs
+* Switcheroo when clicking blocks
+* Switcheroo when clicking mobs
 
 ### What doesn't work
 
-* Switcheroo when attacking crops #1
-  * Auto-replant attacked crops #2
+* Switcheroo when clicking crops #1
+  * Auto-replant harvested crops #2
 * Switcheroo will mess up your hotbar's organization #3
 * Switcheroo when using the last unit of a stack #4
 

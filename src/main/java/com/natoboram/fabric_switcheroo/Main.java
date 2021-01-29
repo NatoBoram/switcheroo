@@ -200,10 +200,11 @@ public class Main implements ModInitializer {
 		// Get the most damaging items
 		final double max = getDamage(
 				weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
-		weapons.removeIf(item -> max > getDamage(item, entityGroup));
+		weapons.removeIf(stack -> max > getDamage(stack, entityGroup));
 
-		// Stop if there's already a valid item in hand
-		if (weapons.stream().anyMatch(stack -> stack.getItem().equals(client.player.getMainHandStack().getItem())))
+		// Stop if there's already a max damage weapon in hand
+		final double currentDamage = getDamage(client.player.getMainHandStack(), entityGroup);
+		if (currentDamage == max)
 			return ActionResult.PASS;
 
 		// Get most damaged items

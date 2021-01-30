@@ -15,7 +15,7 @@ This project is in early development. It *technically* works, but it could be be
 
 By default, the switcheroo will use the least effective tool to break blocks and the most damaging item to attack entities.
 
-![Switcheroo Demo](docs/Switcheroo Demo.mp4)
+![Switcheroo Demo](docs/Switcheroo Demo.webm)
 
 ## Status
 

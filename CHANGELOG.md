@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
+* Now selects the best weapon according to __attack damage__ or __damage per seconds__ depending on the situation.
+
 ### Deprecated
 
 ### Removed

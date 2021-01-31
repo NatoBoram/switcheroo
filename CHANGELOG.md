@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Changed
 
 * Now selects the best weapon according to __damage per seconds__.
+* Sword is now blacklisted when hitting blocks.
+* Now uses hoe when clicking on a crop.
 
 ### Deprecated
 

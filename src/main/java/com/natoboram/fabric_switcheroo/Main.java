@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
@@ -22,6 +21,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
@@ -76,21 +76,31 @@ public class Main implements ModInitializer {
 	private final AttackBlockCallback onAttackBlock = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {
 
-		final BlockState block = world.getBlockState(pos);
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
+		final BlockState blockState = world.getBlockState(pos);
+		final Block block = blockState.getBlock();
 
-		// Get all effective tools from the inventory
-		player.inventory.main.forEach(item -> {
-			if (item.isEffectiveOn(block))
-				tools.add(item);
-		});
-
-		// If there's no effective tools, check for the mining speed but ignore swords.
-		if (tools.isEmpty()) {
-			player.inventory.main.forEach(item -> {
-				if (item.getMiningSpeedMultiplier(block) > 1.0F && !item.getItem().isIn(FabricToolTags.SWORDS))
-					tools.add(item);
+		// Use hoe on crops
+		if (block instanceof CropBlock) {
+			player.inventory.main.forEach(stack -> {
+				if (stack.getItem() instanceof HoeItem)
+					tools.add(stack);
 			});
+		} else {
+
+			// Get all effective tools from the inventory but ignore swords.
+			player.inventory.main.forEach((stack) -> {
+				if (stack.isEffectiveOn(blockState) && !(stack.getItem() instanceof SwordItem))
+					tools.add(stack);
+			});
+
+			// If there's no effective tools, check for the mining speed but ignore swords.
+			if (tools.isEmpty()) {
+				player.inventory.main.forEach(stack -> {
+					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem))
+						tools.add(stack);
+				});
+			}
 		}
 
 		// Filters enchanted items with 1 durability
@@ -102,13 +112,15 @@ public class Main implements ModInitializer {
 
 		// Get best or worst tool
 		if (client.options.keySprint.isPressed()) {
-			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
-					.get().getMiningSpeedMultiplier(block);
-			tools.removeIf(item -> max > item.getMiningSpeedMultiplier(block));
+			final float max = tools.stream()
+					.max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(blockState))).get()
+					.getMiningSpeedMultiplier(blockState);
+			tools.removeIf(item -> max > item.getMiningSpeedMultiplier(blockState));
 		} else {
-			final float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
-					.get().getMiningSpeedMultiplier(block);
-			tools.removeIf(item -> min < item.getMiningSpeedMultiplier(block));
+			final float min = tools.stream()
+					.min(Comparator.comparing(item -> item.getMiningSpeedMultiplier(blockState))).get()
+					.getMiningSpeedMultiplier(blockState);
+			tools.removeIf(item -> min < item.getMiningSpeedMultiplier(blockState));
 		}
 
 		// Stop if there's already a valid item in hand

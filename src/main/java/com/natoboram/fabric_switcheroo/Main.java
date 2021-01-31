@@ -197,30 +197,15 @@ public class Main implements ModInitializer {
 		if (weapons.isEmpty())
 			return ActionResult.PASS;
 
-		final double maxDamage = getAttackDamage(
-				weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entityGroup))).get(),
-				entityGroup);
+		final double maxDps = getDps(
+				weapons.stream().max(Comparator.comparing(item -> getDps(item, entityGroup))).get(), entityGroup);
 
-		// One-shot entity if possible, otherwise get max dps
-		if (entity instanceof LivingEntity && maxDamage > ((LivingEntity) entity).getHealth()) {
+		// Stop if there's already a max dps weapon in hand
+		final double currentDps = getDps(client.player.getMainHandStack(), entityGroup);
+		if (currentDps >= maxDps || weapons.isEmpty())
+			return ActionResult.PASS;
 
-			// Stop if there's already a max damage weapon in hand
-			final double currentDamage = getAttackDamage(client.player.getMainHandStack(), entityGroup);
-			if (currentDamage >= maxDamage || weapons.isEmpty())
-				return ActionResult.PASS;
-
-			weapons.removeIf(stack -> maxDamage > getAttackDamage(stack, entityGroup));
-		} else {
-			final double maxDps = getDps(
-					weapons.stream().max(Comparator.comparing(item -> getDps(item, entityGroup))).get(), entityGroup);
-
-			// Stop if there's already a max dps weapon in hand
-			final double currentDps = getDps(client.player.getMainHandStack(), entityGroup);
-			if (currentDps >= maxDps || weapons.isEmpty())
-				return ActionResult.PASS;
-
-			weapons.removeIf(stack -> maxDps > getDps(stack, entityGroup));
-		}
+		weapons.removeIf(stack -> maxDps > getDps(stack, entityGroup));
 
 		// Get most damaged items
 		keepMostDamagedItems(weapons);

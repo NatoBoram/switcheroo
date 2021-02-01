@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -79,6 +80,10 @@ public class Main implements ModInitializer {
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
+
+		// Blacklist some blocks
+		if (block instanceof FarmlandBlock)
+			return ActionResult.PASS;
 
 		// Use hoe on crops
 		if (block instanceof CropBlock) {

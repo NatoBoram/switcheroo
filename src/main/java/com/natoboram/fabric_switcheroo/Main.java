@@ -138,7 +138,9 @@ public class Main implements ModInitializer {
 	};
 
 	/**
-	 * Execute a switcheroo action when attacking crops.
+	 * Execute a switcheroo action when attacking crops. The original plan was to
+	 * auto-replant, but I'll need to wait for a block break event to do this. For
+	 * now, this section of code is disabled.
 	 */
 	private final AttackBlockCallback onAttackCrop = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {

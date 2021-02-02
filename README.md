@@ -15,6 +15,8 @@ This project is in early development. It *technically* works, but it could be be
 
 By default, the switcheroo will use the least effective tool to break blocks and the most damaging item to attack entities.
 
+![Switcheroo Demo](docs/Switcheroo Demo.webm)
+
 ## Status
 
 ### What works
@@ -24,10 +26,9 @@ By default, the switcheroo will use the least effective tool to break blocks and
 
 ### What doesn't work
 
-* Switcheroo when clicking crops #1
-  * Auto-replant harvested crops #2
 * Switcheroo will mess up your hotbar's organization #3
 * Switcheroo when using the last unit of a stack #4
+  * In the meantime, you can use [Inventory Profiles](https://github.com/jsnimda/Inventory-Profiles)
 
 ## Installation
 

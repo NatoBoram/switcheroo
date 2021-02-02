@@ -9,10 +9,10 @@ import org.apache.logging.log4j.Logger;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -22,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
@@ -76,21 +77,35 @@ public class Main implements ModInitializer {
 	private final AttackBlockCallback onAttackBlock = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {
 
-		final BlockState block = world.getBlockState(pos);
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
+		final BlockState blockState = world.getBlockState(pos);
+		final Block block = blockState.getBlock();
 
-		// Get all effective tools from the inventory
-		player.inventory.main.forEach(item -> {
-			if (item.isEffectiveOn(block))
-				tools.add(item);
-		});
+		// Blacklist some blocks
+		if (block instanceof FarmlandBlock)
+			return ActionResult.PASS;
 
-		// If there's no effective tools, check for the mining speed but ignore swords.
-		if (tools.isEmpty()) {
-			player.inventory.main.forEach(item -> {
-				if (item.getMiningSpeedMultiplier(block) > 1.0F && !item.getItem().isIn(FabricToolTags.SWORDS))
-					tools.add(item);
+		// Use hoe on crops
+		if (block instanceof CropBlock) {
+			player.inventory.main.forEach(stack -> {
+				if (stack.getItem() instanceof HoeItem)
+					tools.add(stack);
 			});
+		} else {
+
+			// Get all effective tools from the inventory but ignore swords.
+			player.inventory.main.forEach((stack) -> {
+				if (stack.isEffectiveOn(blockState) && !(stack.getItem() instanceof SwordItem))
+					tools.add(stack);
+			});
+
+			// If there's no effective tools, check for the mining speed but ignore swords.
+			if (tools.isEmpty()) {
+				player.inventory.main.forEach(stack -> {
+					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem))
+						tools.add(stack);
+				});
+			}
 		}
 
 		// Filters enchanted items with 1 durability
@@ -102,13 +117,15 @@ public class Main implements ModInitializer {
 
 		// Get best or worst tool
 		if (client.options.keySprint.isPressed()) {
-			final float max = tools.stream().max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
-					.get().getMiningSpeedMultiplier(block);
-			tools.removeIf(item -> max > item.getMiningSpeedMultiplier(block));
+			final float max = tools.stream()
+					.max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(blockState))).get()
+					.getMiningSpeedMultiplier(blockState);
+			tools.removeIf(item -> max > item.getMiningSpeedMultiplier(blockState));
 		} else {
-			final float min = tools.stream().min(Comparator.comparing(item -> item.getMiningSpeedMultiplier(block)))
-					.get().getMiningSpeedMultiplier(block);
-			tools.removeIf(item -> min < item.getMiningSpeedMultiplier(block));
+			final float min = tools.stream()
+					.min(Comparator.comparing(item -> item.getMiningSpeedMultiplier(blockState))).get()
+					.getMiningSpeedMultiplier(blockState);
+			tools.removeIf(item -> min < item.getMiningSpeedMultiplier(blockState));
 		}
 
 		// Stop if there's already a valid item in hand
@@ -126,7 +143,9 @@ public class Main implements ModInitializer {
 	};
 
 	/**
-	 * Execute a switcheroo action when attacking crops.
+	 * Execute a switcheroo action when attacking crops. The original plan was to
+	 * auto-replant, but I'll need to wait for a block break event to do this. For
+	 * now, this section of code is disabled.
 	 */
 	private final AttackBlockCallback onAttackCrop = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {
@@ -197,15 +216,15 @@ public class Main implements ModInitializer {
 		if (weapons.isEmpty())
 			return ActionResult.PASS;
 
-		// Get the most damaging items
-		final double max = getDamage(
-				weapons.stream().max(Comparator.comparing(item -> getDamage(item, entityGroup))).get(), entityGroup);
-		weapons.removeIf(stack -> max > getDamage(stack, entityGroup));
+		final double maxDps = getDps(
+				weapons.stream().max(Comparator.comparing(item -> getDps(item, entityGroup))).get(), entityGroup);
 
-		// Stop if there's already a max damage weapon in hand
-		final double currentDamage = getDamage(client.player.getMainHandStack(), entityGroup);
-		if (currentDamage == max)
+		// Stop if there's already a max dps weapon in hand
+		final double currentDps = getDps(client.player.getMainHandStack(), entityGroup);
+		if (currentDps >= maxDps || weapons.isEmpty())
 			return ActionResult.PASS;
+
+		weapons.removeIf(stack -> maxDps > getDps(stack, entityGroup));
 
 		// Get most damaged items
 		keepMostDamagedItems(weapons);
@@ -220,7 +239,7 @@ public class Main implements ModInitializer {
 	/**
 	 * Gets the damage that would be done by an ItemStack to an EntityGroup.
 	 */
-	private double getDamage(final ItemStack stack, final EntityGroup entityGroup) {
+	private double getAttackDamage(final ItemStack stack, final EntityGroup entityGroup) {
 
 		// Player damage
 		double damage = client.player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
@@ -228,12 +247,20 @@ public class Main implements ModInitializer {
 		// Stack enchantments
 		damage += EnchantmentHelper.getAttackDamage(stack, entityGroup);
 
-		// Item modifiers
-		final Item item = stack.getItem();
-		damage += item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+		// Stack attack damage
+		damage += stack.getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_DAMAGE)
 				.stream().mapToDouble(EntityAttributeModifier::getValue).sum();
 
 		return damage;
+	}
+
+	private double getAttackSpeed(final ItemStack stack) {
+		return 4 + stack.getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_SPEED)
+				.stream().mapToDouble(EntityAttributeModifier::getValue).sum();
+	}
+
+	private double getDps(final ItemStack stack, final EntityGroup entityGroup) {
+		return getAttackDamage(stack, entityGroup) * getAttackSpeed(stack);
 	}
 
 	/**

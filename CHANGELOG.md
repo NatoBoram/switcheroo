@@ -18,6 +18,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
+## [0.0.1] - 2021-02-01
+
+### Changed
+
+* Now selects the best weapon according to __damage per seconds__.
+* Sword is now blacklisted when hitting blocks.
+* Now uses hoe when clicking on a crop.
+* Farmland is now blacklisted from triggering a switcheroo.
+
 ## [1.0.0] - 2021-01-28
 
 First public release.

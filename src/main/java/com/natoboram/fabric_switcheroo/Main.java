@@ -181,8 +181,8 @@ public class Main implements ModInitializer {
 		switcheroo(player, seed);
 
 		// Plant the seed!
-		BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
-		ActionResult placeSeedResult = client.interactionManager.interactBlock(client.player, client.world, hand,
+		final BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
+		final ActionResult placeSeedResult = client.interactionManager.interactBlock(client.player, client.world, hand,
 				blockHitResult);
 		if (placeSeedResult.isAccepted() && placeSeedResult.shouldSwingHand())
 			client.player.swingHand(hand);

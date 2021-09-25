@@ -38,7 +38,5 @@ development builds by downloading them form the [Pipelines](https://gitlab.com/N
 ## Building
 
 ```bash
-./gradlew downloadAssets
-./gradlew genSources
-./gradlew build
+./gradlew downloadAssets genSources build
 ```

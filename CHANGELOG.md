@@ -10,8 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
-* Upgraded to 1.17.1
-
 ### Deprecated
 
 ### Removed
@@ -19,6 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Fixed
 
 ### Security
+
+## [1.0.2] - 2021-09-25
+
+### Changed
+
+* Updated to 1.17.1
 
 ## [1.0.1] - 2021-02-01
 

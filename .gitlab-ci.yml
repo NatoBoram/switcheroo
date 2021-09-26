@@ -2,7 +2,7 @@
 # This is the Gradle build system for JVM applications
 # https://gradle.org/
 # https://github.com/gradle/gradle
-image: gradle:jdk11
+image: gradle:jdk16
 
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
@@ -14,25 +14,68 @@ variables:
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
+cache:
+  key:
+    files:
+      - build.gradle
+      - gradle.properties
+  paths:
+    - build
+    - .gradle
+
 build:
   stage: build
-  script: ./gradlew --build-cache assemble
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
-    paths:
-      - build
-      - .gradle
-  artifacts:
-    paths:
-      - build/libs/*.jar
+  script: ./gradlew assemble
+  except:
+    - develop
+    - master
+    - merge_requests
+    - tags
 
 test:
   stage: test
   script: ./gradlew check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
+
+deploy:
+  stage: deploy
+  script: ./gradlew assemble
+  only:
+    - develop
+    - master
+    - merge_requests
+    - tags
+  artifacts:
     paths:
-      - build
-      - .gradle
+      - build/libs/*.jar
+
+release:
+  before_script: []
+  cache: []
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: deploy
+      artifacts: true
+  only:
+    - tags
+  script:
+    - "echo $CI_COMMIT_TAG: $CI_COMMIT_TITLE"
+  variables:
+    VERSION: "echo $CI_COMMIT_TAG | cut -c 2-"
+  stage: .post
+  release:
+    tag_name: "$CI_COMMIT_TAG"
+    description: "$CI_COMMIT_MESSAGE"
+    assets:
+      links:
+        - name: "fabric_switcheroo-$CI_COMMIT_TAG-dev.jar"
+          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/fabric_switcheroo-$VERSION-dev.jar?job=deploy"
+          link_type: "package"
+        - name: "fabric_switcheroo-$CI_COMMIT_TAG-sources-dev.jar"
+          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/fabric_switcheroo-$VERSION-sources-dev.jar?job=deploy"
+          link_type: "package"
+        - name: "fabric_switcheroo-$CI_COMMIT_TAG-sources.jar"
+          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/fabric_switcheroo-$VERSION-sources.jar?job=deploy"
+          link_type: "package"
+        - name: "fabric_switcheroo-$CI_COMMIT_TAG.jar"
+          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/fabric_switcheroo-$VERSION.jar?job=deploy"
+          link_type: "package"

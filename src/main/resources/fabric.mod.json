@@ -9,24 +9,24 @@
 	],
 	"contact": {
 		"homepage": "https://gitlab.com/NatoBoram/fabric-switcheroo",
-		"sources": "https://gitlab.com/NatoBoram/fabric-switcheroo"
+		"sources": "https://gitlab.com/NatoBoram/fabric-switcheroo",
+		"issues": "https://gitlab.com/NatoBoram/fabric-switcheroo/-/issues",
+		"email": "incoming+natoboram-fabric-switcheroo-13718909-issue-@incoming.gitlab.com"
 	},
 	"license": "GPL-3.0-or-later",
 	"icon": "assets/fabric_switcheroo/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
-		"main": [
+		"client": [
 			"com.natoboram.fabric_switcheroo.Main"
 		]
 	},
-	"mixins": [
-		"fabric_switcheroo.mixins.json"
-	],
+	"mixins": [],
 	"depends": {
-		"fabricloader": ">=0.4.0",
-		"fabric": "*"
+		"fabricloader": ">=0.11.3",
+		"fabric": "*",
+		"minecraft": "1.17.x",
+		"java": ">=16"
 	},
-	"suggests": {
-		"flamingo": "*"
-	}
+	"suggests": {}
 }

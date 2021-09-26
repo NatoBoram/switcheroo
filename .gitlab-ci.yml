@@ -53,6 +53,21 @@ build:
     paths:
       - build/libs/*.jar
 
+dotenv:
+  before_script: []
+  cache: []
+  variables: {}
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  stage: .pre
+  script:
+    - echo "VERSION=$(echo $CI_COMMIT_TAG | cut -c 2-)" > .env
+    - cat .env
+  only:
+    - tags
+  artifacts:
+    reports:
+      dotenv: .env
+
 release:
   before_script: []
   cache: []
@@ -61,11 +76,12 @@ release:
   needs:
     - job: build
       artifacts: true
+    - job: dotenv
+      artifacts: true
   only:
     - tags
   script:
-    - "echo $CI_COMMIT_TAG: $CI_COMMIT_TITLE"
-    - VERSION=$(echo $CI_COMMIT_TAG | cut -c 2-)
+    - 'echo "Version: $VERSION"'
   stage: deploy
   release:
     tag_name: "$CI_COMMIT_TAG"

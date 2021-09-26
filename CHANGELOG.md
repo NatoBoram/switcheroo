@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
+* Upgraded to 1.17.1
+
 ### Deprecated
 
 ### Removed

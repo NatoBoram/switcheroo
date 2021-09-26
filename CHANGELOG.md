@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+* Select the tool from the hotbar instead of picking it from the inventory
+
 ### Changed
 
 ### Deprecated

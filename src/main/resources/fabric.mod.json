@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "fabric_switcheroo",
+	"id": "switcheroo",
 	"version": "${version}",
 	"name": "Switcheroo",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
@@ -14,11 +14,11 @@
 		"email": "incoming+natoboram-fabric-switcheroo-13718909-issue-@incoming.gitlab.com"
 	},
 	"license": "GPL-3.0-or-later",
-	"icon": "assets/fabric_switcheroo/icon.png",
+	"icon": "assets/switcheroo/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.natoboram.fabric_switcheroo.Main"
+			"com.natoboram.switcheroo.Main"
 		]
 	},
 	"mixins": [],

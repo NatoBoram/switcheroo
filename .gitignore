@@ -1,31 +1,33 @@
-# Gradle
+# gradle
 .gradle/
 build/
 out/
 classes/
 
-# Eclipse
+# eclipse
 *.launch
 
-# Idea
+# idea
 .idea/
 *.iml
 *.ipr
 *.iws
 
-# VSCode
+# vscode
+.settings/
+.vscode/
 bin/
 .classpath
 .project
 
-# MacOS
+# macos
 *.DS_Store
 
-# Fabric
+# fabric
 run/
 
-# Created by https://www.toptal.com/developers/gitignore/api/macos,linux,gradle,windows,intellij,visualstudiocode,eclipse
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,gradle,windows,intellij,visualstudiocode,eclipse
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,gradle,eclipse,windows,intellij,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,gradle,eclipse,windows,intellij,visualstudiocode
 
 ### Eclipse ###
 .metadata
@@ -104,6 +106,9 @@ local.properties
 .idea/**/dictionaries
 .idea/**/shelf
 
+# AWS User-specific
+.idea/**/aws.xml
+
 # Generated files
 .idea/**/contentModel.xml
 
@@ -122,7 +127,8 @@ local.properties
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
-# since they will be recreated and may cause churn. Uncomment if using auto-import.
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
 # .idea/artifacts
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
@@ -240,9 +246,14 @@ Temporary Items
 
 ### VisualStudioCode ###
 .vscode/*
+!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+!.vscode/extensions.json
 *.code-workspace
+
+# Local History for Visual Studio Code
+.history/
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
@@ -294,4 +305,10 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,linux,gradle,windows,intellij,visualstudiocode,eclipse
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,gradle,eclipse,windows,intellij,visualstudiocode

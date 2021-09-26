@@ -6,7 +6,7 @@ import java.util.Comparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.block.Block;
@@ -22,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,20 +37,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class Main implements ModInitializer {
+public class Main implements ClientModInitializer {
 
-	private static final Logger logger = LogManager.getLogger();
-	private static final MinecraftClient client = MinecraftClient.getInstance();
+	/**
+	 * This logger is used to write text to the console and the log file. It is
+	 * considered best practice to use your mod id as the logger's name. That way,
+	 * it's clear which mod wrote info, warnings, and errors.
+	 */
+	public static final Logger LOGGER = LogManager.getLogger("fabric_switcheroo");
+
+	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	private static final Boolean enableCrop = false;
 
 	@Override
-	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
-		logger.info("Loaded Switcheroo!");
+	public void onInitializeClient() {
+		LOGGER.info("Loaded Switcheroo!");
 
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 			if (player.isCreative() || player.isSpectator() || player.isSneaking())
@@ -80,6 +83,7 @@ public class Main implements ModInitializer {
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
+		final PlayerInventory inventory = player.getInventory();
 
 		// Blacklist some blocks
 		if (block instanceof FarmlandBlock)
@@ -87,21 +91,21 @@ public class Main implements ModInitializer {
 
 		// Use hoe on crops
 		if (block instanceof CropBlock) {
-			player.inventory.main.forEach(stack -> {
+			inventory.main.forEach(stack -> {
 				if (stack.getItem() instanceof HoeItem)
 					tools.add(stack);
 			});
 		} else {
 
 			// Get all effective tools from the inventory but ignore swords.
-			player.inventory.main.forEach((stack) -> {
-				if (stack.isEffectiveOn(blockState) && !(stack.getItem() instanceof SwordItem))
+			inventory.main.forEach((stack) -> {
+				if (stack.isSuitableFor(blockState) && !(stack.getItem() instanceof SwordItem))
 					tools.add(stack);
 			});
 
 			// If there's no effective tools, check for the mining speed but ignore swords.
 			if (tools.isEmpty()) {
-				player.inventory.main.forEach(stack -> {
+				inventory.main.forEach(stack -> {
 					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem))
 						tools.add(stack);
 				});
@@ -116,7 +120,7 @@ public class Main implements ModInitializer {
 			return ActionResult.PASS;
 
 		// Get best or worst tool
-		if (client.options.keySprint.isPressed()) {
+		if (CLIENT.options.keySprint.isPressed()) {
 			final float max = tools.stream()
 					.max(Comparator.comparing(item -> item.getMiningSpeedMultiplier(blockState))).get()
 					.getMiningSpeedMultiplier(blockState);
@@ -129,7 +133,7 @@ public class Main implements ModInitializer {
 		}
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream().anyMatch(stack -> stack.getItem().equals(client.player.getMainHandStack().getItem())))
+		if (tools.stream().anyMatch(stack -> stack.getItem().equals(CLIENT.player.getMainHandStack().getItem())))
 			return ActionResult.PASS;
 
 		// Get most damaged item
@@ -149,6 +153,7 @@ public class Main implements ModInitializer {
 	 */
 	private final AttackBlockCallback onAttackCrop = (final PlayerEntity player, final World world, final Hand hand,
 			final BlockPos pos, final Direction direction) -> {
+		final PlayerInventory inventory = player.getInventory();
 
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
@@ -160,13 +165,13 @@ public class Main implements ModInitializer {
 		// Check if we already have the appropriate item in hand
 		final CropBlock cropBlock = (CropBlock) block;
 		final Item seedItem = Item.fromBlock(cropBlock);
-		final ItemStack mainHandStack = player.inventory.getMainHandStack();
+		final ItemStack mainHandStack = inventory.getMainHandStack();
 		if (mainHandStack.getItem().equals(seedItem))
 			return ActionResult.PASS;
 
 		// Get all the appropriate seeds
 		final ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
-		player.inventory.main.forEach(stack -> {
+		inventory.main.forEach(stack -> {
 			if (stack.getItem().equals(seedItem))
 				seeds.add(stack);
 		});
@@ -181,11 +186,11 @@ public class Main implements ModInitializer {
 		switcheroo(player, seed);
 
 		// Plant the seed!
-		BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
-		ActionResult placeSeedResult = client.interactionManager.interactBlock(client.player, client.world, hand,
+		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;
+		final ActionResult placeSeedResult = CLIENT.interactionManager.interactBlock(CLIENT.player, CLIENT.world, hand,
 				blockHitResult);
 		if (placeSeedResult.isAccepted() && placeSeedResult.shouldSwingHand())
-			client.player.swingHand(hand);
+			CLIENT.player.swingHand(hand);
 
 		return ActionResult.PASS;
 	};
@@ -197,9 +202,10 @@ public class Main implements ModInitializer {
 			final Entity entity, /* Nullable */ final EntityHitResult hitResult) -> {
 
 		final ArrayList<ItemStack> weapons = new ArrayList<ItemStack>();
+		final PlayerInventory inventory = player.getInventory();
 
 		// Get all potential weapons
-		player.inventory.main.forEach(stack -> {
+		inventory.main.forEach(stack -> {
 			final Item item = stack.getItem();
 
 			if (item instanceof SwordItem || item instanceof TridentItem || item instanceof MiningToolItem)
@@ -220,7 +226,7 @@ public class Main implements ModInitializer {
 				weapons.stream().max(Comparator.comparing(item -> getDps(item, entityGroup))).get(), entityGroup);
 
 		// Stop if there's already a max dps weapon in hand
-		final double currentDps = getDps(client.player.getMainHandStack(), entityGroup);
+		final double currentDps = getDps(CLIENT.player.getMainHandStack(), entityGroup);
 		if (currentDps >= maxDps || weapons.isEmpty())
 			return ActionResult.PASS;
 
@@ -242,7 +248,7 @@ public class Main implements ModInitializer {
 	private double getAttackDamage(final ItemStack stack, final EntityGroup entityGroup) {
 
 		// Player damage
-		double damage = client.player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+		double damage = CLIENT.player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
 
 		// Stack enchantments
 		damage += EnchantmentHelper.getAttackDamage(stack, entityGroup);
@@ -296,15 +302,16 @@ public class Main implements ModInitializer {
 	 * @param item   Item that should be but in its hand.
 	 */
 	private void switcheroo(final PlayerEntity player, final ItemStack item) {
+		final PlayerInventory inventory = player.getInventory();
 
 		// Only works in single player because it actually edits the world.
 		// Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
 		// player.inventory.main.indexOf(player.getStackInHand(Hand.MAIN_HAND)));
 
 		// Don't send useless packets
-		if (player.inventory.getMainHandStack().isItemEqualIgnoreDamage(item))
+		if (inventory.getMainHandStack().isItemEqualIgnoreDamage(item))
 			return;
 
-		client.interactionManager.pickFromInventory(player.inventory.getSlotWithStack(item));
+		CLIENT.interactionManager.pickFromInventory(inventory.getSlotWithStack(item));
 	}
 }

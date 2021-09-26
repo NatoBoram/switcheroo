@@ -1,4 +1,4 @@
-# Switcheroo
+# [Switcheroo](https://gitlab.com/NatoBoram/fabric-switcheroo)
 
 [![pipeline status](https://gitlab.com/NatoBoram/fabric-switcheroo/badges/master/pipeline.svg)](https://gitlab.com/NatoBoram/fabric-switcheroo/-/commits/master)
 [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/NatoBoram/switcheroo)
@@ -34,8 +34,27 @@ By default, the switcheroo will use the least effective tool to break blocks and
 Downloads are available in [Releases](https://gitlab.com/NatoBoram/fabric-switcheroo/-/releases). You can also test
 development builds by downloading them form the [Pipelines](https://gitlab.com/NatoBoram/fabric-switcheroo/-/pipelines).
 
-## Building
+* [Modrinth](https://modrinth.com/mod/switcheroo)
+* [CurseForge](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
+
+## Contributing
+
+Requires Java 16.
+
+### Developing
 
 ```bash
-./gradlew downloadAssets genSources build
+./gradlew downloadAssets genSources
+```
+
+On [VSCode](https://code.visualstudio.com), an additional step is required.
+
+```bash
+./gradlew eclipse vscode
+```
+
+### Building
+
+```bash
+./gradlew build
 ```

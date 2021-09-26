@@ -18,6 +18,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
+## [1.0.3] - 2021-09-26
+
+### Added
+
+* Select the tool from the hotbar instead of picking it from the inventory.
+
+### Changed
+
+* The mod's ID is now `switcheroo` instead of `fabric_switcheroo`.
+
 ## [1.0.2] - 2021-09-25
 
 ### Changed

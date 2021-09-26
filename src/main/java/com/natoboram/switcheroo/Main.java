@@ -1,4 +1,4 @@
-package com.natoboram.fabric_switcheroo;
+package com.natoboram.switcheroo;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,7 +44,7 @@ public class Main implements ClientModInitializer {
 	 * considered best practice to use your mod id as the logger's name. That way,
 	 * it's clear which mod wrote info, warnings, and errors.
 	 */
-	public static final Logger LOGGER = LogManager.getLogger("fabric_switcheroo");
+	public static final Logger LOGGER = LogManager.getLogger("switcheroo");
 
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
@@ -299,19 +299,25 @@ public class Main implements ClientModInitializer {
 	 * Perform the actual switcheroo.
 	 *
 	 * @param player PlayerEntity that's about to execute the switcheroo.
-	 * @param item   Item that should be but in its hand.
+	 * @param item   Item that should be put in its hand.
 	 */
 	private void switcheroo(final PlayerEntity player, final ItemStack item) {
 		final PlayerInventory inventory = player.getInventory();
-
-		// Only works in single player because it actually edits the world.
-		// Collections.swap(player.inventory.main, player.inventory.main.indexOf(item),
-		// player.inventory.main.indexOf(player.getStackInHand(Hand.MAIN_HAND)));
 
 		// Don't send useless packets
 		if (inventory.getMainHandStack().isItemEqualIgnoreDamage(item))
 			return;
 
-		CLIENT.interactionManager.pickFromInventory(inventory.getSlotWithStack(item));
+		final int slot = inventory.getSlotWithStack(item);
+		if (slot == -1)
+			return;
+
+		if (PlayerInventory.isValidHotbarIndex(slot)) {
+			// Select the item from the hotbar
+			inventory.selectedSlot = slot;
+		} else {
+			// Pick the item from the inventory
+			CLIENT.interactionManager.pickFromInventory(slot);
+		}
 	}
 }

@@ -26,7 +26,6 @@ By default, the switcheroo will use the least effective tool to break blocks and
 
 ### What doesn't work
 
-* Switcheroo will mess up your hotbar's organization #3
 * Switcheroo when using the last unit of a stack #4
   * In the meantime, you can use [Inventory Profiles](https://github.com/jsnimda/Inventory-Profiles)
 

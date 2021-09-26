@@ -56,6 +56,7 @@ build:
 release:
   before_script: []
   cache: []
+  variables: {}
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
     - job: build
@@ -64,8 +65,7 @@ release:
     - tags
   script:
     - "echo $CI_COMMIT_TAG: $CI_COMMIT_TITLE"
-  variables:
-    VERSION: "echo $CI_COMMIT_TAG | cut -c 2-"
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -c 2-)
   stage: deploy
   release:
     tag_name: "$CI_COMMIT_TAG"

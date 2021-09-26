@@ -7,7 +7,7 @@
 
 Switch your currently held item for an effective item when clicking on a block.
 
-This project is in early development. It *technically* works, but it could be better.
+This project is in early development. It works, but it could be better.
 
 ## Usage
 

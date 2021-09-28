@@ -7,7 +7,7 @@
 
 Switch your currently held item for an effective item when clicking on a block.
 
-This project is in early development. It works, but it could be better.
+This project is in early development. It works, but it could be better. Also there's no config.
 
 ## Usage
 
@@ -15,7 +15,8 @@ This project is in early development. It works, but it could be better.
   * Press *Sneak* to prevent the switch from happening
   * Press *Sprint* to use the most effective item
 
-By default, the switcheroo will use the least effective tool to break blocks and the most damaging item to attack entities.
+Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item to attack
+entities.
 
 ![Switcheroo Demo](docs/Switcheroo Demo.webm)
 

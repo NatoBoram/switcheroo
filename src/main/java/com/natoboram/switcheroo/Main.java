@@ -1,5 +1,8 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,8 +12,10 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.minecraft.command.argument.BlockStateArgumentType;
 
 @Environment(EnvType.CLIENT)
 public class Main implements ClientModInitializer {
@@ -34,6 +39,13 @@ public class Main implements ClientModInitializer {
 		// Register switcheroos
 		AttackBlockCallback.EVENT.register(new BlockSwitch(holder));
 		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
+
+		// Register commands
+		ClientCommandManager.DISPATCHER.register(literal(MOD_ID).then(literal("blacklist").then(literal("block")
+				.then(literal("add").then(
+						argument("block", BlockStateArgumentType.blockState()).executes(Commands::blacklistBlocksAdd)))
+				.then(literal("remove").then(argument("block", BlockStateArgumentType.blockState())
+						.executes(Commands::blacklistBlocksRemove))))));
 
 		LOGGER.info("Loaded Switcheroo!");
 	}

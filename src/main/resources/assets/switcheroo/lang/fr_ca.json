@@ -1,0 +1,8 @@
+{
+	"text.autoconfig.switcheroo.title": "Switcheroo",
+	"text.autoconfig.switcheroo.option.blacklist": "Ignorer",
+	"text.autoconfig.switcheroo.option.blacklist.blocks": "Blocs",
+	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "Liste de blocs à ignorer",
+	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
+	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "Liste de mobs à ignorer"
+}

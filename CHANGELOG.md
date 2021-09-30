@@ -8,7 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+* Block and entity blacklist using ModMenu.
+  * Blacklist blocks `farmland` and `glass_pane` by default
+  * Blacklist entity `axolotl` by default
+
 ### Changed
+
+* Prefer shears when clicking on leaves
+* Prefer shears when clicking on plants
+* Ignore axe when clicking on plants
 
 ### Deprecated
 

@@ -53,8 +53,8 @@ public class ItemStackUtil {
 
 	public static void keepMostDps(final ArrayList<ItemStack> weapons, final EntityGroup entityGroup,
 			@Nullable final Double maxDps) {
-		final double dps = maxDps == null ? getMaxDps(weapons, entityGroup) : maxDps.doubleValue();
-		weapons.removeIf(stack -> dps > ItemStackUtil.getDps(stack, entityGroup));
+		final double max = maxDps == null ? getMaxDps(weapons, entityGroup) : maxDps.doubleValue();
+		weapons.removeIf(stack -> max > ItemStackUtil.getDps(stack, entityGroup));
 	}
 
 	public static void keepFastestTools(final ArrayList<ItemStack> tools, final BlockState blockState) {

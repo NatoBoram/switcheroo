@@ -2,8 +2,6 @@ package com.natoboram.switcheroo;
 
 import java.util.ArrayList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -83,10 +81,8 @@ public class EntitySwitch implements AttackEntityCallback {
 		ItemStackUtil.keepMostDps(weapons, entityGroup, maxDps);
 		ItemStackUtil.keepMostDamagedItems(weapons);
 
-		if (weapons.isEmpty())
-			return ActionResult.PASS;
-
-		Switch.switcheroo(player, weapons.get(0));
+		if (!weapons.isEmpty())
+			Switch.switcheroo(player, weapons.get(0));
 		return ActionResult.PASS;
 	}
 
@@ -94,24 +90,18 @@ public class EntitySwitch implements AttackEntityCallback {
 		final Identifier id = Registry.ENTITY_TYPE.getId(livingEntity.getType());
 		final String[] blacklist = config.blacklist.mobs.split(" ");
 
-		LOGGER.info("Checking if entity is blacklisted: " + id.toString());
-
 		for (final String blacklisted : blacklist) {
-			LOGGER.info("Checking against " + blacklisted);
-
 			switch (blacklisted.split(":").length) {
 				case 1:
 					if (id.toString().equals("minecraft:" + blacklisted))
 						return true;
+				default:
 				case 2:
 					if (id.toString().equals(blacklisted))
 						return true;
 			}
 		}
-
 		return false;
 	}
-
-	private final static Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 
 }

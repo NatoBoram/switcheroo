@@ -26,9 +26,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-/**
- * Execute a switcheroo action when attacking an entity.
- */
+/** Execute a switcheroo action when attacking an entity. */
 @Environment(EnvType.CLIENT)
 public class EntitySwitch implements AttackEntityCallback {
 
@@ -92,13 +90,13 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-			default:
-			case 2:
-				if (id.toString().equals(blacklisted))
-					return true;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+				default:
+				case 2:
+					if (id.toString().equals(blacklisted))
+						return true;
 			}
 		}
 		return false;

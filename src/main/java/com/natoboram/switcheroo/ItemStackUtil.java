@@ -69,9 +69,7 @@ public class ItemStackUtil {
 		tools.removeIf(item -> min < item.getMiningSpeedMultiplier(blockState));
 	}
 
-	/**
-	 * Removes enchanted items that have only one durability left.
-	 */
+	/** Removes enchanted items that have only one durability left. */
 	public static void removeDamagedEnchantedItems(final ArrayList<ItemStack> items) {
 		items.removeIf(item -> {
 			return !item.getEnchantments().isEmpty() && item.getMaxDamage() - item.getDamage() <= 1;
@@ -87,5 +85,4 @@ public class ItemStackUtil {
 		final float min = items.stream().min(Comparator.comparing(item -> item.getCount())).get().getCount();
 		items.removeIf(item -> min < item.getCount());
 	}
-
 }

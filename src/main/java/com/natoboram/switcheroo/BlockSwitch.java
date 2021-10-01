@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PlantBlock;
+import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -31,16 +32,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-/**
- * Execute a switcheroo action when attacking a block.
- */
+/** Execute a switcheroo action when attacking a block. */
 @Environment(EnvType.CLIENT)
 public class BlockSwitch implements AttackBlockCallback {
 
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private final CropSwitch CROP_SWITCH;
 	private final static Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
-	static private final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
@@ -89,14 +88,14 @@ public class BlockSwitch implements AttackBlockCallback {
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (stack.isSuitableFor(blockState) && !(stack.getItem() instanceof SwordItem)
-							&& ignoreAxeOnPlants(block, stack.getItem()))
+							&& !isAxeOnPlants(block, stack.getItem()))
 						tools.add(stack);
 
 			// If there's no effective tools, check for the mining speed but ignore swords.
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem)
-							&& ignoreAxeOnPlants(block, stack.getItem()))
+							&& !isAxeOnPlants(block, stack.getItem()))
 						tools.add(stack);
 		}
 
@@ -126,9 +125,9 @@ public class BlockSwitch implements AttackBlockCallback {
 		return ActionResult.PASS;
 	}
 
-	private boolean ignoreAxeOnPlants(final Block block, final Item item) {
-		return block instanceof PlantBlock ^ item instanceof AxeItem
-				|| !(block instanceof PlantBlock) && !(item instanceof AxeItem);
+	/** Axes shouldn't be used on tall grass and sugar cane. */
+	private boolean isAxeOnPlants(final Block block, final Item item) {
+		return (block instanceof PlantBlock || block instanceof SugarCaneBlock) && item instanceof AxeItem;
 	}
 
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {
@@ -137,15 +136,15 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 		}
 

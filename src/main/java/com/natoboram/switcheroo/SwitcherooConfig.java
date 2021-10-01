@@ -18,6 +18,9 @@ public class SwitcherooConfig implements ConfigData {
 		public String blocks = "farmland glass_pane";
 
 		@ConfigEntry.Gui.Tooltip()
-		public String mobs = "axolotl";
+		public String mobs = "axolotl bat cat donkey fox horse mule ocelot parrot skeleton_horse snow_golem strider villager wandering_trader";
 	}
+
+	@ConfigEntry.Gui.Tooltip()
+	public boolean debug = false;
 }

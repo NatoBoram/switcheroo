@@ -15,7 +15,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.minecraft.command.argument.BlockStateArgumentType;
 
 @Environment(EnvType.CLIENT)
 public class Main implements ClientModInitializer {
@@ -41,11 +40,17 @@ public class Main implements ClientModInitializer {
 		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
 
 		// Register commands
-		ClientCommandManager.DISPATCHER.register(literal(MOD_ID).then(literal("blacklist").then(literal("block")
-				.then(literal("add").then(
-						argument("block", BlockStateArgumentType.blockState()).executes(Commands::blacklistBlocksAdd)))
-				.then(literal("remove").then(argument("block", BlockStateArgumentType.blockState())
-						.executes(Commands::blacklistBlocksRemove))))));
+		ClientCommandManager.DISPATCHER.register(literal(MOD_ID).then(literal("blacklist")
+				.then(literal("blocks").executes(Commands::blacklistBlocks)
+						.then(literal("add").then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
+								.executes(Commands::blacklistBlocksAdd)))
+						.then(literal("remove").then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
+								.executes(Commands::blacklistBlocksRemove))))
+				.then(literal("mobs").executes(Commands::blacklistMobs)
+						.then(literal("add").then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+								.executes(Commands::blacklistMobsAdd)))
+						.then(literal("remove").then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+								.executes(Commands::blacklistMobsRemove))))));
 
 		LOGGER.info("Loaded Switcheroo!");
 	}

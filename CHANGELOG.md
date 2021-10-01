@@ -9,14 +9,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Added
 
 * Block and entity blacklist using ModMenu.
-  * Blacklist blocks `farmland` and `glass_pane` by default
-  * Blacklist entity `axolotl` by default
+  * Blacklist blocks `farmland` and `glass_pane` by default.
+  * Blacklist entity `axolotl`, `bat`, `cat`, `donkey`, `fox`, `horse`, `mule`, `ocelot`, `parrot`, `skeleton_horse`,
+  `snow_golem`, `strider`, `villager` and `wandering_trader` by default.
+* Commands to manage the blacklist:
+  * `/switcheroo blacklist blocks add farmland`
+  * `/switcheroo blacklist blocks remove farmland`
+  * `/switcheroo blacklist mobs add axolotl`
+  * `/switcheroo blacklist mobs remove axolotl`
 
 ### Changed
 
-* Prefer shears when clicking on leaves
-* Prefer shears when clicking on plants
-* Ignore axe when clicking on plants
+* Prefer shears when clicking on leaves.
+* Prefer shears when clicking on plants.
+* Ignore axe when clicking on plants.
 
 ### Deprecated
 
@@ -40,7 +46,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
-* Updated to 1.17.1
+* Updated to 1.17.1.
 
 ## [1.0.1] - 2021-02-01
 

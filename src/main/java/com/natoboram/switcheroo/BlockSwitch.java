@@ -2,6 +2,9 @@ package com.natoboram.switcheroo;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.SwordItem;
@@ -35,7 +39,7 @@ public class BlockSwitch implements AttackBlockCallback {
 
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private final CropSwitch CROP_SWITCH;
-	// private final static Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private final static Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	static private final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
@@ -54,8 +58,11 @@ public class BlockSwitch implements AttackBlockCallback {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 
 		// Blacklist some blocks
-		if (isBlacklisted(block, config))
+		if (isBlacklisted(block, config)) {
+			if (config.debug)
+				LOGGER.debug(block.toString() + " is blacklisted");
 			return ActionResult.PASS;
+		}
 
 		// Use CROP_SWITCH to handle crops
 		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop) {
@@ -82,14 +89,14 @@ public class BlockSwitch implements AttackBlockCallback {
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (stack.isSuitableFor(blockState) && !(stack.getItem() instanceof SwordItem)
-							&& (block instanceof PlantBlock ^ stack.getItem() instanceof AxeItem))
+							&& ignoreAxeOnPlants(block, stack.getItem()))
 						tools.add(stack);
 
 			// If there's no effective tools, check for the mining speed but ignore swords.
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem)
-							&& (block instanceof PlantBlock ^ stack.getItem() instanceof AxeItem))
+							&& ignoreAxeOnPlants(block, stack.getItem()))
 						tools.add(stack);
 		}
 
@@ -119,21 +126,26 @@ public class BlockSwitch implements AttackBlockCallback {
 		return ActionResult.PASS;
 	}
 
+	private boolean ignoreAxeOnPlants(final Block block, final Item item) {
+		return block instanceof PlantBlock ^ item instanceof AxeItem
+				|| !(block instanceof PlantBlock) && !(item instanceof AxeItem);
+	}
+
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {
 		final Identifier id = Registry.BLOCK.getId(block);
 		final String[] blacklist = config.blacklist.blocks.split(" ");
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted))
-						return true;
-					break;
-				case 2:
-				default:
-					if (id.toString().equals(blacklisted))
-						return true;
-					break;
+			case 1:
+				if (id.toString().equals("minecraft:" + blacklisted))
+					return true;
+				break;
+			case 2:
+			default:
+				if (id.toString().equals(blacklisted))
+					return true;
+				break;
 			}
 		}
 

@@ -42,17 +42,8 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	}
 
 	@Override
-	public Identifier parse(final StringReader stringReader) throws CommandSyntaxException {
-		return validate(Identifier.fromCommandInput(stringReader));
-	}
-
 	public Collection<String> getExamples() {
 		return EXAMPLES;
-	}
-
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registry.ENTITY_TYPE.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
 	}
 
 	@Override
@@ -66,5 +57,15 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 		});
 
 		return builder.buildFuture();
+	}
+
+	@Override
+	public Identifier parse(final StringReader stringReader) throws CommandSyntaxException {
+		return validate(Identifier.fromCommandInput(stringReader));
+	}
+
+	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
+		Registry.ENTITY_TYPE.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
+		return id;
 	}
 }

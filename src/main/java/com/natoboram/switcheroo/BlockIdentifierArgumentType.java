@@ -36,23 +36,14 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		return new BlockIdentifierArgumentType();
 	}
 
-	@Override
-	public Identifier parse(final StringReader reader) throws CommandSyntaxException {
-		return validate(Identifier.fromCommandInput(reader));
-	}
-
 	public static Identifier getBlockIdentifier(final String name,
 			final CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
 
+	@Override
 	public Collection<String> getExamples() {
 		return EXAMPLES;
-	}
-
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registry.BLOCK.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
 	}
 
 	@Override
@@ -66,5 +57,15 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		});
 
 		return builder.buildFuture();
+	}
+
+	@Override
+	public Identifier parse(final StringReader reader) throws CommandSyntaxException {
+		return validate(Identifier.fromCommandInput(reader));
+	}
+
+	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
+		Registry.BLOCK.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
+		return id;
 	}
 }

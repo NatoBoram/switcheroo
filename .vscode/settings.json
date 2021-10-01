@@ -4,16 +4,35 @@
 			"source.fixAll": false
 		}
 	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true,
+		"source.generate.finalModifiers": true,
+		"source.organizeImports": true
+	},
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
 	"editor.rulers": [
 		120
 	],
 	"editor.wordWrapColumn": 120,
+	"explorer.compactFolders": true,
+	"files.associations": {
+		"*.launch": "xml"
+	},
 	"files.exclude": {
 		"**/.classpath": true,
 		"**/.factorypath": true,
 		"**/.project": true,
 		"**/.settings": true
 	},
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"java.checkstyle.configuration": "https://raw.githubusercontent.com/checkstyle/checkstyle/master/config/checkstyle_checks.xml",
 	"java.configuration.updateBuildConfiguration": "automatic",
+	"java.format.settings.url": "./java-formatter.xml",
+	"java.saveActions.organizeImports": true,
+	"xml.format.preservedNewlines": 1,
 	"yaml.format.printWidth": 120
 }

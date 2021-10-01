@@ -6,6 +6,9 @@
 		"davidanson.vscode-markdownlint",
 		"editorconfig.editorconfig",
 		"gitlab.gitlab-workflow",
+		"redhat.vscode-xml",
+		"shengchen.vscode-checkstyle",
+		"visualstudioexptteam.vscodeintellicode",
 		"vscjava.vscode-gradle",
 		"vscjava.vscode-java-pack"
 	],

@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "switcheroo",
-	"version": "${version}",
+	"version": "1.0.4",
 	"name": "Switcheroo",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"authors": [
@@ -19,6 +19,9 @@
 	"entrypoints": {
 		"client": [
 			"com.natoboram.switcheroo.Main"
+		],
+		"modmenu": [
+			"com.natoboram.switcheroo.SwitcherooModMenu"
 		]
 	},
 	"mixins": [],
@@ -28,5 +31,7 @@
 		"minecraft": "1.17.x",
 		"java": ">=16"
 	},
-	"suggests": {}
+	"suggests": {
+		"modmenu": ">=2.0.13"
+	}
 }

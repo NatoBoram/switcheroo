@@ -1,0 +1,12 @@
+{
+	"switcheroo.error.blockNotFound": "Block not found",
+	"switcheroo.error.mobNotFound": "Mob not found",
+	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "List of blocks to avoid switching on",
+	"text.autoconfig.switcheroo.option.blacklist.blocks": "Blocks",
+	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "List of mobs to avoid switching on",
+	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
+	"text.autoconfig.switcheroo.option.blacklist": "Blacklist",
+	"text.autoconfig.switcheroo.option.debug.@Tooltip": "Shows additional information to the console.",
+	"text.autoconfig.switcheroo.option.debug": "Debug",
+	"text.autoconfig.switcheroo.title": "Switcheroo"
+}

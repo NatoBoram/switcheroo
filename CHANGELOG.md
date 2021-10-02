@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
-* Block and entity blacklist using ModMenu.
+* Block and entity blacklist using [ModMenu](https://github.com/TerraformersMC/ModMenu).
   * Blacklist blocks `farmland` and `glass_pane` by default.
   * Blacklist entity `axolotl`, `bat`, `cat`, `donkey`, `fox`, `horse`, `mule`, `ocelot`, `parrot`, `skeleton_horse`,
   `snow_golem`, `strider`, `villager` and `wandering_trader` by default.

@@ -8,6 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.0.4] - 2021-10-01
+
+🎃
+
+### Added
+
 * Block and entity blacklist using ModMenu.
   * Blacklist blocks `farmland` and `glass_pane` by default.
   * Blacklist entity `axolotl`, `bat`, `cat`, `donkey`, `fox`, `horse`, `mule`, `ocelot`, `parrot`, `skeleton_horse`,
@@ -23,14 +39,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * Prefer shears when clicking on leaves.
 * Prefer shears when clicking on plants.
 * Ignore axe when clicking on plants.
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [1.0.3] - 2021-09-26
 

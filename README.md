@@ -7,8 +7,6 @@
 
 Switch your currently held item for an effective item when clicking on a block.
 
-This project is in early development. It works, but it could be better. Also there's no config.
-
 ## Usage
 
 * Click on a block or entity to switch to the appropriate item
@@ -20,17 +18,13 @@ entities.
 
 ![Switcheroo Demo](docs/Switcheroo Demo.webm)
 
-## Status
-
-### What works
+## Features
 
 * Switcheroo when clicking blocks
 * Switcheroo when clicking mobs
-
-### What doesn't work
-
-* Switcheroo when using the last unit of a stack #4
-  * In the meantime, you can use [Inventory Profiles](https://github.com/blackd/Inventory-Profiles)
+* Blacklist
+  * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
+  * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
 
 ## Installation
 

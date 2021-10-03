@@ -16,6 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Fixed
 
+* Dependencies are now correctly resolved in `fabric.mod.json`.
+* Dependencies are mentioned in `README.md`.
+
 ### Security
 
 ## [1.0.5] - 2021-10-02

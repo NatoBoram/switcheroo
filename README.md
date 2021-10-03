@@ -22,6 +22,8 @@ to attack entities.
 
 * Switcheroo when clicking blocks
 * Switcheroo when clicking mobs
+  * Uses max damage per seconds for mobs
+  * Uses max attack damage for players
 * Blacklist
   * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
   * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)

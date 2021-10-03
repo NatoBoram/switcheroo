@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
+* Now uses swords on bamboo and cobweb
+* Now uses shears on cobweb
+
 ### Deprecated
 
 ### Removed

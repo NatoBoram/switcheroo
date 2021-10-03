@@ -9,8 +9,10 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.minecraft.block.BambooBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CobwebBlock;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PlantBlock;
@@ -78,25 +80,32 @@ public class BlockSwitch implements AttackBlockCallback {
 					tools.add(stack);
 		} else {
 
-			// Use shears on leaves and plants
-			if (block instanceof LeavesBlock || block instanceof PlantBlock)
+			// Use shears on cobwebs, leaves and plants
+			if (block instanceof CobwebBlock || block instanceof LeavesBlock || block instanceof PlantBlock)
 				for (final ItemStack stack : inventory.main)
 					if (stack.getItem() instanceof ShearsItem)
 						tools.add(stack);
 
-			// Get all effective tools from the inventory but ignore swords.
+			// Use sword on cobwebs and bamboo
+			if (tools.isEmpty() && (block instanceof BambooBlock || block instanceof CobwebBlock))
+				for (final ItemStack stack : inventory.main)
+					if (stack.getItem() instanceof SwordItem)
+						tools.add(stack);
+
+			// Get all effective tools from the inventory
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (stack.isSuitableFor(blockState) && !(stack.getItem() instanceof SwordItem)
-							&& !isAxeOnPlants(block, stack.getItem()))
+							&& axeFilter(block, stack.getItem()))
 						tools.add(stack);
 
-			// If there's no effective tools, check for the mining speed but ignore swords.
+			// If there's no effective tools, check for the mining speed
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
 					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState) > 1.0F
-							&& !(stack.getItem() instanceof SwordItem) && !isAxeOnPlants(block, stack.getItem()))
+							&& !(stack.getItem() instanceof SwordItem) && axeFilter(block, stack.getItem()))
 						tools.add(stack);
+
 		}
 
 		// Filters enchanted items with low durability
@@ -132,8 +141,8 @@ public class BlockSwitch implements AttackBlockCallback {
 	}
 
 	/** Axes shouldn't be used on tall grass and sugar cane. */
-	private boolean isAxeOnPlants(final Block block, final Item item) {
-		return (block instanceof PlantBlock || block instanceof SugarCaneBlock) && item instanceof AxeItem;
+	private boolean axeFilter(final Block block, final Item item) {
+		return !((block instanceof PlantBlock || block instanceof SugarCaneBlock) && item instanceof AxeItem);
 	}
 
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {

@@ -30,7 +30,7 @@ public class Switch {
 			return;
 
 		if (config.debug)
-			LOGGER.info("Switching for " + item);
+			LOGGER.info("Switching for " + item.getItem());
 
 		if (PlayerInventory.isValidHotbarIndex(slot)) {
 			// Select the item from the hotbar

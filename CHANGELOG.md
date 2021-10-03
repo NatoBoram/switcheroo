@@ -8,13 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+* Configuration to always use the fast tool instead of the slowest efficient tool.
+* Configuration for the minimum durability.
+
 ### Changed
+
+* Saves items when they have 5 durability instead of 1.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Now takes into account [Efficiency](https://minecraft.fandom.com/wiki/Efficiency) levels.
 
 ### Security
 

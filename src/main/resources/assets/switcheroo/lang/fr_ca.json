@@ -1,12 +1,15 @@
 {
 	"switcheroo.error.blockNotFound": "Bloc invalide",
 	"switcheroo.error.mobNotFound": "Mob invalide",
-	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "Liste de blocs à ignorer",
-	"text.autoconfig.switcheroo.option.blacklist.blocks": "Blocs",
-	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "Liste de mobs à ignorer",
-	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
+	"text.autoconfig.switcheroo.title": "Switcheroo",
+	"text.autoconfig.switcheroo.option.alwaysFastest": "Toujours utiliser l'outil le plus rapide",
+	"text.autoconfig.switcheroo.option.minDurability": "Durabilité minimum",
+	"text.autoconfig.switcheroo.option.minDurability.@Tooltip": "Les items enchantés avec moins de durabilité seront ignorés.",
 	"text.autoconfig.switcheroo.option.blacklist": "Ignorer",
-	"text.autoconfig.switcheroo.option.debug.@Tooltip": "Affiche plus d'information de déboggage dans la console.",
+	"text.autoconfig.switcheroo.option.blacklist.blocks": "Blocs",
+	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "Liste de blocs à ignorer",
+	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
+	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "Liste de mobs à ignorer",
 	"text.autoconfig.switcheroo.option.debug": "Déboggage",
-	"text.autoconfig.switcheroo.title": "Switcheroo"
+	"text.autoconfig.switcheroo.option.debug.@Tooltip": "Affiche plus d'information de déboggage dans la console."
 }

@@ -2,6 +2,7 @@ package com.natoboram.switcheroo;
 
 import java.util.ArrayList;
 
+import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -28,7 +29,12 @@ import net.minecraft.world.World;
 @Environment(EnvType.CLIENT)
 public class CropSwitch implements AttackBlockCallback {
 
-	static private final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
+	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+
+	CropSwitch(final ConfigHolder<SwitcherooConfig> holder) {
+		this.CONFIG_HOLDER = holder;
+	}
 
 	@Override
 	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final BlockPos pos,
@@ -63,7 +69,7 @@ public class CropSwitch implements AttackBlockCallback {
 		if (seeds.isEmpty())
 			return ActionResult.PASS;
 		final ItemStack seed = seeds.get(0);
-		Switch.switcheroo(player, seed);
+		Switch.switcheroo(player, seed, CONFIG_HOLDER.getConfig());
 
 		// Plant the seed!
 		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;

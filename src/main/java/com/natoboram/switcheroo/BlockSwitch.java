@@ -38,12 +38,12 @@ public class BlockSwitch implements AttackBlockCallback {
 
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private final CropSwitch CROP_SWITCH;
-	private final static Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
-		this.CROP_SWITCH = new CropSwitch();
+		this.CROP_SWITCH = new CropSwitch(CONFIG_HOLDER);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class BlockSwitch implements AttackBlockCallback {
 		// Blacklist some blocks
 		if (isBlacklisted(block, config)) {
 			if (config.debug)
-				LOGGER.debug(block.toString() + " is blacklisted");
+				LOGGER.info(block + " is blacklisted");
 			return ActionResult.PASS;
 		}
 
@@ -94,34 +94,40 @@ public class BlockSwitch implements AttackBlockCallback {
 			// If there's no effective tools, check for the mining speed but ignore swords.
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
-					if (stack.getMiningSpeedMultiplier(blockState) > 1.0F && !(stack.getItem() instanceof SwordItem)
-							&& !isAxeOnPlants(block, stack.getItem()))
+					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState) > 1.0F
+							&& !(stack.getItem() instanceof SwordItem) && !isAxeOnPlants(block, stack.getItem()))
 						tools.add(stack);
 		}
 
-		// Filters enchanted items with 1 durability
-		ItemStackUtil.removeDamagedEnchantedItems(tools);
+		// Filters enchanted items with low durability
+		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
 
 		// Safety before launching streams
 		if (tools.isEmpty())
 			return ActionResult.PASS;
 
 		// Get best or worst tool
-		if (CLIENT.options.keySprint.isPressed()) {
+		if (CLIENT.options.keySprint.isPressed() || config.alwaysFastest)
 			ItemStackUtil.keepFastestTools(tools, blockState);
-		} else {
+		else
 			ItemStackUtil.keepSlowestTools(tools, blockState);
-		}
+
+		final ItemStack mainHand = player.getMainHandStack();
+		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState);
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream().anyMatch(stack -> stack.getItem().equals(CLIENT.player.getMainHandStack().getItem())))
+		if (tools.stream().anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState)
+				&& ItemStack.areItemsEqual(stack, mainHand))) {
+			if (config.debug)
+				LOGGER.info("There's already a " + mainHand.getItem() + " in hand.");
 			return ActionResult.PASS;
+		}
 
 		// Get most damaged item
 		ItemStackUtil.keepMostDamagedItems(tools);
 
 		if (!tools.isEmpty())
-			Switch.switcheroo(player, tools.get(0));
+			Switch.switcheroo(player, tools.get(0), config);
 		return ActionResult.PASS;
 	}
 

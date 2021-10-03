@@ -76,13 +76,27 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		final EntityGroup entityGroup = livingEntity.getGroup();
 
-		// Stop if there's already a max dps weapon in hand
-		final double maxDps = ItemStackUtil.getMaxDps(weapons, entityGroup);
-		final double currentDps = ItemStackUtil.getDps(CLIENT.player.getMainHandStack(), entityGroup);
-		if (currentDps >= maxDps || weapons.isEmpty())
-			return ActionResult.PASS;
+		// Use max AD on players and max DPS on mobs
+		if (entity instanceof PlayerEntity) {
 
-		ItemStackUtil.keepMostDps(weapons, entityGroup, maxDps);
+			// Stop if there's already a max ad weapon in hand
+			final double maxAd = ItemStackUtil.getMaxAttackDamage(weapons, entityGroup);
+			final double currentAd = ItemStackUtil.getAttackDamage(CLIENT.player.getMainHandStack(), entityGroup);
+			if (currentAd >= maxAd || weapons.isEmpty())
+				return ActionResult.PASS;
+
+			ItemStackUtil.keepMostAttackDamage(weapons, entityGroup, maxAd);
+		} else {
+
+			// Stop if there's already a max dps weapon in hand
+			final double maxDps = ItemStackUtil.getMaxDps(weapons, entityGroup);
+			final double currentDps = ItemStackUtil.getDps(CLIENT.player.getMainHandStack(), entityGroup);
+			if (currentDps >= maxDps || weapons.isEmpty())
+				return ActionResult.PASS;
+
+			ItemStackUtil.keepMostDps(weapons, entityGroup, maxDps);
+		}
+
 		ItemStackUtil.keepMostDamagedItems(weapons);
 
 		if (!weapons.isEmpty())

@@ -22,12 +22,18 @@ to attack entities.
 
 * Switcheroo when clicking blocks
 * Switcheroo when clicking mobs
+  * Uses max damage per seconds for mobs
+  * Uses max attack damage for players
 * Blacklist
   * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
   * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
 * Doesn't consider items when they have 5 durability or less
 
 ## Installation
+
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-5.0.38-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.40.1-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-2.0.13-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://gitlab.com/NatoBoram/fabric-switcheroo/-/releases). You can also test
 development builds by downloading them form the [Pipelines](https://gitlab.com/NatoBoram/fabric-switcheroo/-/pipelines).

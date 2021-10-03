@@ -10,20 +10,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
-* Now uses swords on bamboo and cobweb.
-* Now uses shears on cobweb.
-* Uses item with more attack damage on players or more damage per seconds on mobs.
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+### Security
+
+## [1.0.6] - 2021-10-03
+
+### Changed
+
+* Now uses swords on bamboo and cobweb.
+* Now uses shears on cobweb.
+* Uses item with more attack damage on players or more damage per seconds on mobs.
+
+### Fixed
+
 * Dependencies are now correctly resolved in `fabric.mod.json`.
 * Dependencies are mentioned in `README.md`.
-
-### Security
 
 ## [1.0.5] - 2021-10-02
 

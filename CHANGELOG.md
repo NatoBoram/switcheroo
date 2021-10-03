@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.0.5] - 2021-10-02
+
+### Added
+
 * Configuration to always use the fast tool instead of the slowest efficient tool.
   * Accessible via [ModMenu](https://github.com/TerraformersMC/ModMenu).
   * `/switcheroo alwaysFastest`
@@ -19,15 +33,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 * Don't consider items when they have 5 durability instead of 1.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 * Now takes into account [Efficiency](https://minecraft.fandom.com/wiki/Efficiency) levels.
-
-### Security
 
 ## [1.0.4] - 2021-10-01
 

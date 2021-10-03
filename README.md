@@ -13,8 +13,8 @@ Switch your currently held item for an effective item when clicking on a block.
   * Press *Sneak* to prevent the switch from happening
   * Press *Sprint* to use the most effective item
 
-Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item to attack
-entities.
+Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item per seconds
+to attack entities.
 
 ![Switcheroo Demo](docs/Switcheroo Demo.webm)
 
@@ -25,6 +25,7 @@ entities.
 * Blacklist
   * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
   * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
+* Doesn't consider items when they have 5 durability or less
 
 ## Installation
 

@@ -2,6 +2,8 @@ package com.natoboram.switcheroo;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -31,7 +33,8 @@ import net.minecraft.world.World;
 public class EntitySwitch implements AttackEntityCallback {
 
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
-	static private final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	EntitySwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
@@ -47,8 +50,11 @@ public class EntitySwitch implements AttackEntityCallback {
 		final LivingEntity livingEntity = (LivingEntity) entity;
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 
-		if (isBlacklisted(livingEntity, config))
+		if (isBlacklisted(livingEntity, config)) {
+			if (config.debug)
+				LOGGER.info("Entity " + livingEntity + " is blacklisted");
 			return ActionResult.PASS;
+		}
 
 		final ArrayList<ItemStack> weapons = new ArrayList<ItemStack>();
 		final PlayerInventory inventory = player.getInventory();
@@ -61,8 +67,8 @@ public class EntitySwitch implements AttackEntityCallback {
 				weapons.add(stack);
 		}
 
-		// Filters enchanted items with 1 durability
-		ItemStackUtil.removeDamagedEnchantedItems(weapons);
+		// Filters enchanted items with low durability
+		ItemStackUtil.removeDamagedEnchantedItems(weapons, config);
 
 		// Safety before launching streams
 		if (weapons.isEmpty())
@@ -80,7 +86,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		ItemStackUtil.keepMostDamagedItems(weapons);
 
 		if (!weapons.isEmpty())
-			Switch.switcheroo(player, weapons.get(0));
+			Switch.switcheroo(player, weapons.get(0), config);
 		return ActionResult.PASS;
 	}
 

@@ -27,7 +27,8 @@ final public class Commands {
 	 * </pre>
 	 */
 	static public int blacklistBlocks(final CommandContext<FabricClientCommandSource> command) {
-		command.getSource().sendFeedback(Text.of("Blacklist: §e" + CONFIG_HOLDER.getConfig().blacklist.blocks));
+		final String blocks = CONFIG_HOLDER.getConfig().blacklist.blocks;
+		command.getSource().sendFeedback(Text.of("Blacklist: §e" + (blocks.isEmpty() ? "[]" : blocks)));
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -57,15 +58,15 @@ final public class Commands {
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 			return false;
 		});
@@ -82,7 +83,8 @@ final public class Commands {
 	 * </pre>
 	 */
 	static public int blacklistMobs(final CommandContext<FabricClientCommandSource> command) {
-		command.getSource().sendFeedback(Text.of("§fBlacklist: §e" + CONFIG_HOLDER.getConfig().blacklist.mobs));
+		final String mobs = CONFIG_HOLDER.getConfig().blacklist.mobs;
+		command.getSource().sendFeedback(Text.of("§fBlacklist: §e" + (mobs.isEmpty() ? "[]" : mobs)));
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -118,15 +120,15 @@ final public class Commands {
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 			return false;
 		});
@@ -137,4 +139,49 @@ final public class Commands {
 		return blacklistMobs(command);
 	};
 
+	/**
+	 * <pre>
+	 * /switcheroo alwaysFastest
+	 * </pre>
+	 */
+	static public int alwaysFastest(final CommandContext<FabricClientCommandSource> command) {
+		command.getSource().sendFeedback(Text.of("alwaysFastest: §e" + CONFIG_HOLDER.getConfig().alwaysFastest));
+		return Command.SINGLE_SUCCESS;
+	}
+
+	/**
+	 * <pre>
+	 * /switcheroo alwaysFastest true
+	 * </pre>
+	 */
+	static public int alwaysFastestToggle(final CommandContext<FabricClientCommandSource> command) {
+		final Boolean input = command.getArgument("boolean", Boolean.class);
+		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
+		config.alwaysFastest = input == null ? !config.alwaysFastest : input;
+		CONFIG_HOLDER.save();
+		return alwaysFastest(command);
+	}
+
+	/**
+	 * <pre>
+	 * /switcheroo minDurability
+	 * </pre>
+	 */
+	static public int minDurability(final CommandContext<FabricClientCommandSource> command) {
+		command.getSource().sendFeedback(Text.of("minDurability: §e" + CONFIG_HOLDER.getConfig().minDurability));
+		return Command.SINGLE_SUCCESS;
+	}
+
+	/**
+	 * <pre>
+	 * /switcheroo minDurability 5
+	 * </pre>
+	 */
+	static public int minDurabilitySet(final CommandContext<FabricClientCommandSource> command) {
+		final Integer input = command.getArgument("integer", Integer.class);
+		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
+		config.minDurability = input == null ? 5 : input;
+		CONFIG_HOLDER.save();
+		return minDurability(command);
+	}
 }

@@ -18,13 +18,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
+## [1.0.5] - 2021-10-02
+
+### Added
+
+* Configuration to always use the fast tool instead of the slowest efficient tool.
+  * Accessible via [ModMenu](https://github.com/TerraformersMC/ModMenu).
+  * `/switcheroo alwaysFastest`
+* Configuration for the minimum durability.
+  * Accessible via [ModMenu](https://github.com/TerraformersMC/ModMenu).
+  * `/switcheroo minDurability`
+
+### Changed
+
+* Don't consider items when they have 5 durability instead of 1.
+
+### Fixed
+
+* Now takes into account [Efficiency](https://minecraft.fandom.com/wiki/Efficiency) levels.
+
 ## [1.0.4] - 2021-10-01
 
 🎃
 
 ### Added
 
-* Block and entity blacklist using ModMenu.
+* Block and entity blacklist using [ModMenu](https://github.com/TerraformersMC/ModMenu).
   * Blacklist blocks `farmland` and `glass_pane` by default.
   * Blacklist entity `axolotl`, `bat`, `cat`, `donkey`, `fox`, `horse`, `mule`, `ocelot`, `parrot`, `skeleton_horse`,
   `snow_golem`, `strider`, `villager` and `wandering_trader` by default.

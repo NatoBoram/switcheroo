@@ -3,6 +3,9 @@ package com.natoboram.switcheroo;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +28,8 @@ public class Main implements ClientModInitializer {
 	 * This logger is used to write text to the console and the log file. It is
 	 * considered best practice to use your mod id as the logger's name. That way,
 	 * it's clear which mod wrote info, warnings, and errors.
+	 * <p>
+	 * Note: {@link Logger#debug} does not write to the console.
 	 */
 	private final static Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -40,17 +45,24 @@ public class Main implements ClientModInitializer {
 		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
 
 		// Register commands
-		ClientCommandManager.DISPATCHER.register(literal(MOD_ID).then(literal("blacklist")
-				.then(literal("blocks").executes(Commands::blacklistBlocks)
+		ClientCommandManager.DISPATCHER.register(literal(MOD_ID)
+				.then(literal("blacklist").then(literal("blocks").executes(Commands::blacklistBlocks)
 						.then(literal("add").then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
 								.executes(Commands::blacklistBlocksAdd)))
-						.then(literal("remove").then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
-								.executes(Commands::blacklistBlocksRemove))))
-				.then(literal("mobs").executes(Commands::blacklistMobs)
-						.then(literal("add").then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
-								.executes(Commands::blacklistMobsAdd)))
-						.then(literal("remove").then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
-								.executes(Commands::blacklistMobsRemove))))));
+						.then(literal("remove")
+								.then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
+										.executes(Commands::blacklistBlocksRemove))))
+						.then(literal("mobs").executes(Commands::blacklistMobs)
+								.then(literal("add")
+										.then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+												.executes(Commands::blacklistMobsAdd)))
+								.then(literal("remove")
+										.then(argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+												.executes(Commands::blacklistMobsRemove)))))
+				.then(literal("alwaysFastest").executes(Commands::alwaysFastest)
+						.then(argument("boolean", BoolArgumentType.bool()).executes(Commands::alwaysFastestToggle)))
+				.then(literal("minDurability").executes(Commands::minDurability).then(
+						argument("integer", IntegerArgumentType.integer()).executes(Commands::minDurabilitySet))));
 
 		LOGGER.info("Loaded Switcheroo!");
 	}

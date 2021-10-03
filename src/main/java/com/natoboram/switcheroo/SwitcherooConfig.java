@@ -10,6 +10,11 @@ public class SwitcherooConfig implements ConfigData {
 	@ConfigEntry.Gui.Excluded()
 	public boolean enableCrop = false;
 
+	public boolean alwaysFastest = false;
+
+	@ConfigEntry.Gui.Tooltip()
+	public int minDurability = 5;
+
 	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
 	public Blacklist blacklist = new Blacklist();
 

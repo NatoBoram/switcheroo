@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 /**
- * Argument type for obtaining an entity <code>Identifier</code>.
+ * Argument type for obtaining an entity {@link Identifier}.
  *
  * @see BlockStateArgumentType
  * @see EntitySummonArgumentType

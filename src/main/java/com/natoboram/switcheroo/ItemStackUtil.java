@@ -37,6 +37,18 @@ public class ItemStackUtil {
 		return damage;
 	}
 
+	public static double getMaxAttackDamage(final ArrayList<ItemStack> weapons, final EntityGroup entityGroup) {
+		return getAttackDamage(
+				weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entityGroup))).get(),
+				entityGroup);
+	}
+
+	public static boolean keepMostAttackDamage(final ArrayList<ItemStack> weapons, final EntityGroup entityGroup,
+			@Nullable final Double maxAd) {
+		final double max = maxAd == null ? getMaxAttackDamage(weapons, entityGroup) : maxAd.doubleValue();
+		return weapons.removeIf(stack -> max > getAttackDamage(stack, entityGroup));
+	}
+
 	public static double getAttackSpeed(final ItemStack stack) {
 		return 4 + stack.getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_SPEED)
 				.stream().mapToDouble(EntityAttributeModifier::getValue).sum();
@@ -47,15 +59,13 @@ public class ItemStackUtil {
 	}
 
 	public static double getMaxDps(final ArrayList<ItemStack> weapons, final EntityGroup entityGroup) {
-		return ItemStackUtil.getDps(
-				weapons.stream().max(Comparator.comparing(item -> ItemStackUtil.getDps(item, entityGroup))).get(),
-				entityGroup);
+		return getDps(weapons.stream().max(Comparator.comparing(item -> getDps(item, entityGroup))).get(), entityGroup);
 	}
 
 	public static boolean keepMostDps(final ArrayList<ItemStack> weapons, final EntityGroup entityGroup,
 			@Nullable final Double maxDps) {
 		final double max = maxDps == null ? getMaxDps(weapons, entityGroup) : maxDps.doubleValue();
-		return weapons.removeIf(stack -> max > ItemStackUtil.getDps(stack, entityGroup));
+		return weapons.removeIf(stack -> max > getDps(stack, entityGroup));
 	}
 
 	public static boolean keepFastestTools(final ArrayList<ItemStack> tools, final BlockState blockState) {

@@ -31,9 +31,9 @@ to attack entities.
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-5.0.38-9cff55)](https://github.com/shedaniel/cloth-config)
-[![fabric](https://img.shields.io/badge/Fabric%20API-0.40.1-dbd0b4)](https://github.com/FabricMC/fabric)
-[![modmenu](https://img.shields.io/badge/Mod%20Menu-2.0.13-134bff)](https://github.com/TerraformersMC/ModMenu)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-6.0.42-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.43.1-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-3.0.0-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://gitlab.com/NatoBoram/fabric-switcheroo/-/releases). You can also test
 development builds by downloading them form the [Pipelines](https://gitlab.com/NatoBoram/fabric-switcheroo/-/pipelines).
@@ -43,7 +43,7 @@ development builds by downloading them form the [Pipelines](https://gitlab.com/N
 
 ## Contributing
 
-Requires Java 16.
+Requires Java 17.
 
 ### Developing
 

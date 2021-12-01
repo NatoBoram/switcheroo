@@ -151,15 +151,15 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted))
-						return true;
-					break;
-				case 2:
-				default:
-					if (id.toString().equals(blacklisted))
-						return true;
-					break;
+			case 1:
+				if (id.toString().equals("minecraft:" + blacklisted))
+					return true;
+				break;
+			case 2:
+			default:
+				if (id.toString().equals(blacklisted))
+					return true;
+				break;
 			}
 		}
 

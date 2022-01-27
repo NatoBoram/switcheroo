@@ -1,0 +1,28 @@
+
+# Preview of the minepkg.toml format! Could break anytime!
+manifestVersion = 0
+
+[package]
+type = "mod"
+name = "switcheroo"
+description = "Switch your currently held item for an effective item when clicking on a block."
+version = "1.0.7"
+platform = "fabric"
+license = "GPL-3.0-or-later"
+source = "https://gitlab.com/NatoBoram/fabric-switcheroo"
+homepage = "https://gitlab.com/NatoBoram/fabric-switcheroo"
+author = "Nato Boram"
+
+# These are global requirements
+[requirements]
+minecraft = ">=1.18"
+fabricLoader = ">=0.12.8"
+
+[dependencies]
+fabric = ">=0.43.1"
+
+[dev]
+buildCommand = "./gradlew build"
+
+[dev.dependencies]
+test-mansion = "*"

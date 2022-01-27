@@ -8,6 +8,7 @@
 		"gitlab.gitlab-workflow",
 		"redhat.vscode-xml",
 		"shengchen.vscode-checkstyle",
+		"tamasfe.even-better-toml",
 		"visualstudioexptteam.vscodeintellicode",
 		"vscjava.vscode-gradle",
 		"vscjava.vscode-java-pack"

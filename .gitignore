@@ -1,6 +1,9 @@
 # GitLab CI
 .env
 
+# MinePkg
+minecraft
+
 # Fabric
 
 # gradle

@@ -19,10 +19,8 @@ minecraft = ">=1.18"
 fabricLoader = ">=0.12.8"
 
 [dependencies]
+cloth-config = ">=6.0.42+mpkg.1"
 fabric = ">=0.43.1"
 
 [dev]
 buildCommand = "./gradlew build"
-
-[dev.dependencies]
-test-mansion = "*"

@@ -19,6 +19,7 @@
 		"firefox-devtools.vscode-firefox-debug",
 		"golang.go",
 		"ms-vscode.powershell-preview",
-		"ms-vscode.powershell"
+		"ms-vscode.powershell",
+		"vscjava.vscode-spring-initializr"
 	]
 }

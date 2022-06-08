@@ -15,12 +15,12 @@ author = "Nato Boram"
 
 # These are global requirements
 [requirements]
-minecraft = ">=1.18"
-fabricLoader = ">=0.12.8"
+minecraft = ">=1.19"
+fabricLoader = ">=0.14.6"
 
 [dependencies]
-cloth-config = ">=6.0.42+mpkg.1"
-fabric = ">=0.43.1"
+cloth-config = ">=7.0.65+mpkg.1"
+fabric = ">=0.55.2+1.19"
 
 [dev]
 buildCommand = "./gradlew build"

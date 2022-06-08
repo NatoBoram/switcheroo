@@ -73,7 +73,7 @@ public class CropSwitch implements AttackBlockCallback {
 
 		// Plant the seed!
 		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;
-		final ActionResult placeSeedResult = CLIENT.interactionManager.interactBlock(CLIENT.player, CLIENT.world, hand,
+		final ActionResult placeSeedResult = CLIENT.interactionManager.interactBlock(CLIENT.player, hand,
 				blockHitResult);
 		if (placeSeedResult.isAccepted() && placeSeedResult.shouldSwingHand())
 			CLIENT.player.swingHand(hand);

@@ -116,7 +116,7 @@ public class BlockSwitch implements AttackBlockCallback {
 			return ActionResult.PASS;
 
 		// Get best or worst tool
-		if (CLIENT.options.keySprint.isPressed() || config.alwaysFastest)
+		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)
 			ItemStackUtil.keepFastestTools(tools, blockState);
 		else
 			ItemStackUtil.keepSlowestTools(tools, blockState);

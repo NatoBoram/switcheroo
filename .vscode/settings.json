@@ -15,6 +15,9 @@
 	"editor.rulers": [120],
 	"editor.wordWrapColumn": 120,
 	"explorer.compactFolders": true,
+	"explorer.fileNesting.patterns": {
+		"minepkg.toml": ".minepkg-lock.toml"
+	},
 	"files.associations": {
 		"*.launch": "xml"
 	},

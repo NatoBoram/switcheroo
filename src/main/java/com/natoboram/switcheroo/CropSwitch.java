@@ -49,8 +49,7 @@ public class CropSwitch implements AttackBlockCallback {
 			return ActionResult.PASS;
 
 		// Check if we already have the appropriate item in hand
-		final CropBlock cropBlock = (CropBlock) block;
-		final Item seedItem = Item.fromBlock(cropBlock);
+		final Item seedItem = block.asItem();
 		final ItemStack mainHandStack = inventory.getMainHandStack();
 		if (mainHandStack.getItem().equals(seedItem))
 			return ActionResult.PASS;

@@ -1,12 +1,10 @@
 {
 	"schemaVersion": 1,
 	"id": "switcheroo",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"name": "Switcheroo",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
-	"authors": [
-		"Nato Boram"
-	],
+	"authors": ["Nato Boram"],
 	"contact": {
 		"homepage": "https://gitlab.com/NatoBoram/fabric-switcheroo",
 		"sources": "https://gitlab.com/NatoBoram/fabric-switcheroo",
@@ -17,22 +15,18 @@
 	"icon": "assets/switcheroo/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"client": [
-			"com.natoboram.switcheroo.Main"
-		],
-		"modmenu": [
-			"com.natoboram.switcheroo.SwitcherooModMenu"
-		]
+		"client": ["com.natoboram.switcheroo.Main"],
+		"modmenu": ["com.natoboram.switcheroo.SwitcherooModMenu"]
 	},
 	"mixins": [],
 	"depends": {
-		"cloth-config2": ">=6.0.42",
-		"fabric": ">=0.43.1",
-		"fabricloader": ">=0.12.8",
+		"cloth-config2": ">=7.0.69",
+		"fabric": ">=0.55.3+1.19",
+		"fabricloader": ">=0.14.7",
 		"java": ">=17",
-		"minecraft": ">=1.18"
+		"minecraft": ">=1.19"
 	},
 	"suggests": {
-		"modmenu": ">=3.0.0"
+		"modmenu": ">=4.0.0"
 	}
 }

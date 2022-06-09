@@ -8,6 +8,7 @@
 		"gitlab.gitlab-workflow",
 		"redhat.vscode-xml",
 		"shengchen.vscode-checkstyle",
+		"tamasfe.even-better-toml",
 		"visualstudioexptteam.vscodeintellicode",
 		"vscjava.vscode-gradle",
 		"vscjava.vscode-java-pack"
@@ -18,6 +19,7 @@
 		"firefox-devtools.vscode-firefox-debug",
 		"golang.go",
 		"ms-vscode.powershell-preview",
-		"ms-vscode.powershell"
+		"ms-vscode.powershell",
+		"vscjava.vscode-spring-initializr"
 	]
 }

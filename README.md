@@ -33,7 +33,7 @@ to attack entities.
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-7.0.65-9cff55)](https://github.com/shedaniel/cloth-config)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-7.0.69-9cff55)](https://github.com/shedaniel/cloth-config)
 [![fabric](https://img.shields.io/badge/Fabric%20API-0.55.3-dbd0b4)](https://github.com/FabricMC/fabric)
 [![modmenu](https://img.shields.io/badge/Mod%20Menu-4.0.0-134bff)](https://github.com/TerraformersMC/ModMenu)
 

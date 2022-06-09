@@ -20,7 +20,7 @@
 	},
 	"mixins": [],
 	"depends": {
-		"cloth-config2": ">=7.0.65",
+		"cloth-config2": ">=7.0.69",
 		"fabric": ">=0.55.3+1.19",
 		"fabricloader": ">=0.14.7",
 		"java": ">=17",

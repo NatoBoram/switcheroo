@@ -12,10 +12,10 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.command.argument.EntitySummonArgumentType;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -29,7 +29,7 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	private static final Collection<String> EXAMPLES = Arrays.asList("stone", "minecraft:stone");
 
 	public static final DynamicCommandExceptionType NOT_FOUND_EXCEPTION = new DynamicCommandExceptionType((id) -> {
-		return new TranslatableText("switcheroo.error.blockNotFound", new Object[] { id });
+		return Text.translatable("switcheroo.error.blockNotFound", new Object[] { id });
 	});
 
 	public static BlockIdentifierArgumentType blockIdentifier() {

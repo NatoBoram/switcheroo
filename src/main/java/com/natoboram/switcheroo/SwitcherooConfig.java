@@ -28,4 +28,16 @@ public class SwitcherooConfig implements ConfigData {
 
 	@ConfigEntry.Gui.Tooltip()
 	public boolean debug = false;
+
+	@ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+	public Prefer prefer = new Prefer();
+
+	public static class Prefer {
+		@ConfigEntry.Gui.Tooltip()
+		public String silk_touch = "glass_pane";
+
+		@ConfigEntry.Gui.Excluded()
+		@ConfigEntry.Gui.Tooltip()
+		public String fortune = "";
+	}
 }

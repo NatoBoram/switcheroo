@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+* Prefer Silk Touch on certain blocks
+  * `/switcheroo prefer silk_touch`
+    * `/switcheroo prefer silk_touch add grass_block`
+    * `/switcheroo prefer silk_touch remove grass_block`
+  * By default, prefers Silk Touch on `glass_pane`.
+
 ### Changed
 
 ### Deprecated

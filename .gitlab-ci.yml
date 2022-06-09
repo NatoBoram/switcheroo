@@ -89,12 +89,6 @@ release:
     description: "$CI_COMMIT_MESSAGE"
     assets:
       links:
-        - name: "switcheroo-$CI_COMMIT_TAG+$MINECRAFT-dev.jar"
-          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/switcheroo-$VERSION+$MINECRAFT-dev.jar?job=build"
-          link_type: "package"
-        - name: "switcheroo-$CI_COMMIT_TAG+$MINECRAFT-sources-dev.jar"
-          url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/switcheroo-$VERSION+$MINECRAFT-sources-dev.jar?job=build"
-          link_type: "other"
         - name: "switcheroo-$CI_COMMIT_TAG+$MINECRAFT-sources.jar"
           url: "https://gitlab.com/NatoBoram/fabric-switcheroo/-/jobs/artifacts/$CI_COMMIT_TAG/raw/build/libs/switcheroo-$VERSION+$MINECRAFT-sources.jar?job=build"
           link_type: "other"

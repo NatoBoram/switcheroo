@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.0.9] - 2022-06-13
+
+### Added
+
 * Prefer Silk Touch on certain blocks
   * `/switcheroo prefer silk_touch`
     * `/switcheroo prefer silk_touch add dirt_path`
@@ -27,16 +41,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
   `snow`, `snow_block`, `soul_campfire`, `tube_coral`, `tube_coral_block`, `turtle_egg`, `twisting_vines`, `twisting_vines_plant`,
   `warped_nylium`, `weeping_vines`, `weeping_vines_plant`, `white_stained_glass`, `white_stained_glass_pane`, `yellow_stained_glass`
   and `yellow_stained_glass_pane`.
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [1.0.8] - 2022-06-8
 

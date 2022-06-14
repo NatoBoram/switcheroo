@@ -10,6 +10,9 @@
 	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "List of blocks to avoid switching on",
 	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
 	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "List of mobs to avoid switching on",
+	"text.autoconfig.switcheroo.option.prefer": "Prefer",
+	"text.autoconfig.switcheroo.option.prefer.silk_touch": "Silk Touch",
+	"text.autoconfig.switcheroo.option.prefer.silk_touch.@Tooltip": "List of blocks to prefer using Silk Touch on",
 	"text.autoconfig.switcheroo.option.debug": "Debug",
 	"text.autoconfig.switcheroo.option.debug.@Tooltip": "Shows additional information to the console."
 }

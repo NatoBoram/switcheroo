@@ -68,9 +68,8 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Use CROP_SWITCH to handle crops
-		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop) {
+		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)
 			return CROP_SWITCH.interact(player, world, hand, pos, direction);
-		}
 
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final PlayerInventory inventory = player.getInventory();
@@ -116,7 +115,8 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Keep Silk Touch
-		if (preferSilkTouch(block, config))
+		if (preferSilkTouch(block, config)
+				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) > 0))
 			tools.removeIf(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) <= 0);
 
 		// Filters enchanted items with low durability

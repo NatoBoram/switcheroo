@@ -69,7 +69,15 @@ public class Main implements ClientModInitializer {
 													.executes(Commands::alwaysFastestToggle)))
 									.then(literal("minDurability").executes(Commands::minDurability)
 											.then(argument("integer", IntegerArgumentType.integer())
-													.executes(Commands::minDurabilitySet))));
+													.executes(Commands::minDurabilitySet)))
+									.then(literal("prefer").then(literal("silk_touch")
+											.executes(Commands::preferSilkTouch)
+											.then(literal("add").then(
+													argument("block", BlockIdentifierArgumentType.blockIdentifier())
+															.executes(Commands::preferSilkTouchAdd)))
+											.then(literal("remove").then(
+													argument("block", BlockIdentifierArgumentType.blockIdentifier())
+															.executes(Commands::preferSilkTouchRemove))))));
 		});
 
 		LOGGER.info("Loaded Switcheroo!");

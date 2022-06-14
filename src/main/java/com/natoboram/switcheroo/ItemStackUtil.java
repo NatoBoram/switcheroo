@@ -101,8 +101,8 @@ public class ItemStackUtil {
 
 	/** Removes enchanted items that have only 5 durability left. */
 	public static boolean removeDamagedEnchantedItems(final ArrayList<ItemStack> items, final SwitcherooConfig config) {
-		return items.removeIf(item -> !item.getEnchantments().isEmpty()
-				&& item.getMaxDamage() - item.getDamage() <= config.minDurability);
+		return items.removeIf(
+				item -> item.hasEnchantments() && item.getMaxDamage() - item.getDamage() <= config.minDurability);
 	}
 
 	public static boolean keepMostDamagedItems(final ArrayList<ItemStack> items) {

@@ -1,5 +1,6 @@
 # [Switcheroo](https://gitlab.com/NatoBoram/fabric-switcheroo)
 
+[![Latest Release](https://gitlab.com/NatoBoram/switcheroo/-/badges/release.svg)](https://gitlab.com/NatoBoram/switcheroo/-/releases)
 [![Modrinth Downloads](https://img.shields.io/badge/dynamic/json?color=5da426&label=Modrinth&query=downloads&suffix=%20downloads&url=https%3A%2F%2Fapi.modrinth.com%2Fapi%2Fv1%2Fmod%2Fwq6HaMZG)](https://modrinth.com/mod/switcheroo)
 [![minepkg](https://img.shields.io/badge/dynamic/json?color=ff9800&label=minepkg&query=stats.totalDownloads&suffix=%20downloads&url=https%3A%2F%2Fapi.preview.minepkg.io%2Fv1%2Fprojects%2Fswitcheroo)](https://preview.minepkg.io/projects/switcheroo)
 [![CurseForge Downloads](https://img.shields.io/badge/dynamic/json?color=f16436&label=CurseForge&query=downloads.total&suffix=%20downloads&url=https%3A%2F%2Fapi.cfwidget.com%2F441128)](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
@@ -30,6 +31,11 @@ to attack entities.
   * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
   * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
 * Doesn't consider items when they have 5 durability or less
+* Prefer Silk Touch on certain blocks
+  * `/switcheroo prefer silk_touch`
+    * `/switcheroo prefer silk_touch add dirt_path`
+    * `/switcheroo prefer silk_touch remove dirt_path`
+  * The Silk Touch selection is really shaky, though. Use at your own risk.
 
 ## Installation
 

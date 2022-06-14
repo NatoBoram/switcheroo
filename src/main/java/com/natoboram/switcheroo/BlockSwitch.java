@@ -18,6 +18,8 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.AxeItem;
@@ -66,9 +68,8 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Use CROP_SWITCH to handle crops
-		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop) {
+		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)
 			return CROP_SWITCH.interact(player, world, hand, pos, direction);
-		}
 
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final PlayerInventory inventory = player.getInventory();
@@ -106,7 +107,17 @@ public class BlockSwitch implements AttackBlockCallback {
 							&& !(stack.getItem() instanceof SwordItem) && axeFilter(block, stack.getItem()))
 						tools.add(stack);
 
+			// Add Silk Touch
+			if (tools.isEmpty() && preferSilkTouch(block, config))
+				for (final ItemStack stack : inventory.main)
+					if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) > 0)
+						tools.add(stack);
 		}
+
+		// Keep Silk Touch
+		if (preferSilkTouch(block, config)
+				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) > 0))
+			tools.removeIf(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) <= 0);
 
 		// Filters enchanted items with low durability
 		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
@@ -158,6 +169,27 @@ public class BlockSwitch implements AttackBlockCallback {
 			case 2:
 			default:
 				if (id.toString().equals(blacklisted))
+					return true;
+				break;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean preferSilkTouch(final Block block, final SwitcherooConfig config) {
+		final Identifier id = Registry.BLOCK.getId(block);
+		final String[] blocks = config.prefer.silk_touch.split(" ");
+
+		for (final String blockId : blocks) {
+			switch (blockId.split(":").length) {
+			case 1:
+				if (id.toString().equals("minecraft:" + blockId))
+					return true;
+				break;
+			case 2:
+			default:
+				if (id.toString().equals(blockId))
 					return true;
 				break;
 			}

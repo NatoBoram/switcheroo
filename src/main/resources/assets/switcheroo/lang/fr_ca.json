@@ -10,6 +10,9 @@
 	"text.autoconfig.switcheroo.option.blacklist.blocks.@Tooltip": "Liste de blocs à ignorer",
 	"text.autoconfig.switcheroo.option.blacklist.mobs": "Mobs",
 	"text.autoconfig.switcheroo.option.blacklist.mobs.@Tooltip": "Liste de mobs à ignorer",
+	"text.autoconfig.switcheroo.option.prefer": "Préférer",
+	"text.autoconfig.switcheroo.option.prefer.silk_touch": "Silk Touch",
+	"text.autoconfig.switcheroo.option.prefer.silk_touch.@Tooltip": "Liste de blocks sur lesquels prioriser Silk Touch",
 	"text.autoconfig.switcheroo.option.debug": "Déboggage",
 	"text.autoconfig.switcheroo.option.debug.@Tooltip": "Affiche plus d'information de déboggage dans la console."
 }

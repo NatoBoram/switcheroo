@@ -8,6 +8,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+* Prefer Silk Touch on certain blocks
+  * `/switcheroo prefer silk_touch`
+    * `/switcheroo prefer silk_touch add dirt_path`
+    * `/switcheroo prefer silk_touch remove dirt_path`
+  * By default, prefers Silk Touch on `bee_nest`, `beehive`, `black_stained_glass`, `black_stained_glass_pane`, `blue_ice`,
+  `blue_stained_glass`, `blue_stained_glass_pane`, `bookshelf`, `brain_coral`, `brain_coral_block`, `brown_mushroom_block`,
+  `brown_stained_glass`, `brown_stained_glass_pane`, `bubble_coral`, `bubble_coral_block`, `campfire`, `crimson_nylium`,
+  `cyan_stained_glass`, `cyan_stained_glass_pane`, `dirt_path`, `ender_chest`, `fire_coral`, `fire_coral_block`, `glass`,
+  `glass_pane`, `gray_stained_glass`, `gray_stained_glass_pane`, `green_stained_glass`, `green_stained_glass_pane`, `horn_coral`,
+  `horn_coral_block`, `ice`, `infested_chiseled_stone_bricks`, `infested_cobblestone`, `infested_cracked_stone_bricks`,
+  `infested_deepslate`, `infested_mossy_stone_bricks`, `infested_stone`, `infested_stone_bricks`, `large_amethyst_bud`,
+  `light_blue_stained_glass`, `light_blue_stained_glass_pane`, `light_gray_stained_glass`, `light_gray_stained_glass_pane`,
+  `lime_stained_glass`, `lime_stained_glass_pane`, `magenta_stained_glass`, `magenta_stained_glass_pane`, `medium_amethyst_bud`,
+  `mushroom_stem`, `mycelium`, `orange_stained_glass`, `orange_stained_glass_pane`, `packed_ice`, `pink_stained_glass`,
+  `pink_stained_glass_pane`, `purple_stained_glass`, `purple_stained_glass_pane`, `red_mushroom_block`, `red_stained_glass`,
+  `red_stained_glass_pane`, `sculk`, `sculk_catalyst`, `sculk_sensor`, `sculk_shrieker`, `sculk_vein`, `sea_lantern`, `small_amethyst_bud`,
+  `snow`, `snow_block`, `soul_campfire`, `tube_coral`, `tube_coral_block`, `turtle_egg`, `twisting_vines`, `twisting_vines_plant`,
+  `warped_nylium`, `weeping_vines`, `weeping_vines_plant`, `white_stained_glass`, `white_stained_glass_pane`, `yellow_stained_glass`
+  and `yellow_stained_glass_pane`.
+
 ### Changed
 
 ### Deprecated

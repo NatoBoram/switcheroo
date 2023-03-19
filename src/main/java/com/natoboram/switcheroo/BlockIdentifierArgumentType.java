@@ -14,10 +14,9 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.argument.BlockStateArgumentType;
-import net.minecraft.command.argument.EntitySummonArgumentType;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 /**
  * Argument type for obtaining a block {@link Identifier}.
@@ -41,6 +40,11 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
 
+	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
+		Registries.BLOCK.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
+		return id;
+	}
+
 	@Override
 	public Collection<String> getExamples() {
 		return EXAMPLES;
@@ -51,7 +55,7 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 			final SuggestionsBuilder builder) {
 		final String remaining = builder.getRemaining();
 
-		Registry.BLOCK.getIds().forEach(id -> {
+		Registries.BLOCK.getIds().forEach(id -> {
 			if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
 				builder.suggest(id.toString());
 		});
@@ -62,10 +66,5 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	@Override
 	public Identifier parse(final StringReader reader) throws CommandSyntaxException {
 		return validate(Identifier.fromCommandInput(reader));
-	}
-
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registry.BLOCK.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
 	}
 }

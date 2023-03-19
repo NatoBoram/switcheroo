@@ -14,16 +14,16 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.argument.BlockStateArgumentType;
-import net.minecraft.command.argument.EntitySummonArgumentType;
+import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 /**
  * Argument type for obtaining an entity {@link Identifier}.
  *
  * @see BlockStateArgumentType
- * @see EntitySummonArgumentType
+ * @see EntityArgumentType
  */
 public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	private static final Collection<String> EXAMPLES = Arrays.asList("minecraft:pig", "cow");
@@ -34,6 +34,11 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 
 	public static EntityIdentifierArgumentType entityIdentifier() {
 		return new EntityIdentifierArgumentType();
+	}
+
+	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
+		Registries.ENTITY_TYPE.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
+		return id;
 	}
 
 	public Identifier getEntityIdentifier(final CommandContext<FabricClientCommandSource> context, final String name)
@@ -51,7 +56,7 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 			final SuggestionsBuilder builder) {
 		final String remaining = builder.getRemaining();
 
-		Registry.ENTITY_TYPE.getIds().forEach(id -> {
+		Registries.ENTITY_TYPE.getIds().forEach(id -> {
 			if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
 				builder.suggest(id.toString());
 		});
@@ -62,10 +67,5 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	@Override
 	public Identifier parse(final StringReader stringReader) throws CommandSyntaxException {
 		return validate(Identifier.fromCommandInput(stringReader));
-	}
-
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registry.ENTITY_TYPE.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
 	}
 }

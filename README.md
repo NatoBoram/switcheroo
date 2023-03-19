@@ -12,9 +12,9 @@ Switch your currently held item for an effective item when clicking on a block.
 
 ## Usage
 
-* Click on a block or entity to switch to the appropriate item
-  * Press *Sneak* to prevent the switch from happening
-  * Press *Sprint* to use the most effective item
+- Click on a block or entity to switch to the appropriate item
+  - Press _Sneak_ to prevent the switch from happening
+  - Press _Sprint_ to use the most effective item
 
 Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item per seconds
 to attack entities.
@@ -25,19 +25,19 @@ to attack entities.
 
 ## Features
 
-* Switcheroo when clicking blocks
-* Switcheroo when clicking mobs
-  * Uses max damage per seconds for mobs
-  * Uses max attack damage for players
-* Blacklist
-  * Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
-  * Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
-* Doesn't consider items when they have 5 durability or less
-* Prefer Silk Touch on certain blocks
-  * `/switcheroo prefer silk_touch`
-    * `/switcheroo prefer silk_touch add dirt_path`
-    * `/switcheroo prefer silk_touch remove dirt_path`
-  * The Silk Touch selection is really shaky, though. Use at your own risk.
+- Switcheroo when clicking blocks
+- Switcheroo when clicking mobs
+  - Uses max damage per seconds for mobs
+  - Uses max attack damage for players
+- Blacklist
+  - Accessible via `/switcheroo blacklist blocks` and `/switcheroo blacklist mobs`
+  - Compatible with [ModMenu](https://github.com/TerraformersMC/ModMenu)
+- Doesn't consider items when they have 5 durability or less
+- Prefer Silk Touch on certain blocks
+  - `/switcheroo prefer silk_touch`
+    - `/switcheroo prefer silk_touch add dirt_path`
+    - `/switcheroo prefer silk_touch remove dirt_path`
+  - The Silk Touch selection is really shaky, though. Use at your own risk.
 
 ## Installation
 
@@ -48,10 +48,10 @@ to attack entities.
 Downloads are available in [Releases](https://gitlab.com/NatoBoram/fabric-switcheroo/-/releases). You can also test
 development builds by downloading them form the [Pipelines](https://gitlab.com/NatoBoram/fabric-switcheroo/-/pipelines).
 
-* [Modrinth](https://modrinth.com/mod/switcheroo)
-* [minepkg](https://preview.minepkg.io/projects/switcheroo)
-* [CurseForge](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
-* [Planet Minecraft](https://www.planetminecraft.com/mod/switcheroo-5459816)
+- [Modrinth](https://modrinth.com/mod/switcheroo)
+- [minepkg](https://preview.minepkg.io/projects/switcheroo)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
+- [Planet Minecraft](https://www.planetminecraft.com/mod/switcheroo-5459816)
 
 ## Contributing
 

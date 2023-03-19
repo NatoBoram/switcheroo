@@ -6,7 +6,7 @@ manifestVersion = 0
 type = "mod"
 name = "switcheroo"
 description = "Switch your currently held item for an effective item when clicking on a block."
-version = "1.0.9"
+version = "1.0.10"
 platform = "fabric"
 license = "GPL-3.0-or-later"
 source = "https://gitlab.com/NatoBoram/fabric-switcheroo"
@@ -15,12 +15,12 @@ author = "Nato Boram"
 
 # These are global requirements
 [requirements]
-minecraft = ">=1.19"
-fabricLoader = ">=0.14.7"
+minecraft = ">=1.19.4"
+fabricLoader = ">=0.14.17"
 
 [dependencies]
-cloth-config = ">=7.0.69+mpkg.1"
-fabric = ">=0.55.3+1.19"
+cloth-config = ">=10.0.96+mpkg.1"
+fabric = ">=0.76.0+1.19.4"
 
 [dev]
 buildCommand = "./gradlew build"

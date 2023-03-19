@@ -21,20 +21,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.TridentItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 /** Execute a switcheroo action when attacking an entity. */
 @Environment(EnvType.CLIENT)
 public class EntitySwitch implements AttackEntityCallback {
 
-	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 
 	EntitySwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
@@ -105,7 +105,7 @@ public class EntitySwitch implements AttackEntityCallback {
 	}
 
 	private boolean isBlacklisted(final LivingEntity livingEntity, final SwitcherooConfig config) {
-		final Identifier id = Registry.ENTITY_TYPE.getId(livingEntity.getType());
+		final Identifier id = Registries.ENTITY_TYPE.getId(livingEntity.getType());
 		final String[] blacklist = config.blacklist.mobs.split(" ");
 
 		for (final String blacklisted : blacklist) {

@@ -28,22 +28,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.SwordItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 /** Execute a switcheroo action when attacking a block. */
 @Environment(EnvType.CLIENT)
 public class BlockSwitch implements AttackBlockCallback {
 
-	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
-	private final CropSwitch CROP_SWITCH;
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
+	private final CropSwitch CROP_SWITCH;
 
 	BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
@@ -157,7 +157,7 @@ public class BlockSwitch implements AttackBlockCallback {
 	}
 
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {
-		final Identifier id = Registry.BLOCK.getId(block);
+		final Identifier id = Registries.BLOCK.getId(block);
 		final String[] blacklist = config.blacklist.blocks.split(" ");
 
 		for (final String blacklisted : blacklist) {
@@ -178,7 +178,7 @@ public class BlockSwitch implements AttackBlockCallback {
 	}
 
 	private boolean preferSilkTouch(final Block block, final SwitcherooConfig config) {
-		final Identifier id = Registry.BLOCK.getId(block);
+		final Identifier id = Registries.BLOCK.getId(block);
 		final String[] blocks = config.prefer.silk_touch.split(" ");
 
 		for (final String blockId : blocks) {

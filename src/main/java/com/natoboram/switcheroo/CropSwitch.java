@@ -29,8 +29,8 @@ import net.minecraft.world.World;
 @Environment(EnvType.CLIENT)
 public class CropSwitch implements AttackBlockCallback {
 
-	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 
 	CropSwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;

@@ -6,11 +6,13 @@
 		"davidanson.vscode-markdownlint",
 		"editorconfig.editorconfig",
 		"gitlab.gitlab-workflow",
+		"redhat.java",
 		"redhat.vscode-xml",
 		"shengchen.vscode-checkstyle",
 		"tamasfe.even-better-toml",
 		"visualstudioexptteam.vscodeintellicode",
 		"vscjava.vscode-gradle",
+		"vscjava.vscode-java-debug",
 		"vscjava.vscode-java-pack"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.

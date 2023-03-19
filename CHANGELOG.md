@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
-- Updated to Minecraft 1.19.4
-
 ### Added
 
 ### Changed
@@ -19,6 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Fixed
 
 ### Security
+
+## [1.0.10] - 2023-03-19
+
+- Updated to Minecraft 1.19.4
 
 ## [1.0.9] - 2022-06-13
 

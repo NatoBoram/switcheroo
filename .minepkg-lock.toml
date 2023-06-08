@@ -4,41 +4,41 @@
 lockfileVersion = 1
 
 [fabric]
-  minecraft = "1.19.4"
-  fabricLoader = "0.14.17"
-  mapping = "1.19.4+build.1"
+  minecraft = "1.20"
+  fabricLoader = "0.14.21"
+  mapping = "1.20+build.1"
 
 [dependencies]
 
   [dependencies.cloth-config]
     name = "cloth-config"
-    version = "7.0.69+mpkg.1"
+    version = "10.0.96+mpkg.1"
     versionName = ""
     type = "mod"
-    ipfsHash = "QmUN6Uno6umgW8KmVZyYowhFkkAb1uwggvv3jpoZEJvEwe"
-    Sha256 = "35fe7b75fa1541832a97e3b1a62850756965bd669ec4c06aaacd6372fa5644ae"
-    url = "https://api.preview.minepkg.io/v1/releases/fabric/cloth-config@7.0.69+mpkg.1/download"
+    ipfsHash = "QmTJ3V8DBARmP9KdYSnviAF1g4E3iCosbDRft22YRBxLik"
+    Sha256 = "0d67f0004e501b9d9be1c75ef5b218d48ef8e1b0e2374310a915a826519575b9"
+    url = "https://api.preview.minepkg.io/v1/releases/fabric/cloth-config@10.0.96+mpkg.1/download"
     provider = "minepkg"
     dependent = ""
 
   [dependencies.fabric]
     name = "fabric"
-    version = "0.55.3+1.19.mpkg.1"
+    version = "0.76.0+1.19.4.mpkg.1"
     versionName = ""
     type = "mod"
-    ipfsHash = "QmQ9UmDMgnQLa8zUmXdH8N4pfGb9HPeNRw1JmFF9k5PbwF"
-    Sha256 = "25f101fd22fba2e9078e43ea0ddc3e45017d9db0aa58f857b871b973631c0a85"
-    url = "https://api.preview.minepkg.io/v1/releases/fabric/fabric@0.55.3+1.19.mpkg.1/download"
+    ipfsHash = "QmPkXR4psTFUZXWTKFhcZsZtjE1BGpB99uS3yad1zHkLMq"
+    Sha256 = "63f4afaebc91dfaa40102294b24309397c18c4c2f824920613f435d23b3b04c0"
+    url = "https://api.preview.minepkg.io/v1/releases/fabric/fabric@0.76.0+1.19.4.mpkg.1/download"
     provider = "minepkg"
     dependent = ""
 
   [dependencies.minepkg-companion]
     name = "minepkg-companion"
-    version = "0.5.1"
+    version = "0.7.0"
     versionName = ""
     type = "mod"
-    ipfsHash = "QmTEXDsrpysTEUJQRzBqMn5pZZ8Jwt8kmgrmvv4yRXmq7x"
-    Sha256 = "1184592fc170f13cce5e3b3bcae87282ed1a743b22b4e70e8f0d6beb082032db"
-    url = "https://api.preview.minepkg.io/v1/releases/fabric/minepkg-companion@0.5.1/download"
+    ipfsHash = "QmeEMaQt17m6u1ynFMKqVxa6tBx7wyHtHPrQn3g8DQ2Yww"
+    Sha256 = "e81e923c709140cdfc6f4532c9574abfedc771ca8979e71f5fa90fafc0a4d1ee"
+    url = "https://api.preview.minepkg.io/v1/releases/fabric/minepkg-companion@0.7.0/download"
     provider = "minepkg"
     dependent = ""

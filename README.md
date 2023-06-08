@@ -41,9 +41,9 @@ to attack entities.
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-10.0.96-9cff55)](https://github.com/shedaniel/cloth-config)
-[![fabric](https://img.shields.io/badge/Fabric%20API-0.76.0-dbd0b4)](https://github.com/FabricMC/fabric)
-[![modmenu](https://img.shields.io/badge/Mod%20Menu-6.1.0--rc.4-134bff)](https://github.com/TerraformersMC/ModMenu)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-11.0.98-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.83.0-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-7.0.0-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://gitlab.com/NatoBoram/fabric-switcheroo/-/releases). You can also test
 development builds by downloading them form the [Pipelines](https://gitlab.com/NatoBoram/fabric-switcheroo/-/pipelines).

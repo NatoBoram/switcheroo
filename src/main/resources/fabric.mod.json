@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "switcheroo",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"name": "Switcheroo",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"authors": ["Nato Boram"],

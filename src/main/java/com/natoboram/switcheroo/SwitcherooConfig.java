@@ -12,7 +12,7 @@ public class SwitcherooConfig implements ConfigData {
 		public String blocks = "budding_amethyst farmland";
 
 		@ConfigEntry.Gui.Tooltip()
-		public String mobs = "axolotl bat cat donkey fox horse mule ocelot parrot skeleton_horse snow_golem strider villager wandering_trader";
+		public String mobs = "allay axolotl bat cat donkey fox horse mule ocelot parrot skeleton_horse sniffer snow_golem strider villager wandering_trader";
 	}
 
 	public static class Prefer {

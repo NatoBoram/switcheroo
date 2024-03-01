@@ -9,8 +9,8 @@ description = "Switch your currently held item for an effective item when clicki
 version = "1.0.11"
 platform = "fabric"
 license = "GPL-3.0-or-later"
-source = "https://gitlab.com/NatoBoram/fabric-switcheroo"
-homepage = "https://gitlab.com/NatoBoram/fabric-switcheroo"
+source = "https://github.com/NatoBoram/switcheroo/"
+homepage = "https://github.com/NatoBoram/switcheroo/"
 author = "Nato Boram"
 
 # These are global requirements

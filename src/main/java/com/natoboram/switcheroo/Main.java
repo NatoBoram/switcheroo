@@ -1,13 +1,7 @@
 package com.natoboram.switcheroo;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -45,40 +39,7 @@ public class Main implements ClientModInitializer {
 		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
 
 		// Register commands
-		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-			dispatcher
-					.register(
-							literal(MOD_ID)
-									.then(literal("blacklist")
-											.then(literal("blocks").executes(Commands::blacklistBlocks)
-													.then(literal("add").then(argument(
-															"block", BlockIdentifierArgumentType.blockIdentifier())
-																	.executes(Commands::blacklistBlocksAdd)))
-													.then(literal("remove").then(argument(
-															"block", BlockIdentifierArgumentType.blockIdentifier())
-																	.executes(Commands::blacklistBlocksRemove))))
-											.then(literal("mobs").executes(Commands::blacklistMobs)
-													.then(literal("add").then(argument("mob",
-															EntityIdentifierArgumentType.entityIdentifier())
-																	.executes(Commands::blacklistMobsAdd)))
-													.then(literal("remove").then(argument("mob",
-															EntityIdentifierArgumentType.entityIdentifier())
-																	.executes(Commands::blacklistMobsRemove)))))
-									.then(literal("alwaysFastest").executes(Commands::alwaysFastest)
-											.then(argument("boolean", BoolArgumentType.bool())
-													.executes(Commands::alwaysFastestToggle)))
-									.then(literal("minDurability").executes(Commands::minDurability)
-											.then(argument("integer", IntegerArgumentType.integer())
-													.executes(Commands::minDurabilitySet)))
-									.then(literal("prefer").then(literal("silk_touch")
-											.executes(Commands::preferSilkTouch)
-											.then(literal("add").then(
-													argument("block", BlockIdentifierArgumentType.blockIdentifier())
-															.executes(Commands::preferSilkTouchAdd)))
-											.then(literal("remove").then(
-													argument("block", BlockIdentifierArgumentType.blockIdentifier())
-															.executes(Commands::preferSilkTouchRemove))))));
-		});
+		ClientCommandRegistrationCallback.EVENT.register(new RegisterCommands(MOD_ID));
 
 		LOGGER.info("Loaded Switcheroo!");
 	}

@@ -22,7 +22,6 @@ import net.minecraft.util.Identifier;
  * Argument type for obtaining a block {@link Identifier}.
  *
  * @see BlockStateArgumentType
- * @see EntitySummonArgumentType
  */
 public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	private static final Collection<String> EXAMPLES = Arrays.asList("stone", "minecraft:stone");

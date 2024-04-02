@@ -86,7 +86,7 @@ public class ItemStackUtil {
 
 	/**
 	 * Wrapper for {@link ItemStack#getMiningSpeedMultiplier} that takes into
-	 * account {@link Enchantments.EFFICIENCY} levels.
+	 * account efficiency levels.
 	 *
 	 * @see <a href= "https://minecraft.fandom.com/wiki/Efficiency">Efficiency</a>
 	 */

@@ -5,7 +5,6 @@
 [![minepkg](https://img.shields.io/badge/dynamic/json?color=ff9800&label=minepkg&query=stats.totalDownloads&suffix=%20downloads&url=https%3A%2F%2Fapi.preview.minepkg.io%2Fv1%2Fprojects%2Fswitcheroo)](https://preview.minepkg.io/projects/switcheroo)
 [![CurseForge Downloads](https://img.shields.io/badge/dynamic/json?color=f16436&label=CurseForge&query=downloads.total&suffix=%20downloads&url=https%3A%2F%2Fapi.cfwidget.com%2F441128)](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
 [![Planet Minecraft](https://img.shields.io/badge/Planet%20Minecraft-download-3366cc)](https://www.planetminecraft.com/mod/switcheroo-5459816/)
-[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/NatoBoram/switcheroo)
 
 Switch your currently held item for an effective item when clicking on a block.
 
@@ -40,9 +39,9 @@ to attack entities.
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-11.0.98-9cff55)](https://github.com/shedaniel/cloth-config)
-[![fabric](https://img.shields.io/badge/Fabric%20API-0.83.0-dbd0b4)](https://github.com/FabricMC/fabric)
-[![modmenu](https://img.shields.io/badge/Mod%20Menu-7.0.0-134bff)](https://github.com/TerraformersMC/ModMenu)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-11.1.118-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.92.0-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-7.2.2-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test
 development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions).

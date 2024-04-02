@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
+- Updated to Minecraft 1.20.1
+
 ### Deprecated
 
 ### Removed

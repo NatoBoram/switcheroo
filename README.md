@@ -18,7 +18,7 @@ Switch your currently held item for an effective item when clicking on a block.
 Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item per seconds
 to attack entities.
 
-![Trailer 220p 12fps](https://gitlab.com/NatoBoram/switcheroo/uploads/29726077fd22da26064d0a261b0d2ed1/switcheroo_3.gif)
+![Trailer GIF](https://github.com/NatoBoram/switcheroo/assets/10495562/2a2b7471-272d-43b8-98a2-fca5f7291289)
 
 [Demo](https://www.youtube.com/watch?v=JnvHyhDPlpY) | [Trailer](https://www.youtube.com/watch?v=SpE6-4D1x28) | [Meme](https://www.youtube.com/watch?v=2Wm2cTkdJzk)
 

@@ -1,6 +1,7 @@
 # [Switcheroo](https://github.com/NatoBoram/switcheroo/)
 
 [![Java CI](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml/badge.svg)](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml)
+[![GitHub Pages](https://github.com/NatoBoram/switcheroo/actions/workflows/github-pages.yaml/badge.svg)](https://github.com/NatoBoram/switcheroo/actions/workflows/github-pages.yaml)
 [![Modrinth Downloads](https://img.shields.io/badge/dynamic/json?color=1bd96a&label=Modrinth&query=downloads&suffix=%20downloads&url=https%3A%2F%2Fapi.modrinth.com%2Fv2%2Fproject%2Fwq6HaMZG)](https://modrinth.com/mod/switcheroo)
 [![minepkg](https://img.shields.io/badge/dynamic/json?color=ff9800&label=minepkg&query=stats.totalDownloads&suffix=%20downloads&url=https%3A%2F%2Fapi.preview.minepkg.io%2Fv1%2Fprojects%2Fswitcheroo)](https://preview.minepkg.io/projects/switcheroo)
 [![CurseForge Downloads](https://img.shields.io/badge/dynamic/json?color=f16436&label=CurseForge&query=downloads.total&suffix=%20downloads&url=https%3A%2F%2Fapi.cfwidget.com%2F441128)](https://www.curseforge.com/minecraft/mc-mods/switcheroo)

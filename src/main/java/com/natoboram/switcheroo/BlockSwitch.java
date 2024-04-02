@@ -12,6 +12,8 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BambooBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CaveVinesBodyBlock;
+import net.minecraft.block.CaveVinesHeadBlock;
 import net.minecraft.block.CobwebBlock;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.LeavesBlock;
@@ -81,8 +83,9 @@ public class BlockSwitch implements AttackBlockCallback {
 					tools.add(stack);
 		} else {
 
-			// Use shears on cobwebs, leaves and plants
-			if (block instanceof CobwebBlock || block instanceof LeavesBlock || block instanceof PlantBlock)
+			// Use shears on glow berries, cobwebs, leaves and plants
+			if (block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock || block instanceof CobwebBlock
+					|| block instanceof LeavesBlock || block instanceof PlantBlock)
 				for (final ItemStack stack : inventory.main)
 					if (stack.getItem() instanceof ShearsItem)
 						tools.add(stack);
@@ -162,15 +165,15 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 		}
 
@@ -183,15 +186,15 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		for (final String blockId : blocks) {
 			switch (blockId.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blockId))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blockId))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blockId))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blockId))
+						return true;
+					break;
 			}
 		}
 

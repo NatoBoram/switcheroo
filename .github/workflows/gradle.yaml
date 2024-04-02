@@ -25,6 +25,7 @@ jobs:
 
       - run: ./gradlew build
       - run: ./gradlew javadoc
+        if: github.ref_type != 'tag'
 
       - name: Sign
         if: github.actor != 'nektos/act' && github.actor != 'dependabot[bot]' && (github.ref_type == 'tag' || github.ref_name == 'main')

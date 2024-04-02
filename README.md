@@ -5,7 +5,6 @@
 [![minepkg](https://img.shields.io/badge/dynamic/json?color=ff9800&label=minepkg&query=stats.totalDownloads&suffix=%20downloads&url=https%3A%2F%2Fapi.preview.minepkg.io%2Fv1%2Fprojects%2Fswitcheroo)](https://preview.minepkg.io/projects/switcheroo)
 [![CurseForge Downloads](https://img.shields.io/badge/dynamic/json?color=f16436&label=CurseForge&query=downloads.total&suffix=%20downloads&url=https%3A%2F%2Fapi.cfwidget.com%2F441128)](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
 [![Planet Minecraft](https://img.shields.io/badge/Planet%20Minecraft-download-3366cc)](https://www.planetminecraft.com/mod/switcheroo-5459816/)
-[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/NatoBoram/switcheroo)
 
 Switch your currently held item for an effective item when clicking on a block.
 

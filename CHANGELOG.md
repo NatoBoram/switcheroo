@@ -10,17 +10,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
-- Updated to Minecraft 1.20.1
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
-- Now uses shears on glow berries
-
 ### Security
+
+## [1.0.12] - 2024-04-01
+
+### Changed
+
+- Updated to Minecraft 1.20.1
+
+### Fixed
+
+- Now uses shears on glow berries
 
 ## [1.0.11] - 2023-06-07
 

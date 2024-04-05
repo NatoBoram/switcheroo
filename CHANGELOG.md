@@ -151,9 +151,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 First public release.
 
-The switcheroo technically works, but it's kinda annoying and awkward to use. Please check the [issues](https://gitlab.com/NatoBoram/fabric-switcheroo/issues)
-if you want to contribute. Since it's my first Fabric project and my first client-side mod, there's a few things I don't
-really know how to do.
+The switcheroo technically works, but it's kinda annoying and awkward to use. Please check the [issues](https://github.com/NatoBoram/switcheroo/issues) if you want to contribute. Since it's my first Fabric project and my first client-side mod, there's a few things I don't really know how to do.
 
 ## Types of changes
 
@@ -163,3 +161,18 @@ really know how to do.
 - `Removed` for now removed features.
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
+
+[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.12...main
+[1.0.12]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.12
+[1.0.11]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.11
+[1.0.10]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.10
+[1.0.9]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.9
+[1.0.8]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.8
+[1.0.7]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.7
+[1.0.6]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.6
+[1.0.5]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.5
+[1.0.4]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.4
+[1.0.3]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.3
+[1.0.2]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.2
+[1.0.1]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.1
+[1.0.0]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.0

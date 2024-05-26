@@ -6,10 +6,10 @@
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"authors": ["Nato Boram"],
 	"contact": {
-		"homepage": "https://gitlab.com/NatoBoram/fabric-switcheroo",
-		"sources": "https://gitlab.com/NatoBoram/fabric-switcheroo",
-		"issues": "https://gitlab.com/NatoBoram/fabric-switcheroo/-/issues",
-		"email": "incoming+natoboram-fabric-switcheroo-13718909-issue-@incoming.gitlab.com"
+		"homepage": "https://github.com/NatoBoram/switcheroo",
+		"sources": "https://github.com/NatoBoram/switcheroo",
+		"issues": "https://github.com/NatoBoram/switcheroo/issues",
+		"email": "10495562+NatoBoram@users.noreply.github.com"
 	},
 	"license": "GPL-3.0-or-later",
 	"icon": "assets/switcheroo/icon.png",

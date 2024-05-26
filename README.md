@@ -1,4 +1,4 @@
-# [Switcheroo](https://github.com/NatoBoram/switcheroo/)
+# [Switcheroo](https://github.com/NatoBoram/switcheroo)
 
 [![Java CI](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml/badge.svg)](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml)
 [![GitHub Pages](https://github.com/NatoBoram/switcheroo/actions/workflows/github-pages.yaml/badge.svg)](https://github.com/NatoBoram/switcheroo/actions/workflows/github-pages.yaml)
@@ -15,8 +15,7 @@ Switch your currently held item for an effective item when clicking on a block.
   - Press _Sneak_ to prevent the switch from happening
   - Press _Sprint_ to use the most effective item
 
-Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item per seconds
-to attack entities.
+Switcheroo will use the least effective tool that's still effective to break blocks and the most damaging item per seconds to attack entities.
 
 ![Trailer GIF](https://github.com/NatoBoram/switcheroo/assets/10495562/2a2b7471-272d-43b8-98a2-fca5f7291289)
 
@@ -44,8 +43,7 @@ to attack entities.
 [![fabric](https://img.shields.io/badge/Fabric%20API-0.92.0-dbd0b4)](https://github.com/FabricMC/fabric)
 [![modmenu](https://img.shields.io/badge/Mod%20Menu-7.2.2-134bff)](https://github.com/TerraformersMC/ModMenu)
 
-Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test
-development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions).
+Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml?query=branch%3Amain).
 
 - [Modrinth](https://modrinth.com/mod/switcheroo)
 - [minepkg](https://preview.minepkg.io/projects/switcheroo)

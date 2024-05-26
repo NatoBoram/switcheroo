@@ -8,9 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
-- Now uses shears on vines
-- Now uses brush on suspicious blocks
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +17,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Fixed
 
 ### Security
+
+## [1.0.13] - 2024-05-25
+
+### Added
+
+- Now uses shears on vines
+- Now uses brush on suspicious blocks
 
 ## [1.0.12] - 2024-04-01
 
@@ -165,7 +169,8 @@ The switcheroo technically works, but it's kinda annoying and awkward to use. Pl
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.12...main
+[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.13...main
+[1.0.13]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.13
 [1.0.12]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.12
 [1.0.11]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.11
 [1.0.10]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.10

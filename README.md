@@ -43,7 +43,7 @@ Switcheroo will use the least effective tool that's still effective to break blo
 [![fabric](https://img.shields.io/badge/Fabric%20API-0.92.0-dbd0b4)](https://github.com/FabricMC/fabric)
 [![modmenu](https://img.shields.io/badge/Mod%20Menu-7.2.2-134bff)](https://github.com/TerraformersMC/ModMenu)
 
-Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions).
+Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml?query=branch%3Amain).
 
 - [Modrinth](https://modrinth.com/mod/switcheroo)
 - [minepkg](https://preview.minepkg.io/projects/switcheroo)

@@ -19,6 +19,7 @@ import net.minecraft.block.CropBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.block.SugarCaneBlock;
+import net.minecraft.block.VineBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -83,9 +84,9 @@ public class BlockSwitch implements AttackBlockCallback {
 					tools.add(stack);
 		} else {
 
-			// Use shears on glow berries, cobwebs, leaves and plants
+			// Use shears on glow berries, cobwebs, leaves, plants and vines
 			if (block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock || block instanceof CobwebBlock
-					|| block instanceof LeavesBlock || block instanceof PlantBlock)
+					|| block instanceof LeavesBlock || block instanceof PlantBlock || block instanceof VineBlock)
 				for (final ItemStack stack : inventory.main)
 					if (stack.getItem() instanceof ShearsItem)
 						tools.add(stack);
@@ -154,9 +155,10 @@ public class BlockSwitch implements AttackBlockCallback {
 		return ActionResult.PASS;
 	}
 
-	/** Axes shouldn't be used on tall grass and sugar cane. */
+	/** Axes shouldn't be used on tall grass, sugar cane nor vines. */
 	private boolean axeFilter(final Block block, final Item item) {
-		return !((block instanceof PlantBlock || block instanceof SugarCaneBlock) && item instanceof AxeItem);
+		return !((block instanceof PlantBlock || block instanceof SugarCaneBlock || block instanceof VineBlock)
+				&& item instanceof AxeItem);
 	}
 
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {

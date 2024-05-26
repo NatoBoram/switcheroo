@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+- Now uses shears on vines
+
 ### Changed
 
 ### Deprecated

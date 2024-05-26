@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BambooBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BrushableBlock;
 import net.minecraft.block.CaveVinesBodyBlock;
 import net.minecraft.block.CaveVinesHeadBlock;
 import net.minecraft.block.CobwebBlock;
@@ -26,6 +27,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.AxeItem;
+import net.minecraft.item.BrushItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -77,8 +79,15 @@ public class BlockSwitch implements AttackBlockCallback {
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final PlayerInventory inventory = player.getInventory();
 
-		// Use hoe on crops
-		if (block instanceof CropBlock) {
+		if (block instanceof BrushableBlock) {
+
+			// Use brush on suspicious blocks
+			for (final ItemStack stack : inventory.main)
+				if (stack.getItem() instanceof BrushItem)
+					tools.add(stack);
+		} else if (block instanceof CropBlock) {
+
+			// Use hoe on crops
 			for (final ItemStack stack : inventory.main)
 				if (stack.getItem() instanceof HoeItem)
 					tools.add(stack);

@@ -1,5 +1,14 @@
 package com.natoboram.switcheroo;
 
+import static com.natoboram.switcheroo.ItemStackUtil.getAttackDamage;
+import static com.natoboram.switcheroo.ItemStackUtil.getDps;
+import static com.natoboram.switcheroo.ItemStackUtil.getMaxAttackDamage;
+import static com.natoboram.switcheroo.ItemStackUtil.getMaxDps;
+import static com.natoboram.switcheroo.ItemStackUtil.keepMostAttackDamage;
+import static com.natoboram.switcheroo.ItemStackUtil.keepMostDamagedItems;
+import static com.natoboram.switcheroo.ItemStackUtil.keepMostDps;
+import static com.natoboram.switcheroo.ItemStackUtil.removeDamagedEnchantedItems;
+
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +21,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -68,36 +76,34 @@ public class EntitySwitch implements AttackEntityCallback {
 		}
 
 		// Filters enchanted items with low durability
-		ItemStackUtil.removeDamagedEnchantedItems(weapons, config);
+		removeDamagedEnchantedItems(weapons, config);
 
 		// Safety before launching streams
 		if (weapons.isEmpty())
 			return ActionResult.PASS;
 
-		final EntityGroup entityGroup = livingEntity.getGroup();
-
 		// Use max AD on players and max DPS on mobs
 		if (entity instanceof PlayerEntity) {
 
 			// Stop if there's already a max ad weapon in hand
-			final double maxAd = ItemStackUtil.getMaxAttackDamage(weapons, entityGroup);
-			final double currentAd = ItemStackUtil.getAttackDamage(CLIENT.player.getMainHandStack(), entityGroup);
+			final double maxAd = getMaxAttackDamage(weapons, entity, world);
+			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world);
 			if (currentAd >= maxAd || weapons.isEmpty())
 				return ActionResult.PASS;
 
-			ItemStackUtil.keepMostAttackDamage(weapons, entityGroup, maxAd);
+			keepMostAttackDamage(weapons, entity, maxAd, world);
 		} else {
 
 			// Stop if there's already a max dps weapon in hand
-			final double maxDps = ItemStackUtil.getMaxDps(weapons, entityGroup);
-			final double currentDps = ItemStackUtil.getDps(CLIENT.player.getMainHandStack(), entityGroup);
+			final double maxDps = getMaxDps(weapons, entity, world);
+			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world);
 			if (currentDps >= maxDps || weapons.isEmpty())
 				return ActionResult.PASS;
 
-			ItemStackUtil.keepMostDps(weapons, entityGroup, maxDps);
+			keepMostDps(weapons, entity, maxDps, world);
 		}
 
-		ItemStackUtil.keepMostDamagedItems(weapons);
+		keepMostDamagedItems(weapons);
 
 		if (!weapons.isEmpty())
 			Switch.switcheroo(player, weapons.get(0), config);
@@ -110,13 +116,13 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-			default:
-			case 2:
-				if (id.toString().equals(blacklisted))
-					return true;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+				default:
+				case 2:
+					if (id.toString().equals(blacklisted))
+						return true;
 			}
 		}
 		return false;

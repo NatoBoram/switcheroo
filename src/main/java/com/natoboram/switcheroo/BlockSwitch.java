@@ -22,6 +22,7 @@ import net.minecraft.block.PlantBlock;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.VineBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +34,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.SwordItem;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -71,6 +76,11 @@ public class BlockSwitch implements AttackBlockCallback {
 				LOGGER.info(block + " is blacklisted");
 			return ActionResult.PASS;
 		}
+
+		// Cache enchantments
+		final DynamicRegistryManager manager = world.getRegistryManager();
+		final Registry<Enchantment> enchantments = manager.get(RegistryKeys.ENCHANTMENT);
+		final RegistryEntry<Enchantment> silkTouchEntry = enchantments.getEntry(Enchantments.SILK_TOUCH).get();
 
 		// Use CROP_SWITCH to handle crops
 		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)
@@ -116,21 +126,21 @@ public class BlockSwitch implements AttackBlockCallback {
 			// If there's no effective tools, check for the mining speed
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
-					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState) > 1.0F
+					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F
 							&& !(stack.getItem() instanceof SwordItem) && axeFilter(block, stack.getItem()))
 						tools.add(stack);
 
 			// Add Silk Touch
 			if (tools.isEmpty() && preferSilkTouch(block, config))
 				for (final ItemStack stack : inventory.main)
-					if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) > 0)
+					if (EnchantmentHelper.getLevel(silkTouchEntry, stack) > 0)
 						tools.add(stack);
 		}
 
 		// Keep Silk Touch
 		if (preferSilkTouch(block, config)
-				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) > 0))
-			tools.removeIf(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) <= 0);
+				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0))
+			tools.removeIf(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) <= 0);
 
 		// Filters enchanted items with low durability
 		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
@@ -141,16 +151,17 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Get best or worst tool
 		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)
-			ItemStackUtil.keepFastestTools(tools, blockState);
+			ItemStackUtil.keepFastestTools(tools, blockState, world);
 		else
-			ItemStackUtil.keepSlowestTools(tools, blockState);
+			ItemStackUtil.keepSlowestTools(tools, blockState, world);
 
 		final ItemStack mainHand = player.getMainHandStack();
-		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState);
+		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState, world);
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream().anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState)
-				&& ItemStack.areItemsEqual(stack, mainHand))) {
+		if (tools.stream()
+				.anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+						&& ItemStack.areItemsEqual(stack, mainHand))) {
 			if (config.debug)
 				LOGGER.info("There's already a " + mainHand.getItem() + " in hand.");
 			return ActionResult.PASS;

@@ -10,9 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 
+- Updated to Minecraft 1.21
+
 ### Deprecated
 
 ### Removed
+
+- No longer switches item when clicking on entities
 
 ### Fixed
 

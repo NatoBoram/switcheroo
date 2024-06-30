@@ -5,7 +5,7 @@ import static net.minecraft.component.DataComponentTypes.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.component.DataComponentTypes.ENCHANTMENTS;
 import static net.minecraft.enchantment.Enchantments.EFFICIENCY;
 import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_DAMAGE;
-import static net.minecraft.item.Item.BASE_ATTACK_SPEED_MODIFIER_ID;
+import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_SPEED;
 import static net.minecraft.registry.RegistryKeys.ENCHANTMENT;
 
 import java.util.ArrayList;
@@ -29,8 +29,7 @@ import net.minecraft.enchantment.effect.EnchantmentValueEffect;
 import net.minecraft.enchantment.effect.value.AddEnchantmentEffect;
 import net.minecraft.enchantment.effect.value.MultiplyEnchantmentEffect;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.item.Item;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.condition.LootCondition;
@@ -52,13 +51,15 @@ public class ItemStackUtil {
 	 * Calculates the attack damage of the current player towards a specific entity
 	 * using a specific item stack.
 	 */
-	public static double getAttackDamage(final ItemStack stack, final Entity entity, final World world) {
-		LOGGER.info("Attacking with " + stack.getItem().getName().getString());
+	public static double getAttackDamage(final ItemStack stack, final Entity entity, final World world,
+			final SwitcherooConfig config) {
+		LOGGER.info("Calculating the damage of " + stack.getItem().getName().getString());
 		double damage = 0;
 
 		// Player damage
 		final double player = CLIENT.player.getAttributeValue(GENERIC_ATTACK_DAMAGE);
 		LOGGER.info("Player damage: " + player);
+		damage += player;
 
 		// Stack damage
 		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
@@ -80,10 +81,11 @@ public class ItemStackUtil {
 	 * Gets the maximum attack damage the current player can deal to a specific
 	 * entity using a list of weapons.
 	 */
-	public static double getMaxAttackDamage(final ArrayList<ItemStack> weapons, final Entity entity, final World world) {
+	public static double getMaxAttackDamage(final ArrayList<ItemStack> weapons, final Entity entity, final World world,
+			final SwitcherooConfig config) {
 		return getAttackDamage(
-				weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world))).get(),
-				entity, world);
+				weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world, config))).get(),
+				entity, world, config);
 	}
 
 	/**
@@ -91,44 +93,54 @@ public class ItemStackUtil {
 	 * player can deal to a specific entity.
 	 */
 	public static boolean keepMostAttackDamage(final ArrayList<ItemStack> weapons, final Entity entity,
-			@Nullable final Double maxAd, final World world) {
-		final double max = maxAd == null ? getMaxAttackDamage(weapons, entity, world) : maxAd.doubleValue();
-		return weapons.removeIf(stack -> max > getAttackDamage(stack, entity, world));
+			@Nullable final Double maxAd, final World world, final SwitcherooConfig config) {
+		final double max = maxAd == null ? getMaxAttackDamage(weapons, entity, world, config) : maxAd.doubleValue();
+		return weapons.removeIf(stack -> max > getAttackDamage(stack, entity, world, config));
 	}
 
 	/**
 	 * Calculates the attack speed of a specific item stack.
 	 */
-	public static double getAttackSpeed(final ItemStack stack) {
-
+	public static double getAttackSpeed(final ItemStack stack, final SwitcherooConfig config) {
 		double speed = 0F;
 
-		final Item item = stack.getItem();
-		final AttributeModifiersComponent component = item.getComponents().get(ATTRIBUTE_MODIFIERS);
+		final double player = CLIENT.player.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_SPEED);
+		if (config.debug)
+			LOGGER.info("Player speed: " + round(player));
+		speed += player;
 
-		for (final AttributeModifiersComponent.Entry entry : component.modifiers()) {
-			final EntityAttributeModifier modifier = entry.modifier();
+		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
+				.stream().filter((entry) -> entry.attribute().equals(GENERIC_ATTACK_SPEED))
+				.mapToDouble((entry) -> entry.modifier().value()).sum();
+		if (config.debug)
+			LOGGER.info("Weapon speed: " + round(weapon));
+		speed += weapon;
 
-			if (modifier.idMatches(BASE_ATTACK_SPEED_MODIFIER_ID))
-				speed += modifier.value();
-		}
-
+		if (config.debug)
+			LOGGER.info("Total speed: " + round(speed));
 		return speed;
+	}
+
+	public static double round(final double speed) {
+		return Math.round(speed * 10F) / 10F;
 	}
 
 	/**
 	 * Calculates the damage per seconds a player can deal using specific item stack
 	 * towards a specific entity.
 	 */
-	public static double getDps(final ItemStack stack, final Entity entity, final World world) {
-		return getAttackDamage(stack, entity, world) * getAttackSpeed(stack);
+	public static double getDps(final ItemStack stack, final Entity entity, final World world,
+			final SwitcherooConfig config) {
+		return getAttackDamage(stack, entity, world, config) * getAttackSpeed(stack, config);
 	}
 
 	/**
 	 * Gets the maximum damage per seconds a player can deal to a specific entity
 	 */
-	public static double getMaxDps(final ArrayList<ItemStack> weapons, final Entity entity, final World world) {
-		return getDps(weapons.stream().max(Comparator.comparing(item -> getDps(item, entity, world))).get(), entity, world);
+	public static double getMaxDps(final ArrayList<ItemStack> weapons, final Entity entity, final World world,
+			final SwitcherooConfig config) {
+		return getDps(weapons.stream().max(Comparator.comparing(item -> getDps(item, entity, world, config))).get(), entity,
+				world, config);
 	}
 
 	/**
@@ -136,9 +148,9 @@ public class ItemStackUtil {
 	 * seconds the player can deal to a specific entity.
 	 */
 	public static boolean keepMostDps(final ArrayList<ItemStack> weapons, final Entity entityGroup,
-			@Nullable final Double maxDps, final World world) {
-		final double max = maxDps == null ? getMaxDps(weapons, entityGroup, world) : maxDps.doubleValue();
-		return weapons.removeIf(stack -> max > getDps(stack, entityGroup, world));
+			@Nullable final Double maxDps, final World world, final SwitcherooConfig config) {
+		final double max = maxDps == null ? getMaxDps(weapons, entityGroup, world, config) : maxDps.doubleValue();
+		return weapons.removeIf(stack -> max > getDps(stack, entityGroup, world, config));
 	}
 
 	/**

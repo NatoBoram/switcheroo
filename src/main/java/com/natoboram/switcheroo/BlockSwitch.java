@@ -1,12 +1,13 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import me.shedaniel.autoconfig.ConfigHolder;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BambooBlock;
@@ -47,7 +48,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /** Execute a switcheroo action when attacking a block. */
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class BlockSwitch implements AttackBlockCallback {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
@@ -64,11 +65,15 @@ public class BlockSwitch implements AttackBlockCallback {
 	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final BlockPos pos,
 			final Direction direction) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
-		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled)
-			return ActionResult.PASS;
 
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
+
+		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled) {
+			if (config.debug)
+				LOGGER.info("Skipping interaction with block " + block.getName().getString());
+			return ActionResult.PASS;
+		}
 
 		// Blacklist some blocks
 		if (isBlacklisted(block, config)) {
@@ -146,8 +151,11 @@ public class BlockSwitch implements AttackBlockCallback {
 		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
 
 		// Safety before launching streams
-		if (tools.isEmpty())
+		if (tools.isEmpty()) {
+			if (config.debug)
+				LOGGER.info("No tools found");
 			return ActionResult.PASS;
+		}
 
 		// Get best or worst tool
 		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)

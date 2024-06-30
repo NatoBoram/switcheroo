@@ -1,5 +1,7 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,13 +11,12 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 final public class Commands {
 
 	static private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER = AutoConfig

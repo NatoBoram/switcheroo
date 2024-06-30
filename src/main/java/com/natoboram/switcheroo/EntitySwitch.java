@@ -8,6 +8,8 @@ import static com.natoboram.switcheroo.ItemStackUtil.keepMostAttackDamage;
 import static com.natoboram.switcheroo.ItemStackUtil.keepMostDamagedItems;
 import static com.natoboram.switcheroo.ItemStackUtil.keepMostDps;
 import static com.natoboram.switcheroo.ItemStackUtil.removeDamagedEnchantedItems;
+import static com.natoboram.switcheroo.ItemStackUtil.round;
+import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import me.shedaniel.autoconfig.ConfigHolder;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.client.MinecraftClient;
@@ -37,7 +38,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 /** Execute a switcheroo action when attacking an entity. */
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class EntitySwitch implements AttackEntityCallback {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
@@ -53,8 +54,11 @@ public class EntitySwitch implements AttackEntityCallback {
 			@Nullable final EntityHitResult hitResult) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		if (player.isSpectator() || player.isSneaking() || !entity.isLiving() || !entity.isAlive()
-				|| entity.isInvulnerable() || !config.enabled)
+				|| entity.isInvulnerable() || !config.enabled) {
+			if (config.debug)
+				LOGGER.info("Skipping interaction with entity " + entity.getName().getString());
 			return ActionResult.PASS;
+		}
 
 		final LivingEntity livingEntity = (LivingEntity) entity;
 
@@ -79,28 +83,37 @@ public class EntitySwitch implements AttackEntityCallback {
 		removeDamagedEnchantedItems(weapons, config);
 
 		// Safety before launching streams
-		if (weapons.isEmpty())
+		if (weapons.isEmpty()) {
+			if (config.debug)
+				LOGGER.info("No weapons found");
 			return ActionResult.PASS;
+		}
 
 		// Use max AD on players and max DPS on mobs
 		if (entity instanceof PlayerEntity) {
 
 			// Stop if there's already a max ad weapon in hand
-			final double maxAd = getMaxAttackDamage(weapons, entity, world);
-			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world);
-			if (currentAd >= maxAd || weapons.isEmpty())
+			final double maxAd = getMaxAttackDamage(weapons, entity, world, config);
+			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world, config);
+			if (currentAd >= maxAd || weapons.isEmpty()) {
+				if (config.debug)
+					LOGGER.info("Current AD is already maxed");
 				return ActionResult.PASS;
+			}
 
-			keepMostAttackDamage(weapons, entity, maxAd, world);
+			keepMostAttackDamage(weapons, entity, maxAd, world, config);
 		} else {
 
 			// Stop if there's already a max dps weapon in hand
-			final double maxDps = getMaxDps(weapons, entity, world);
-			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world);
-			if (currentDps >= maxDps || weapons.isEmpty())
+			final double maxDps = getMaxDps(weapons, entity, world, config);
+			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world, config);
+			if (currentDps >= maxDps || weapons.isEmpty()) {
+				if (config.debug)
+					LOGGER.info("Current DPS is already maxed at " + round(currentDps) + "/" + round(maxDps));
 				return ActionResult.PASS;
+			}
 
-			keepMostDps(weapons, entity, maxDps, world);
+			keepMostDps(weapons, entity, maxDps, world, config);
 		}
 
 		keepMostDamagedItems(weapons);

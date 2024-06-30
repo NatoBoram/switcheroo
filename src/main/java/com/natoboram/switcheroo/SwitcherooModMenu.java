@@ -1,13 +1,14 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class SwitcherooModMenu implements ModMenuApi {
 
 	@Override

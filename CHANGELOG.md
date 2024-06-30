@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+- `/switcheroo enable` and `/switcheroo disable` commands
+
 ### Changed
 
 - Updated to Minecraft 1.21
@@ -15,8 +17,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Deprecated
 
 ### Removed
-
-- No longer switches item when clicking on entities
 
 ### Fixed
 

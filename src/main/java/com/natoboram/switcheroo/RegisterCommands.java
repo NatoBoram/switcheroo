@@ -22,6 +22,9 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 	public void register(final CommandDispatcher<FabricClientCommandSource> dispatcher,
 			final CommandRegistryAccess registryAccess) {
 
+		final var enable = literal("enable").executes(Commands::enable);
+		final var disable = literal("disable").executes(Commands::disable);
+
 		final var blocks = literal("blocks").executes(Commands::blacklistBlocks)
 				.then(literal("add").then(
 						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksAdd)))
@@ -53,6 +56,8 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 								.executes(Commands::preferSilkTouchRemove))));
 
 		final var switcheroo = literal(MOD_ID)
+				.then(enable)
+				.then(disable)
 				.then(alwaysFastest)
 				.then(blacklist)
 				.then(minDurability)

@@ -51,12 +51,12 @@ public class EntitySwitch implements AttackEntityCallback {
 	@Override
 	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final Entity entity,
 			@Nullable final EntityHitResult hitResult) {
+		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		if (player.isSpectator() || player.isSneaking() || !entity.isLiving() || !entity.isAlive()
-				|| entity.isInvulnerable())
+				|| entity.isInvulnerable() || !config.enabled)
 			return ActionResult.PASS;
 
 		final LivingEntity livingEntity = (LivingEntity) entity;
-		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 
 		if (isBlacklisted(livingEntity, config)) {
 			if (config.debug)

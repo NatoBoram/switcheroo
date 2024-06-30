@@ -11,6 +11,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 
 @Environment(EnvType.CLIENT)
 public class Main implements ClientModInitializer {
@@ -35,7 +36,7 @@ public class Main implements ClientModInitializer {
 
 		// Register switcheroos
 		AttackBlockCallback.EVENT.register(new BlockSwitch(holder));
-		// AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
+		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
 
 		// Register commands
 		ClientCommandRegistrationCallback.EVENT.register(new RegisterCommands(MOD_ID));

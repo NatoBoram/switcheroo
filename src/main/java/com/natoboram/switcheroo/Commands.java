@@ -21,6 +21,20 @@ final public class Commands {
 	static private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER = AutoConfig
 			.getConfigHolder(SwitcherooConfig.class);
 
+	static public int enable(final CommandContext<FabricClientCommandSource> command) {
+		CONFIG_HOLDER.getConfig().enabled = true;
+		CONFIG_HOLDER.save();
+		command.getSource().sendFeedback(Text.of("Switcheroo is now §aenabled§f."));
+		return Command.SINGLE_SUCCESS;
+	}
+
+	static public int disable(final CommandContext<FabricClientCommandSource> command) {
+		CONFIG_HOLDER.getConfig().enabled = false;
+		CONFIG_HOLDER.save();
+		command.getSource().sendFeedback(Text.of("Switcheroo is now §7disabled§f."));
+		return Command.SINGLE_SUCCESS;
+	}
+
 	/**
 	 * Shows the list of blacklisted blocks.
 	 *
@@ -64,15 +78,15 @@ final public class Commands {
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 			return false;
 		});
@@ -132,15 +146,15 @@ final public class Commands {
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + blacklisted))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(blacklisted))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(blacklisted))
+						return true;
+					break;
 			}
 			return false;
 		});
@@ -251,15 +265,15 @@ final public class Commands {
 
 		prefer.removeIf(preferred -> {
 			switch (preferred.split(":").length) {
-			case 1:
-				if (id.toString().equals("minecraft:" + preferred))
-					return true;
-				break;
-			case 2:
-			default:
-				if (id.toString().equals(preferred))
-					return true;
-				break;
+				case 1:
+					if (id.toString().equals("minecraft:" + preferred))
+						return true;
+					break;
+				case 2:
+				default:
+					if (id.toString().equals(preferred))
+						return true;
+					break;
 			}
 			return false;
 		});

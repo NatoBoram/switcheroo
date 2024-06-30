@@ -63,12 +63,12 @@ public class BlockSwitch implements AttackBlockCallback {
 	@Override
 	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final BlockPos pos,
 			final Direction direction) {
-		if (player.isCreative() || player.isSpectator() || player.isSneaking())
+		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
+		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled)
 			return ActionResult.PASS;
 
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
-		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 
 		// Blacklist some blocks
 		if (isBlacklisted(block, config)) {

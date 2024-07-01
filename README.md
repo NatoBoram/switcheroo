@@ -36,6 +36,7 @@ Switcheroo will use the least effective tool that's still effective to break blo
     - `/switcheroo prefer silk_touch add dirt_path`
     - `/switcheroo prefer silk_touch remove dirt_path`
   - The Silk Touch selection is really shaky, though. Use at your own risk.
+- Enable or disable it with `/switcheroo enable` and `/switcheroo disable`
 
 ## Installation
 

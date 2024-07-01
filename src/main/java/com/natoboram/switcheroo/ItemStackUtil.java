@@ -261,14 +261,14 @@ public class ItemStackUtil {
 									final String description = enchantment.description().getString();
 									final String name = entity.getName().getString();
 
-									if (matches)
+									if (matches) {
 										if (config.debug)
 											LOGGER.info("Enchantment {} applies to {}", description, name);
-										else {
-											if (config.debug)
-												LOGGER.info("Enchantment {} does not apply to {}", description, name);
-											continue;
-										}
+									} else {
+										if (config.debug)
+											LOGGER.info("Enchantment {} does not apply to {}", description, name);
+										continue;
+									}
 								}
 							}
 						}

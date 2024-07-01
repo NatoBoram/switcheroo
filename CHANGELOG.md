@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.0.14] - 2024-06-30
+
 > [!NOTE]
 > The Mace has lower damage per seconds than bare hands. The mod will not attempt to switch out of it, but won't switch into it either.
 
@@ -19,14 +33,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Changed
 
 - Updated to Minecraft 1.21
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [1.0.13] - 2024-05-25
 
@@ -179,7 +185,8 @@ The switcheroo technically works, but it's kinda annoying and awkward to use. Pl
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.13...main
+[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.14...main
+[1.0.14]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.14
 [1.0.13]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.13
 [1.0.12]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.12
 [1.0.11]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.11

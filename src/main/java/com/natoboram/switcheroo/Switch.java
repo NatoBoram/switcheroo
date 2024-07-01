@@ -26,26 +26,26 @@ public class Switch {
 	public static void switcheroo(final PlayerEntity player, final ItemStack item, final SwitcherooConfig config) {
 		final PlayerInventory inventory = player.getInventory();
 
+		final String itemName = item.getName().getString();
 		final int slot = inventory.getSlotWithStack(item);
 		if (slot == -1) {
-			LOGGER.warn("Item " + item.getName().getString() + " not found in inventory");
+			LOGGER.warn("Item {} not found in inventory", itemName);
 			return;
 		}
 
 		if (config.debug)
-			LOGGER.info("Switching for " + item.getName().getString());
+			LOGGER.info("Switching for {}", itemName);
 
 		if (PlayerInventory.isValidHotbarIndex(slot)) {
 			// Select the item from the hotbar
 			if (config.debug)
-				LOGGER.info("Selecting slot " + slot);
+				LOGGER.info("Selecting slot {}", slot);
 			inventory.selectedSlot = slot;
 		} else {
 			// Pick the item from the inventory
 			if (config.debug)
-				LOGGER.info("Picking from slot " + slot);
+				LOGGER.info("Picking from slot {}", slot);
 			CLIENT.interactionManager.pickFromInventory(slot);
 		}
 	}
-
 }

@@ -53,27 +53,32 @@ public class ItemStackUtil {
 	 */
 	public static double getAttackDamage(final ItemStack stack, final Entity entity, final World world,
 			final SwitcherooConfig config) {
-		LOGGER.info("Calculating the damage of " + stack.getItem().getName().getString());
+		if (config.debug)
+			LOGGER.info("Calculating the damage of {}", stack.getItem().getName().getString());
 		double damage = 0;
 
 		// Player damage
-		final double player = CLIENT.player.getAttributeValue(GENERIC_ATTACK_DAMAGE);
-		LOGGER.info("Player damage: " + player);
+		final double player = CLIENT.player.getAttributeBaseValue(GENERIC_ATTACK_DAMAGE);
+		if (config.debug)
+			LOGGER.info("Player damage: {}", player);
 		damage += player;
 
 		// Stack damage
 		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
 				.stream().filter((entry) -> entry.attribute().equals(GENERIC_ATTACK_DAMAGE))
 				.mapToDouble((entry) -> entry.modifier().value()).sum();
-		LOGGER.info("Weapon damage: " + weapon);
+		if (config.debug)
+			LOGGER.info("Weapon damage: {}", weapon);
 		damage += weapon;
 
 		// Enchantment damage
-		final double enchantments = getEnchantmentDamage(stack, entity, damage);
-		LOGGER.info("Enchantment damage: " + enchantments);
+		final double enchantments = getEnchantmentDamage(stack, entity, damage, config);
+		if (config.debug)
+			LOGGER.info("Enchantment damage: {}", enchantments);
 		damage += enchantments;
 
-		LOGGER.info("Total damage: " + damage);
+		if (config.debug)
+			LOGGER.info("Total damage: {}", damage);
 		return damage;
 	}
 
@@ -106,23 +111,23 @@ public class ItemStackUtil {
 
 		final double player = CLIENT.player.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_SPEED);
 		if (config.debug)
-			LOGGER.info("Player speed: " + round(player));
+			LOGGER.info("Player speed: {}", round(player));
 		speed += player;
 
 		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
 				.stream().filter((entry) -> entry.attribute().equals(GENERIC_ATTACK_SPEED))
 				.mapToDouble((entry) -> entry.modifier().value()).sum();
 		if (config.debug)
-			LOGGER.info("Weapon speed: " + round(weapon));
+			LOGGER.info("Weapon speed: {}", round(weapon));
 		speed += weapon;
 
 		if (config.debug)
-			LOGGER.info("Total speed: " + round(speed));
+			LOGGER.info("Total speed: {}", round(speed));
 		return speed;
 	}
 
 	public static double round(final double speed) {
-		return Math.round(speed * 10F) / 10F;
+		return Math.round(speed * 10.0) / 10.0;
 	}
 
 	/**
@@ -218,7 +223,8 @@ public class ItemStackUtil {
 	}
 
 	/** Calculates the enchantment damage done by a weapon to an entity. */
-	static double getEnchantmentDamage(final ItemStack stack, final Entity entity, final double damage) {
+	static double getEnchantmentDamage(final ItemStack stack, final Entity entity, final double damage,
+			final SwitcherooConfig config) {
 		final ItemEnchantmentsComponent component = stack.getOrDefault(ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
 		final var entries = component.getEnchantmentEntries();
 
@@ -256,11 +262,13 @@ public class ItemStackUtil {
 									final String name = entity.getName().getString();
 
 									if (matches)
-										LOGGER.info("Enchantment " + description + " applies to " + name);
-									else {
-										LOGGER.info("Enchantment " + description + " does not apply to " + name);
-										continue;
-									}
+										if (config.debug)
+											LOGGER.info("Enchantment {} applies to {}", description, name);
+										else {
+											if (config.debug)
+												LOGGER.info("Enchantment {} does not apply to {}", description, name);
+											continue;
+										}
 								}
 							}
 						}
@@ -271,15 +279,17 @@ public class ItemStackUtil {
 				if (operator instanceof AddEnchantmentEffect) {
 					final AddEnchantmentEffect add = (AddEnchantmentEffect) operator;
 					final float added = add.value().getValue(level);
-					LOGGER.info("Added: " + added);
+					if (config.debug)
+						LOGGER.info("Added: {}", round(added));
 					bonus += added;
 				} else if (operator instanceof MultiplyEnchantmentEffect) {
 					final MultiplyEnchantmentEffect multiply = (MultiplyEnchantmentEffect) operator;
 					final float multiplied = multiply.factor().getValue(level);
-					LOGGER.info("Multiplied: " + multiplied);
+					if (config.debug)
+						LOGGER.info("Multiplied: {}", round(multiplied));
 					bonus *= multiplied;
 				} else {
-					LOGGER.warn("Unknown operator: " + operator);
+					LOGGER.warn("Unknown operator: {}", operator);
 				}
 			}
 		}

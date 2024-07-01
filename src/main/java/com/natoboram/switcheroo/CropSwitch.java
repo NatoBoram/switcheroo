@@ -53,7 +53,7 @@ public class CropSwitch implements AttackBlockCallback {
 		// Check if it's a crop.
 		if (!(block instanceof CropBlock)) {
 			if (config.debug)
-				LOGGER.info("Skipping interaction with block " + blockState.getBlock().getName().getString());
+				LOGGER.info("Skipping interaction with block {}", blockState.getBlock().getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -62,7 +62,7 @@ public class CropSwitch implements AttackBlockCallback {
 		final ItemStack mainHandStack = inventory.getMainHandStack();
 		if (mainHandStack.getItem().equals(seedItem)) {
 			if (config.debug)
-				LOGGER.info("Already holding " + seedItem.getName().getString());
+				LOGGER.info("Already holding {}", seedItem.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -75,14 +75,13 @@ public class CropSwitch implements AttackBlockCallback {
 
 		if (seeds.isEmpty()) {
 			if (config.debug)
-				LOGGER.info("No seeds found for " + seedItem.getName().getString());
+				LOGGER.info("No seeds found for {}", seedItem.getName().getString());
 			return ActionResult.PASS;
 		}
 		ItemStackUtil.keepLowestStacks(seeds);
 
 		if (seeds.isEmpty()) {
-			if (config.debug)
-				LOGGER.warn("No seeds found for " + seedItem.getName().getString());
+			LOGGER.warn("No seeds found for {}", seedItem.getName().getString());
 			return ActionResult.PASS;
 		}
 		final ItemStack seed = seeds.get(0);

@@ -71,14 +71,14 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled) {
 			if (config.debug)
-				LOGGER.info("Skipping interaction with block " + block.getName().getString());
+				LOGGER.info("Skipping interaction with block {}", block.getName().getString());
 			return ActionResult.PASS;
 		}
 
 		// Blacklist some blocks
 		if (isBlacklisted(block, config)) {
 			if (config.debug)
-				LOGGER.info(block + " is blacklisted");
+				LOGGER.info("{} is blacklisted", block.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -171,7 +171,7 @@ public class BlockSwitch implements AttackBlockCallback {
 				.anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
 						&& ItemStack.areItemsEqual(stack, mainHand))) {
 			if (config.debug)
-				LOGGER.info("There's already a " + mainHand.getItem() + " in hand.");
+				LOGGER.info("There's already a {} in hand", mainHand.getItem().getName().getString());
 			return ActionResult.PASS;
 		}
 

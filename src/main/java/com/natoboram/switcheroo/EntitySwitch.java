@@ -10,6 +10,7 @@ import static com.natoboram.switcheroo.ItemStackUtil.keepMostDps;
 import static com.natoboram.switcheroo.ItemStackUtil.removeDamagedEnchantedItems;
 import static com.natoboram.switcheroo.ItemStackUtil.round;
 import static net.fabricmc.api.EnvType.CLIENT;
+import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_DAMAGE;
 
 import java.util.ArrayList;
 
@@ -25,11 +26,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.AirBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MiningToolItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.TridentItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -56,7 +55,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		if (player.isSpectator() || player.isSneaking() || !entity.isLiving() || !entity.isAlive()
 				|| entity.isInvulnerable() || !config.enabled) {
 			if (config.debug)
-				LOGGER.info("Skipping interaction with entity " + entity.getName().getString());
+				LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -64,7 +63,7 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		if (isBlacklisted(livingEntity, config)) {
 			if (config.debug)
-				LOGGER.info("Entity " + livingEntity + " is blacklisted");
+				LOGGER.info("Entity {} is blacklisted", livingEntity.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -74,9 +73,21 @@ public class EntitySwitch implements AttackEntityCallback {
 		// Get all potential weapons
 		for (final ItemStack stack : inventory.main) {
 			final Item item = stack.getItem();
+			if (item instanceof AirBlockItem)
+				continue;
 
-			if (item instanceof SwordItem || item instanceof TridentItem || item instanceof MiningToolItem)
+			// A potential weapon is any stack that has more attack damage than the player's
+			// attack damage. The calculation for attack damage includes the player's base
+			// attack damage.
+			final double ad = getAttackDamage(stack, entity, world, config);
+			if (ad > CLIENT.player.getAttributeValue(GENERIC_ATTACK_DAMAGE)) {
+				if (config.debug) {
+					final double dps = getDps(stack, entity, world, config);
+					LOGGER.info("Found potential weapon {} with {} attack damage and {} damage per seconds",
+							stack.getName().getString(), ad, round(dps));
+				}
 				weapons.add(stack);
+			}
 		}
 
 		// Filters enchanted items with low durability
@@ -97,7 +108,7 @@ public class EntitySwitch implements AttackEntityCallback {
 			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentAd >= maxAd || weapons.isEmpty()) {
 				if (config.debug)
-					LOGGER.info("Current AD is already maxed");
+					LOGGER.info("Current AD is already maxed at {}/{}", currentAd, maxAd);
 				return ActionResult.PASS;
 			}
 
@@ -109,7 +120,7 @@ public class EntitySwitch implements AttackEntityCallback {
 			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentDps >= maxDps || weapons.isEmpty()) {
 				if (config.debug)
-					LOGGER.info("Current DPS is already maxed at " + round(currentDps) + "/" + round(maxDps));
+					LOGGER.info("Current DPS is already maxed at {}/{}", round(currentDps), round(maxDps));
 				return ActionResult.PASS;
 			}
 

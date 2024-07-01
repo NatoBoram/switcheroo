@@ -1,5 +1,7 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,13 +9,12 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class Main implements ClientModInitializer {
 
 	public static final String MOD_ID = "switcheroo";

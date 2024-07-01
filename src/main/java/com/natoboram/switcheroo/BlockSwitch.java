@@ -1,12 +1,13 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import me.shedaniel.autoconfig.ConfigHolder;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BambooBlock;
@@ -22,6 +23,7 @@ import net.minecraft.block.PlantBlock;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.VineBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +35,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.SwordItem;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -42,7 +48,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /** Execute a switcheroo action when attacking a block. */
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class BlockSwitch implements AttackBlockCallback {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
@@ -58,19 +64,28 @@ public class BlockSwitch implements AttackBlockCallback {
 	@Override
 	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final BlockPos pos,
 			final Direction direction) {
-		if (player.isCreative() || player.isSpectator() || player.isSneaking())
-			return ActionResult.PASS;
+		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 
 		final BlockState blockState = world.getBlockState(pos);
 		final Block block = blockState.getBlock();
-		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
+
+		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled) {
+			if (config.debug)
+				LOGGER.info("Skipping interaction with block {}", block.getName().getString());
+			return ActionResult.PASS;
+		}
 
 		// Blacklist some blocks
 		if (isBlacklisted(block, config)) {
 			if (config.debug)
-				LOGGER.info(block + " is blacklisted");
+				LOGGER.info("{} is blacklisted", block.getName().getString());
 			return ActionResult.PASS;
 		}
+
+		// Cache enchantments
+		final DynamicRegistryManager manager = world.getRegistryManager();
+		final Registry<Enchantment> enchantments = manager.get(RegistryKeys.ENCHANTMENT);
+		final RegistryEntry<Enchantment> silkTouchEntry = enchantments.getEntry(Enchantments.SILK_TOUCH).get();
 
 		// Use CROP_SWITCH to handle crops
 		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)
@@ -116,43 +131,47 @@ public class BlockSwitch implements AttackBlockCallback {
 			// If there's no effective tools, check for the mining speed
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.main)
-					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState) > 1.0F
+					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F
 							&& !(stack.getItem() instanceof SwordItem) && axeFilter(block, stack.getItem()))
 						tools.add(stack);
 
 			// Add Silk Touch
 			if (tools.isEmpty() && preferSilkTouch(block, config))
 				for (final ItemStack stack : inventory.main)
-					if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) > 0)
+					if (EnchantmentHelper.getLevel(silkTouchEntry, stack) > 0)
 						tools.add(stack);
 		}
 
 		// Keep Silk Touch
 		if (preferSilkTouch(block, config)
-				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) > 0))
-			tools.removeIf(tool -> EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) <= 0);
+				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0))
+			tools.removeIf(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) <= 0);
 
 		// Filters enchanted items with low durability
 		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
 
 		// Safety before launching streams
-		if (tools.isEmpty())
+		if (tools.isEmpty()) {
+			if (config.debug)
+				LOGGER.info("No tools found");
 			return ActionResult.PASS;
+		}
 
 		// Get best or worst tool
 		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)
-			ItemStackUtil.keepFastestTools(tools, blockState);
+			ItemStackUtil.keepFastestTools(tools, blockState, world);
 		else
-			ItemStackUtil.keepSlowestTools(tools, blockState);
+			ItemStackUtil.keepSlowestTools(tools, blockState, world);
 
 		final ItemStack mainHand = player.getMainHandStack();
-		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState);
+		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState, world);
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream().anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState)
-				&& ItemStack.areItemsEqual(stack, mainHand))) {
+		if (tools.stream()
+				.anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+						&& ItemStack.areItemsEqual(stack, mainHand))) {
 			if (config.debug)
-				LOGGER.info("There's already a " + mainHand.getItem() + " in hand.");
+				LOGGER.info("There's already a {} in hand", mainHand.getItem().getName().getString());
 			return ActionResult.PASS;
 		}
 

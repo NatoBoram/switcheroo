@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+> [!NOTE]
+> The Mace has lower damage per seconds than bare hands. The mod will not attempt to switch out of it, but won't switch into it either.
+
+> [!WARNING]
+> The Mace's enchantments are not supported at the moment. It's better to disable Switcheroo during your Mace activities.
+
 ### Added
 
+- `/switcheroo enable` and `/switcheroo disable` commands
+
 ### Changed
+
+- Updated to Minecraft 1.21
 
 ### Deprecated
 

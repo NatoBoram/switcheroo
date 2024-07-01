@@ -24,6 +24,8 @@ public class SwitcherooConfig implements ConfigData {
 		public String fortune = "";
 	}
 
+	public boolean enabled = true;
+
 	@ConfigEntry.Gui.Excluded()
 	public boolean enableCrop = false;
 

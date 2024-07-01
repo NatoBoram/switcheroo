@@ -1,16 +1,17 @@
 package com.natoboram.switcheroo;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 
-@Environment(EnvType.CLIENT)
+@Environment(value = CLIENT)
 public class Switch {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
@@ -25,20 +26,26 @@ public class Switch {
 	public static void switcheroo(final PlayerEntity player, final ItemStack item, final SwitcherooConfig config) {
 		final PlayerInventory inventory = player.getInventory();
 
+		final String itemName = item.getName().getString();
 		final int slot = inventory.getSlotWithStack(item);
-		if (slot == -1)
+		if (slot == -1) {
+			LOGGER.warn("Item {} not found in inventory", itemName);
 			return;
+		}
 
 		if (config.debug)
-			LOGGER.info("Switching for " + item.getItem());
+			LOGGER.info("Switching for {}", itemName);
 
 		if (PlayerInventory.isValidHotbarIndex(slot)) {
 			// Select the item from the hotbar
+			if (config.debug)
+				LOGGER.info("Selecting slot {}", slot);
 			inventory.selectedSlot = slot;
 		} else {
 			// Pick the item from the inventory
+			if (config.debug)
+				LOGGER.info("Picking from slot {}", slot);
 			CLIENT.interactionManager.pickFromInventory(slot);
 		}
 	}
-
 }

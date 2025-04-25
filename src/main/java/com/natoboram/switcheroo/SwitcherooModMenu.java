@@ -4,7 +4,6 @@ import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.Environment;
 

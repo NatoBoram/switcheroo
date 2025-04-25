@@ -1,0 +1,51 @@
+{
+	"name": "@natoboram/switcheroo",
+	"version": "1.0.15",
+	"description": "Switch your currently held item for an effective item when clicking on a block.",
+	"keywords": [
+		"fabric-mod",
+		"fabric",
+		"fabricmc-mod",
+		"fabricmc",
+		"minecraft-mod",
+		"minecraft",
+		"mod"
+	],
+	"homepage": "https://github.com/NatoBoram/switcheroo",
+	"bugs": {
+		"url": "https://github.com/NatoBoram/switcheroo/issues"
+	},
+	"license": "GPL-3.0-or-later",
+	"author": {
+		"name": "Nato Boram",
+		"url": "https://github.com/NatoBoram"
+	},
+	"funding": [
+		{
+			"type": "patreon",
+			"url": "https://www.patreon.com/NatoBoram"
+		},
+		{
+			"type": "individual",
+			"url": "https://paypal.me/NatoBoram/5"
+		}
+	],
+	"files": [
+		"build/libs/*"
+	],
+	"repository": "github:NatoBoram/switcheroo",
+	"scripts": {
+		"build": "gradle build",
+		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build run switcheroo_client.launch switcheroo_server.launch",
+		"dev": "gradle runClient",
+		"docs": "gradle javadoc",
+		"format": "prettier --write ."
+	},
+	"devDependencies": {
+		"@prettier/plugin-xml": "^3.4.1",
+		"prettier": "^3.5.3",
+		"prettier-plugin-java": "^2.6.7"
+	},
+	"private": true,
+	"type": "module"
+}

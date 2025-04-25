@@ -40,9 +40,9 @@ Switcheroo will use the least effective tool that's still effective to break blo
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-15.0.127-9cff55)](https://github.com/shedaniel/cloth-config)
-[![fabric](https://img.shields.io/badge/Fabric%20API-0.100.1-dbd0b4)](https://github.com/FabricMC/fabric)
-[![modmenu](https://img.shields.io/badge/Mod%20Menu-11.0.0--rc.4-134bff)](https://github.com/TerraformersMC/ModMenu)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-17.0.144-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.119.2-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-13.0.3-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml?query=branch%3Amain).
 

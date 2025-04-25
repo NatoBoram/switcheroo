@@ -18,6 +18,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
+## [1.0.15] - 2025-04-25
+
+### Changed
+
+- Updated to Minecraft 1.21.4
+
 ## [1.0.14] - 2024-06-30
 
 > [!NOTE]

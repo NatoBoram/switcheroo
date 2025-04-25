@@ -191,7 +191,8 @@ The switcheroo technically works, but it's kinda annoying and awkward to use. Pl
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.14...main
+[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.15...main
+[1.0.15]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.15
 [1.0.14]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.14
 [1.0.13]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.13
 [1.0.12]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.12

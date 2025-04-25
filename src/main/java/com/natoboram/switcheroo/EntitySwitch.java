@@ -10,7 +10,7 @@ import static com.natoboram.switcheroo.ItemStackUtil.keepMostDps;
 import static com.natoboram.switcheroo.ItemStackUtil.removeDamagedEnchantedItems;
 import static com.natoboram.switcheroo.ItemStackUtil.round;
 import static net.fabricmc.api.EnvType.CLIENT;
-import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_DAMAGE;
+import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
 
 import java.util.ArrayList;
 
@@ -80,7 +80,7 @@ public class EntitySwitch implements AttackEntityCallback {
 			// attack damage. The calculation for attack damage includes the player's base
 			// attack damage.
 			final double ad = getAttackDamage(stack, entity, world, config);
-			if (ad > CLIENT.player.getAttributeValue(GENERIC_ATTACK_DAMAGE)) {
+			if (ad > CLIENT.player.getAttributeValue(ATTACK_DAMAGE)) {
 				if (config.debug) {
 					final double dps = getDps(stack, entity, world, config);
 					LOGGER.info("Found potential weapon {} with {} attack damage and {} damage per seconds",

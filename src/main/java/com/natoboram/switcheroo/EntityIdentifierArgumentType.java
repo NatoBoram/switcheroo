@@ -15,7 +15,10 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -37,7 +40,8 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	}
 
 	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registries.ENTITY_TYPE.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
+		final RegistryKey<EntityType<?>> key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, id);
+		Registries.ENTITY_TYPE.getOptional(key).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
 		return id;
 	}
 

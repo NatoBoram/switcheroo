@@ -13,6 +13,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.block.Block;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
@@ -34,14 +35,9 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		return new BlockIdentifierArgumentType();
 	}
 
-	public static Identifier getBlockIdentifier(final String name,
+	public Identifier getBlockIdentifier(final String name,
 			final CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
-	}
-
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		Registries.BLOCK.getOrEmpty(id).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
 	}
 
 	@Override
@@ -65,5 +61,14 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	@Override
 	public Identifier parse(final StringReader reader) throws CommandSyntaxException {
 		return validate(Identifier.fromCommandInput(reader));
+	}
+
+	private Identifier validate(final Identifier id) throws CommandSyntaxException {
+		final Block block = Registries.BLOCK.get(id);
+
+		if (block == null)
+			throw NOT_FOUND_EXCEPTION.create(id);
+
+		return id;
 	}
 }

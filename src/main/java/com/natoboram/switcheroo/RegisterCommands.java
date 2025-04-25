@@ -27,7 +27,8 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 
 		final var blocks = literal("blocks").executes(Commands::blacklistBlocks)
 				.then(literal("add").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksAdd)))
+						argument("block", BlockIdentifierArgumentType.blockIdentifier())
+								.executes(Commands::blacklistBlocksAdd)))
 				.then(literal("remove").then(argument("block", BlockIdentifierArgumentType.blockIdentifier())
 						.executes(Commands::blacklistBlocksRemove)));
 

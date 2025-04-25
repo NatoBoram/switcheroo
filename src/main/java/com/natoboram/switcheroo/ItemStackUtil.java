@@ -4,8 +4,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.component.DataComponentTypes.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.component.DataComponentTypes.ENCHANTMENTS;
 import static net.minecraft.enchantment.Enchantments.EFFICIENCY;
-import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_DAMAGE;
-import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_SPEED;
+import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_SPEED;
 import static net.minecraft.registry.RegistryKeys.ENCHANTMENT;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import net.minecraft.enchantment.effect.EnchantmentValueEffect;
 import net.minecraft.enchantment.effect.value.AddEnchantmentEffect;
 import net.minecraft.enchantment.effect.value.MultiplyEnchantmentEffect;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.condition.LootCondition;
@@ -58,14 +57,14 @@ public class ItemStackUtil {
 		double damage = 0;
 
 		// Player damage
-		final double player = CLIENT.player.getAttributeBaseValue(GENERIC_ATTACK_DAMAGE);
+		final double player = CLIENT.player.getAttributeBaseValue(ATTACK_DAMAGE);
 		if (config.debug)
 			LOGGER.info("Player damage: {}", player);
 		damage += player;
 
 		// Stack damage
 		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
-				.stream().filter((entry) -> entry.attribute().equals(GENERIC_ATTACK_DAMAGE))
+				.stream().filter((entry) -> entry.attribute().equals(ATTACK_DAMAGE))
 				.mapToDouble((entry) -> entry.modifier().value()).sum();
 		if (config.debug)
 			LOGGER.info("Weapon damage: {}", weapon);
@@ -109,13 +108,13 @@ public class ItemStackUtil {
 	public static double getAttackSpeed(final ItemStack stack, final SwitcherooConfig config) {
 		double speed = 0F;
 
-		final double player = CLIENT.player.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_SPEED);
+		final double player = CLIENT.player.getAttributeBaseValue(ATTACK_SPEED);
 		if (config.debug)
 			LOGGER.info("Player speed: {}", round(player));
 		speed += player;
 
 		final double weapon = stack.getOrDefault(ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT).modifiers()
-				.stream().filter((entry) -> entry.attribute().equals(GENERIC_ATTACK_SPEED))
+				.stream().filter((entry) -> entry.attribute().equals(ATTACK_SPEED))
 				.mapToDouble((entry) -> entry.modifier().value()).sum();
 		if (config.debug)
 			LOGGER.info("Weapon speed: {}", round(weapon));
@@ -192,8 +191,8 @@ public class ItemStackUtil {
 	 */
 	public static double getMiningSpeedMultiplier(final ItemStack tool, final BlockState blockState, final World world) {
 		final DynamicRegistryManager manager = world.getRegistryManager();
-		final Registry<Enchantment> enchantments = manager.get(ENCHANTMENT);
-		final RegistryEntry<Enchantment> efficiency = enchantments.getEntry(EFFICIENCY).get();
+		final Registry<Enchantment> enchantments = manager.getOrThrow(ENCHANTMENT);
+		final RegistryEntry<Enchantment> efficiency = enchantments.getOptional(EFFICIENCY).get();
 
 		final float multiplier = tool.getMiningSpeedMultiplier(blockState);
 		if (tool.isSuitableFor(blockState)) {

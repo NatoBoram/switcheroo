@@ -84,8 +84,8 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Cache enchantments
 		final DynamicRegistryManager manager = world.getRegistryManager();
-		final Registry<Enchantment> enchantments = manager.get(RegistryKeys.ENCHANTMENT);
-		final RegistryEntry<Enchantment> silkTouchEntry = enchantments.getEntry(Enchantments.SILK_TOUCH).get();
+		final Registry<Enchantment> enchantments = manager.getOrThrow(RegistryKeys.ENCHANTMENT);
+		final RegistryEntry<Enchantment> silkTouchEntry = enchantments.getEntry(Enchantments.SILK_TOUCH.getValue()).get();
 
 		// Use CROP_SWITCH to handle crops
 		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)

@@ -2,13 +2,11 @@ package com.natoboram.switcheroo;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -17,19 +15,20 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 @Environment(value = CLIENT)
-final public class Commands {
+public final class Commands {
 
-	static private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER = AutoConfig
-			.getConfigHolder(SwitcherooConfig.class);
+	private static final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER = AutoConfig.getConfigHolder(
+		SwitcherooConfig.class
+	);
 
-	static public int enable(final CommandContext<FabricClientCommandSource> command) {
+	public static int enable(final CommandContext<FabricClientCommandSource> command) {
 		CONFIG_HOLDER.getConfig().enabled = true;
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("Switcheroo is now §aenabled§f."));
 		return Command.SINGLE_SUCCESS;
 	}
 
-	static public int disable(final CommandContext<FabricClientCommandSource> command) {
+	public static int disable(final CommandContext<FabricClientCommandSource> command) {
 		CONFIG_HOLDER.getConfig().enabled = false;
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("Switcheroo is now §7disabled§f."));
@@ -43,7 +42,7 @@ final public class Commands {
 	 * /switcheroo blacklist blocks
 	 * </pre>
 	 */
-	static public int blacklistBlocks(final CommandContext<FabricClientCommandSource> command) {
+	public static int blacklistBlocks(final CommandContext<FabricClientCommandSource> command) {
 		final String blocks = CONFIG_HOLDER.getConfig().blacklist.blocks;
 		command.getSource().sendFeedback(Text.of("Blacklist: §e" + (blocks.isEmpty() ? "[]" : blocks)));
 		return Command.SINGLE_SUCCESS;
@@ -56,13 +55,13 @@ final public class Commands {
 	 * /switcheroo blacklist blocks add minecraft:grass_block
 	 * </pre>
 	 */
-	static public int blacklistBlocksAdd(final CommandContext<FabricClientCommandSource> command) {
+	public static int blacklistBlocksAdd(final CommandContext<FabricClientCommandSource> command) {
 		final Identifier id = command.getArgument("block", Identifier.class);
 		CONFIG_HOLDER.getConfig().blacklist.blocks += " " + id;
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("§fAdded §e" + id + "§f to the blacklist."));
 		return blacklistBlocks(command);
-	};
+	}
 
 	/**
 	 * Remove a block from the blacklist.
@@ -71,22 +70,21 @@ final public class Commands {
 	 * /switcheroo blacklist blocks remove minecraft:grass_block
 	 * </pre>
 	 */
-	static public int blacklistBlocksRemove(final CommandContext<FabricClientCommandSource> command) {
+	public static int blacklistBlocksRemove(final CommandContext<FabricClientCommandSource> command) {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
-				Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.blocks.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.blocks.split(" "))
+		);
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted))
-						return true;
+					if (id.toString().equals("minecraft:" + blacklisted)) return true;
 					break;
 				case 2:
 				default:
-					if (id.toString().equals(blacklisted))
-						return true;
+					if (id.toString().equals(blacklisted)) return true;
 					break;
 			}
 			return false;
@@ -96,7 +94,7 @@ final public class Commands {
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("§fRemoved §e" + id + "§f from the blacklist."));
 		return blacklistBlocks(command);
-	};
+	}
 
 	/**
 	 * Shows the list of blacklisted mobs.
@@ -105,7 +103,7 @@ final public class Commands {
 	 * /switcheroo blacklist mobs
 	 * </pre>
 	 */
-	static public int blacklistMobs(final CommandContext<FabricClientCommandSource> command) {
+	public static int blacklistMobs(final CommandContext<FabricClientCommandSource> command) {
 		final String mobs = CONFIG_HOLDER.getConfig().blacklist.mobs;
 		command.getSource().sendFeedback(Text.of("§fBlacklist: §e" + (mobs.isEmpty() ? "[]" : mobs)));
 		return Command.SINGLE_SUCCESS;
@@ -120,14 +118,14 @@ final public class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	static public int blacklistMobsAdd(final CommandContext<FabricClientCommandSource> command)
-			throws CommandSyntaxException {
+	public static int blacklistMobsAdd(final CommandContext<FabricClientCommandSource> command)
+		throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 		CONFIG_HOLDER.getConfig().blacklist.mobs += " " + id;
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("§fAdded §e" + id + "§f to the blacklist."));
 		return blacklistMobs(command);
-	};
+	}
 
 	/**
 	 * Remove a mob from the blacklist.
@@ -138,23 +136,22 @@ final public class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	static public int blacklistMobsRemove(final CommandContext<FabricClientCommandSource> command)
-			throws CommandSyntaxException {
+	public static int blacklistMobsRemove(final CommandContext<FabricClientCommandSource> command)
+		throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
-				Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.mobs.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.mobs.split(" "))
+		);
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted))
-						return true;
+					if (id.toString().equals("minecraft:" + blacklisted)) return true;
 					break;
 				case 2:
 				default:
-					if (id.toString().equals(blacklisted))
-						return true;
+					if (id.toString().equals(blacklisted)) return true;
 					break;
 			}
 			return false;
@@ -164,7 +161,7 @@ final public class Commands {
 		CONFIG_HOLDER.save();
 		command.getSource().sendFeedback(Text.of("§fRemoved §e" + id + "§f from the blacklist."));
 		return blacklistMobs(command);
-	};
+	}
 
 	/**
 	 * Shows the configuration for <code>alwaysFastest</code>.
@@ -173,7 +170,7 @@ final public class Commands {
 	 * /switcheroo alwaysFastest
 	 * </pre>
 	 */
-	static public int alwaysFastest(final CommandContext<FabricClientCommandSource> command) {
+	public static int alwaysFastest(final CommandContext<FabricClientCommandSource> command) {
 		command.getSource().sendFeedback(Text.of("alwaysFastest: §e" + CONFIG_HOLDER.getConfig().alwaysFastest));
 		return Command.SINGLE_SUCCESS;
 	}
@@ -185,7 +182,7 @@ final public class Commands {
 	 * /switcheroo alwaysFastest true
 	 * </pre>
 	 */
-	static public int alwaysFastestToggle(final CommandContext<FabricClientCommandSource> command) {
+	public static int alwaysFastestToggle(final CommandContext<FabricClientCommandSource> command) {
 		final Boolean input = command.getArgument("boolean", Boolean.class);
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		config.alwaysFastest = input == null ? !config.alwaysFastest : input;
@@ -200,7 +197,7 @@ final public class Commands {
 	 * /switcheroo minDurability
 	 * </pre>
 	 */
-	static public int minDurability(final CommandContext<FabricClientCommandSource> command) {
+	public static int minDurability(final CommandContext<FabricClientCommandSource> command) {
 		command.getSource().sendFeedback(Text.of("minDurability: §e" + CONFIG_HOLDER.getConfig().minDurability));
 		return Command.SINGLE_SUCCESS;
 	}
@@ -212,7 +209,7 @@ final public class Commands {
 	 * /switcheroo minDurability 5
 	 * </pre>
 	 */
-	static public int minDurabilitySet(final CommandContext<FabricClientCommandSource> command) {
+	public static int minDurabilitySet(final CommandContext<FabricClientCommandSource> command) {
 		final Integer input = command.getArgument("integer", Integer.class);
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		config.minDurability = input == null ? 5 : input;
@@ -227,7 +224,7 @@ final public class Commands {
 	 * /switcheroo prefer silk_touch
 	 * </pre>
 	 */
-	static public int preferSilkTouch(final CommandContext<FabricClientCommandSource> command) {
+	public static int preferSilkTouch(final CommandContext<FabricClientCommandSource> command) {
 		final String silkTouch = CONFIG_HOLDER.getConfig().prefer.silk_touch;
 		command.getSource().sendFeedback(Text.of("Silk Touch: §e" + (silkTouch.isEmpty() ? "[]" : silkTouch)));
 		return Command.SINGLE_SUCCESS;
@@ -240,13 +237,12 @@ final public class Commands {
 	 * /switcheroo prefer silk_touch add minecraft:grass_block
 	 * </pre>
 	 */
-	static public int preferSilkTouchAdd(final CommandContext<FabricClientCommandSource> command)
-			throws CommandSyntaxException {
+	public static int preferSilkTouchAdd(final CommandContext<FabricClientCommandSource> command)
+		throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 		CONFIG_HOLDER.getConfig().prefer.silk_touch += " " + id;
 		CONFIG_HOLDER.save();
-		command.getSource()
-				.sendFeedback(Text.of("§fAdded §e" + id + "§f to the list of blocks to prefer Silk Touch on."));
+		command.getSource().sendFeedback(Text.of("§fAdded §e" + id + "§f to the list of blocks to prefer Silk Touch on."));
 		return preferSilkTouch(command);
 	}
 
@@ -257,23 +253,22 @@ final public class Commands {
 	 * /switcheroo prefer silk_touch remove minecraft:grass_block
 	 * </pre>
 	 */
-	static public int preferSilkTouchRemove(final CommandContext<FabricClientCommandSource> command)
-			throws CommandSyntaxException {
+	public static int preferSilkTouchRemove(final CommandContext<FabricClientCommandSource> command)
+		throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> prefer = new ArrayList<String>(
-				Arrays.asList(CONFIG_HOLDER.getConfig().prefer.silk_touch.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().prefer.silk_touch.split(" "))
+		);
 
 		prefer.removeIf(preferred -> {
 			switch (preferred.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + preferred))
-						return true;
+					if (id.toString().equals("minecraft:" + preferred)) return true;
 					break;
 				case 2:
 				default:
-					if (id.toString().equals(preferred))
-						return true;
+					if (id.toString().equals(preferred)) return true;
 					break;
 			}
 			return false;
@@ -281,8 +276,9 @@ final public class Commands {
 
 		CONFIG_HOLDER.getConfig().prefer.silk_touch = String.join(" ", prefer);
 		CONFIG_HOLDER.save();
-		command.getSource()
-				.sendFeedback(Text.of("§fRemoved §e" + id + "§f from the list of blocks to prefer Silk Touch on."));
+		command
+			.getSource()
+			.sendFeedback(Text.of("§fRemoved §e" + id + "§f from the list of blocks to prefer Silk Touch on."));
 
 		return preferSilkTouch(command);
 	}

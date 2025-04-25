@@ -1,0 +1,9 @@
+arrowParens: avoid
+plugins:
+  - "@prettier/plugin-xml"
+  - prettier-plugin-java
+printWidth: 120
+semi: false
+trailingComma: all
+useTabs: true
+xmlWhitespaceSensitivity: ignore

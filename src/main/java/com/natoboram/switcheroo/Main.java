@@ -2,9 +2,6 @@ package com.natoboram.switcheroo;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -13,6 +10,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Environment(value = CLIENT)
 public class Main implements ClientModInitializer {
@@ -26,11 +25,10 @@ public class Main implements ClientModInitializer {
 	 * <p>
 	 * Note: {@link Logger#debug} does not write to the console.
 	 */
-	private final static Logger LOGGER = LogManager.getLogger(MOD_ID);
+	private static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 	@Override
 	public void onInitializeClient() {
-
 		// Register config
 		AutoConfig.register(SwitcherooConfig.class, GsonConfigSerializer::new);
 		final ConfigHolder<SwitcherooConfig> holder = AutoConfig.getConfigHolder(SwitcherooConfig.class);
@@ -44,5 +42,4 @@ public class Main implements ClientModInitializer {
 
 		LOGGER.info("Loaded Switcheroo!");
 	}
-
 }

@@ -13,11 +13,6 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
 
 import java.util.ArrayList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
-
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -35,6 +30,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 /** Execute a switcheroo action when attacking an entity. */
 @Environment(value = CLIENT)
@@ -49,21 +47,30 @@ public class EntitySwitch implements AttackEntityCallback {
 	}
 
 	@Override
-	public ActionResult interact(final PlayerEntity player, final World world, final Hand hand, final Entity entity,
-			@Nullable final EntityHitResult hitResult) {
+	public ActionResult interact(
+		final PlayerEntity player,
+		final World world,
+		final Hand hand,
+		final Entity entity,
+		@Nullable final EntityHitResult hitResult
+	) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
-		if (player.isSpectator() || player.isSneaking() || !entity.isLiving() || !entity.isAlive()
-				|| entity.isInvulnerable() || !config.enabled) {
-			if (config.debug)
-				LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
+		if (
+			player.isSpectator() ||
+			player.isSneaking() ||
+			!entity.isLiving() ||
+			!entity.isAlive() ||
+			entity.isInvulnerable() ||
+			!config.enabled
+		) {
+			if (config.debug) LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
 			return ActionResult.PASS;
 		}
 
 		final LivingEntity livingEntity = (LivingEntity) entity;
 
 		if (isBlacklisted(livingEntity, config)) {
-			if (config.debug)
-				LOGGER.info("Entity {} is blacklisted", livingEntity.getName().getString());
+			if (config.debug) LOGGER.info("Entity {} is blacklisted", livingEntity.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -73,8 +80,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		// Get all potential weapons
 		for (final ItemStack stack : inventory.main) {
 			final Item item = stack.getItem();
-			if (item instanceof AirBlockItem)
-				continue;
+			if (item instanceof AirBlockItem) continue;
 
 			// A potential weapon is any stack that has more attack damage than the player's
 			// attack damage. The calculation for attack damage includes the player's base
@@ -83,8 +89,12 @@ public class EntitySwitch implements AttackEntityCallback {
 			if (ad > CLIENT.player.getAttributeValue(ATTACK_DAMAGE)) {
 				if (config.debug) {
 					final double dps = getDps(stack, entity, world, config);
-					LOGGER.info("Found potential weapon {} with {} attack damage and {} damage per seconds",
-							stack.getName().getString(), ad, round(dps));
+					LOGGER.info(
+						"Found potential weapon {} with {} attack damage and {} damage per seconds",
+						stack.getName().getString(),
+						ad,
+						round(dps)
+					);
 				}
 				weapons.add(stack);
 			}
@@ -95,32 +105,27 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		// Safety before launching streams
 		if (weapons.isEmpty()) {
-			if (config.debug)
-				LOGGER.info("No weapons found");
+			if (config.debug) LOGGER.info("No weapons found");
 			return ActionResult.PASS;
 		}
 
 		// Use max AD on players and max DPS on mobs
 		if (entity instanceof PlayerEntity) {
-
 			// Stop if there's already a max ad weapon in hand
 			final double maxAd = getMaxAttackDamage(weapons, entity, world, config);
 			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentAd >= maxAd || weapons.isEmpty()) {
-				if (config.debug)
-					LOGGER.info("Current AD is already maxed at {}/{}", currentAd, maxAd);
+				if (config.debug) LOGGER.info("Current AD is already maxed at {}/{}", currentAd, maxAd);
 				return ActionResult.PASS;
 			}
 
 			keepMostAttackDamage(weapons, entity, maxAd, world, config);
 		} else {
-
 			// Stop if there's already a max dps weapon in hand
 			final double maxDps = getMaxDps(weapons, entity, world, config);
 			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentDps >= maxDps || weapons.isEmpty()) {
-				if (config.debug)
-					LOGGER.info("Current DPS is already maxed at {}/{}", round(currentDps), round(maxDps));
+				if (config.debug) LOGGER.info("Current DPS is already maxed at {}/{}", round(currentDps), round(maxDps));
 				return ActionResult.PASS;
 			}
 
@@ -129,8 +134,7 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		keepMostDamagedItems(weapons);
 
-		if (!weapons.isEmpty())
-			Switch.switcheroo(player, weapons.get(0), config);
+		if (!weapons.isEmpty()) Switch.switcheroo(player, weapons.get(0), config);
 		return ActionResult.PASS;
 	}
 
@@ -141,15 +145,12 @@ public class EntitySwitch implements AttackEntityCallback {
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted))
-						return true;
+					if (id.toString().equals("minecraft:" + blacklisted)) return true;
 				default:
 				case 2:
-					if (id.toString().equals(blacklisted))
-						return true;
+					if (id.toString().equals(blacklisted)) return true;
 			}
 		}
 		return false;
 	}
-
 }

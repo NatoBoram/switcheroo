@@ -30,6 +30,7 @@
 	"files.insertFinalNewline": true,
 	"files.trimFinalNewlines": true,
 	"files.trimTrailingWhitespace": true,
+	"java.completion.importOrder": ["#"],
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"java.format.settings.url": "./java-formatter.xml",
 	"java.saveActions.organizeImports": true,

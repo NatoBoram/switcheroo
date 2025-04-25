@@ -27,18 +27,6 @@ jobs:
       - run: ./gradlew javadoc
         if: github.ref_type != 'tag'
 
-      - name: Sign
-        if: github.actor != 'nektos/act' && github.actor != 'dependabot[bot]' && (github.ref_type == 'tag' || github.ref_name == 'main')
-        run: |
-          eval `ssh-agent -s`
-          ssh-add - <<< '${{ secrets.DEPLOY_KEY_PRIVATE }}'
-          echo '${{ vars.DEPLOY_KEY_PUBLIC }}' > '${{ runner.temp }}/DEPLOY_KEY_PUBLIC.pub'
-
-          for filename in build/libs/switcheroo-*.jar; do
-          	ssh-keygen -Y sign -f '${{ runner.temp }}/DEPLOY_KEY_PUBLIC.pub' -n file "$filename"
-          	ssh-keygen -Y verify -f ./.github/authorized_keys -I '41898282+github-actions[bot]@users.noreply.github.com' -n file -s "$filename.sig" < "$filename"
-          done
-
       - uses: actions/upload-artifact@v4
         if: github.ref_name == 'main' && github.actor != 'nektos/act'
         with:

@@ -61,7 +61,7 @@ public class CropSwitch implements AttackBlockCallback {
 
 		// Check if we already have the appropriate item in hand
 		final Item seedItem = block.asItem();
-		final ItemStack mainHandStack = inventory.getMainHandStack();
+		final ItemStack mainHandStack = inventory.getSelectedStack();
 		if (mainHandStack.getItem().equals(seedItem)) {
 			if (config.debug) LOGGER.info("Already holding {}", seedItem.getName().getString());
 			return ActionResult.PASS;
@@ -69,7 +69,7 @@ public class CropSwitch implements AttackBlockCallback {
 
 		// Get all the appropriate seeds
 		final ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
-		for (final ItemStack stack : inventory.main) {
+		for (final ItemStack stack : inventory.getMainStacks()) {
 			if (stack.getItem().equals(seedItem)) seeds.add(stack);
 		}
 

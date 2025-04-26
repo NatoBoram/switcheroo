@@ -38,14 +38,14 @@ public class Switch {
 		if (PlayerInventory.isValidHotbarIndex(slot)) {
 			// Select the item from the hotbar
 			if (config.debug) LOGGER.info("Selecting slot {}", slot);
-			inventory.selectedSlot = slot;
+			inventory.setSelectedSlot(slot);
 		} else {
 			// Pick the item from the inventory
 			final int nextSlot = Switch.findEmptyOrCurrentHotbarSlot(inventory);
 
 			if (config.debug) LOGGER.info("Switching from slot {} to {}", slot, nextSlot);
 
-			inventory.selectedSlot = nextSlot;
+			inventory.setSelectedSlot(nextSlot);
 			CLIENT.interactionManager.clickSlot(
 				player.playerScreenHandler.syncId,
 				slot,
@@ -65,10 +65,10 @@ public class Switch {
 	 *         currently selected slot.
 	 */
 	private static int findEmptyOrCurrentHotbarSlot(final PlayerInventory inventory) {
-		if (inventory.getStack(inventory.selectedSlot).isEmpty()) return inventory.selectedSlot;
+		if (inventory.getStack(inventory.getSelectedSlot()).isEmpty()) return inventory.getSelectedSlot();
 
 		for (int i = 0; i < PlayerInventory.getHotbarSize(); i++) if (inventory.getStack(i).isEmpty()) return i;
 
-		return inventory.selectedSlot;
+		return inventory.getSelectedSlot();
 	}
 }

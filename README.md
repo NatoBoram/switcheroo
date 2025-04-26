@@ -5,7 +5,7 @@
 [![Modrinth Downloads](https://img.shields.io/badge/dynamic/json?color=1bd96a&label=Modrinth&query=downloads&suffix=%20downloads&url=https%3A%2F%2Fapi.modrinth.com%2Fv2%2Fproject%2Fwq6HaMZG)](https://modrinth.com/mod/switcheroo)
 [![minepkg](https://img.shields.io/badge/dynamic/json?color=ff9800&label=minepkg&query=stats.totalDownloads&suffix=%20downloads&url=https%3A%2F%2Fapi.preview.minepkg.io%2Fv1%2Fprojects%2Fswitcheroo)](https://preview.minepkg.io/projects/switcheroo)
 [![CurseForge Downloads](https://img.shields.io/badge/dynamic/json?color=f16436&label=CurseForge&query=downloads.total&suffix=%20downloads&url=https%3A%2F%2Fapi.cfwidget.com%2F441128)](https://www.curseforge.com/minecraft/mc-mods/switcheroo)
-[![Planet Minecraft](https://img.shields.io/badge/Planet%20Minecraft-download-3366cc)](https://www.planetminecraft.com/mod/switcheroo-5459816/)
+[![Planet Minecraft](https://img.shields.io/badge/Planet%20Minecraft-download-3366cc)](https://www.planetminecraft.com/mod/switcheroo-5459816/) [![Wakapi](https://wakapi.dev/api/badge/NatoBoram/interval:any/project:switcheroo)](https://wakapi.dev/summary?interval=any&project=switcheroo)
 
 Switch your currently held item for an effective item when clicking on a block.
 
@@ -40,9 +40,9 @@ Switcheroo will use the least effective tool that's still effective to break blo
 
 ## Installation
 
-[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-17.0.144-9cff55)](https://github.com/shedaniel/cloth-config)
-[![fabric](https://img.shields.io/badge/Fabric%20API-0.119.2-dbd0b4)](https://github.com/FabricMC/fabric)
-[![modmenu](https://img.shields.io/badge/Mod%20Menu-13.0.3-134bff)](https://github.com/TerraformersMC/ModMenu)
+[![cloth-config2](https://img.shields.io/badge/Cloth%20Config%20API-18.0.145-9cff55)](https://github.com/shedaniel/cloth-config)
+[![fabric](https://img.shields.io/badge/Fabric%20API-0.121.0-dbd0b4)](https://github.com/FabricMC/fabric)
+[![modmenu](https://img.shields.io/badge/Mod%20Menu-14.0.0-134bff)](https://github.com/TerraformersMC/ModMenu)
 
 Downloads are available in [Releases](https://github.com/NatoBoram/switcheroo/releases). You can also test development builds by downloading them form the [Actions](https://github.com/NatoBoram/switcheroo/actions/workflows/gradle.yaml?query=branch%3Amain).
 

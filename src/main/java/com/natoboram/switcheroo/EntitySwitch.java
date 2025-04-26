@@ -78,7 +78,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		final PlayerInventory inventory = player.getInventory();
 
 		// Get all potential weapons
-		for (final ItemStack stack : inventory.main) {
+		for (final ItemStack stack : inventory.getMainStacks()) {
 			final Item item = stack.getItem();
 			if (item instanceof AirBlockItem) continue;
 

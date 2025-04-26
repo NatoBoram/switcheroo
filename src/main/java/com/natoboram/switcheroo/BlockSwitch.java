@@ -30,12 +30,12 @@ import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
-import net.minecraft.item.SwordItem;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -102,10 +102,12 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		if (block instanceof BrushableBlock) {
 			// Use brush on suspicious blocks
-			for (final ItemStack stack : inventory.main) if (stack.getItem() instanceof BrushItem) tools.add(stack);
+			for (final ItemStack stack : inventory.getMainStacks()) if (stack.getItem() instanceof BrushItem) tools.add(
+				stack
+			);
 		} else if (block instanceof CropBlock) {
 			// Use hoe on crops
-			for (final ItemStack stack : inventory.main) if (stack.getItem() instanceof HoeItem) tools.add(stack);
+			for (final ItemStack stack : inventory.getMainStacks()) if (stack.getItem() instanceof HoeItem) tools.add(stack);
 		} else {
 			// Use shears on glow berries, cobwebs, leaves, plants and vines
 			if (
@@ -115,27 +117,31 @@ public class BlockSwitch implements AttackBlockCallback {
 				block instanceof LeavesBlock ||
 				block instanceof PlantBlock ||
 				block instanceof VineBlock
-			) for (final ItemStack stack : inventory.main) if (stack.getItem() instanceof ShearsItem) tools.add(stack);
+			) for (final ItemStack stack : inventory.getMainStacks()) if (stack.getItem() instanceof ShearsItem) tools.add(
+				stack
+			);
 
 			// Use sword on cobwebs and bamboo
 			if (
 				tools.isEmpty() && (block instanceof BambooBlock || block instanceof CobwebBlock)
-			) for (final ItemStack stack : inventory.main) if (stack.getItem() instanceof SwordItem) tools.add(stack);
+			) for (final ItemStack stack : inventory.getMainStacks()) if (stack.isIn(ItemTags.SWORDS)) tools.add(stack);
 
 			// Get all effective tools from the inventory
-			if (tools.isEmpty()) for (final ItemStack stack : inventory.main) if (
-				stack.isSuitableFor(blockState) && !(stack.getItem() instanceof SwordItem) && axeFilter(block, stack.getItem())
+			if (tools.isEmpty()) for (final ItemStack stack : inventory.getMainStacks()) if (
+				stack.isSuitableFor(blockState) && !(stack.isIn(ItemTags.SWORDS)) && axeFilter(block, stack.getItem())
 			) tools.add(stack);
 
 			// If there's no effective tools, check for the mining speed
-			if (tools.isEmpty()) for (final ItemStack stack : inventory.main) if (
+			if (tools.isEmpty()) for (final ItemStack stack : inventory.getMainStacks()) if (
 				ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F &&
-				!(stack.getItem() instanceof SwordItem) &&
+				!(stack.isIn(ItemTags.SWORDS)) &&
 				axeFilter(block, stack.getItem())
 			) tools.add(stack);
 
 			// Add Silk Touch
-			if (tools.isEmpty() && preferSilkTouch(block, config)) for (final ItemStack stack : inventory.main) if (
+			if (
+				tools.isEmpty() && preferSilkTouch(block, config)
+			) for (final ItemStack stack : inventory.getMainStacks()) if (
 				EnchantmentHelper.getLevel(silkTouchEntry, stack) > 0
 			) tools.add(stack);
 		}

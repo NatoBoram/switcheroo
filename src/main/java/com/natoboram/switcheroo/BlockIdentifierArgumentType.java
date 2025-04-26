@@ -34,8 +34,10 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		return new BlockIdentifierArgumentType();
 	}
 
-	public Identifier getBlockIdentifier(final String name, final CommandContext<FabricClientCommandSource> context)
-		throws CommandSyntaxException {
+	public Identifier getBlockIdentifier(
+		final String name,
+		final CommandContext<FabricClientCommandSource> context
+	) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
 
@@ -51,10 +53,10 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	) {
 		final String remaining = builder.getRemaining();
 
-		Registries.BLOCK.getIds()
-			.forEach(id -> {
-				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining)) builder.suggest(id.toString());
-			});
+		Registries.BLOCK.getIds().forEach(id -> {
+			if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
+				builder.suggest(id.toString());
+		});
 
 		return builder.buildFuture();
 	}
@@ -67,7 +69,8 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	private Identifier validate(final Identifier id) throws CommandSyntaxException {
 		final Block block = Registries.BLOCK.get(id);
 
-		if (block == null) throw NOT_FOUND_EXCEPTION.create(id);
+		if (block == null)
+			throw NOT_FOUND_EXCEPTION.create(id);
 
 		return id;
 	}

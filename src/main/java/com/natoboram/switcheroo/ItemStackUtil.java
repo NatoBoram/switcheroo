@@ -54,12 +54,16 @@ public class ItemStackUtil {
 		final World world,
 		final SwitcherooConfig config
 	) {
-		if (config.debug) LOGGER.info("Calculating the damage of {}", stack.getItem().getName().getString());
+		if (config.debug)
+			LOGGER.info("Calculating the damage of {}", stack.getItem().getName().getString());
+
 		double damage = 0;
 
 		// Player damage
 		final double player = CLIENT.player.getAttributeBaseValue(ATTACK_DAMAGE);
-		if (config.debug) LOGGER.info("Player damage: {}", player);
+		if (config.debug)
+			LOGGER.info("Player damage: {}", player);
+
 		damage += player;
 
 		// Stack damage
@@ -70,15 +74,22 @@ public class ItemStackUtil {
 			.filter(entry -> entry.attribute().equals(ATTACK_DAMAGE))
 			.mapToDouble(entry -> entry.modifier().value())
 			.sum();
-		if (config.debug) LOGGER.info("Weapon damage: {}", weapon);
+
+		if (config.debug)
+			LOGGER.info("Weapon damage: {}", weapon);
+
 		damage += weapon;
 
 		// Enchantment damage
 		final double enchantments = getEnchantmentDamage(stack, entity, damage, config);
-		if (config.debug) LOGGER.info("Enchantment damage: {}", enchantments);
+		if (config.debug)
+			LOGGER.info("Enchantment damage: {}", enchantments);
+
 		damage += enchantments;
 
-		if (config.debug) LOGGER.info("Total damage: {}", damage);
+		if (config.debug)
+			LOGGER.info("Total damage: {}", damage);
+
 		return damage;
 	}
 
@@ -122,7 +133,9 @@ public class ItemStackUtil {
 		double speed = 0F;
 
 		final double player = CLIENT.player.getAttributeBaseValue(ATTACK_SPEED);
-		if (config.debug) LOGGER.info("Player speed: {}", round(player));
+		if (config.debug)
+			LOGGER.info("Player speed: {}", round(player));
+
 		speed += player;
 
 		final double weapon = stack
@@ -132,10 +145,15 @@ public class ItemStackUtil {
 			.filter(entry -> entry.attribute().equals(ATTACK_SPEED))
 			.mapToDouble(entry -> entry.modifier().value())
 			.sum();
-		if (config.debug) LOGGER.info("Weapon speed: {}", round(weapon));
+
+		if (config.debug)
+			LOGGER.info("Weapon speed: {}", round(weapon));
+
 		speed += weapon;
 
-		if (config.debug) LOGGER.info("Total speed: {}", round(speed));
+		if (config.debug)
+			LOGGER.info("Total speed: {}", round(speed));
+
 		return speed;
 	}
 
@@ -307,9 +325,11 @@ public class ItemStackUtil {
 									final String name = entity.getName().getString();
 
 									if (matches) {
-										if (config.debug) LOGGER.info("Enchantment {} applies to {}", description, name);
+										if (config.debug)
+											LOGGER.info("Enchantment {} applies to {}", description, name);
 									} else {
-										if (config.debug) LOGGER.info("Enchantment {} does not apply to {}", description, name);
+										if (config.debug)
+											LOGGER.info("Enchantment {} does not apply to {}", description, name);
 										continue;
 									}
 								}
@@ -322,12 +342,16 @@ public class ItemStackUtil {
 				if (operator instanceof AddEnchantmentEffect) {
 					final AddEnchantmentEffect add = (AddEnchantmentEffect) operator;
 					final float added = add.value().getValue(level);
-					if (config.debug) LOGGER.info("Added: {}", round(added));
+					if (config.debug)
+						LOGGER.info("Added: {}", round(added));
+
 					bonus += added;
 				} else if (operator instanceof MultiplyEnchantmentEffect) {
 					final MultiplyEnchantmentEffect multiply = (MultiplyEnchantmentEffect) operator;
 					final float multiplied = multiply.factor().getValue(level);
-					if (config.debug) LOGGER.info("Multiplied: {}", round(multiplied));
+					if (config.debug)
+						LOGGER.info("Multiplied: {}", round(multiplied));
+
 					bonus *= multiplied;
 				} else {
 					LOGGER.warn("Unknown operator: {}", operator);

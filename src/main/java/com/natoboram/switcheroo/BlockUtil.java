@@ -12,11 +12,14 @@ public class BlockUtil {
 		for (final String blockId : blocks) {
 			switch (blockId.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blockId)) return true;
+					if (id.toString().equals("minecraft:" + blockId))
+						return true;
 					break;
+
 				case 2:
 				default:
-					if (id.toString().equals(blockId)) return true;
+					if (id.toString().equals(blockId))
+						return true;
 					break;
 			}
 		}

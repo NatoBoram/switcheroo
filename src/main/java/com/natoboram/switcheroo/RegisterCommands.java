@@ -30,12 +30,14 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 			.executes(Commands::blacklistBlocks)
 			.then(
 				literal("add").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksAdd)
+					argument("block", BlockIdentifierArgumentType.blockIdentifier())
+						.executes(Commands::blacklistBlocksAdd)
 				)
 			)
 			.then(
 				literal("remove").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksRemove)
+					argument("block", BlockIdentifierArgumentType.blockIdentifier())
+						.executes(Commands::blacklistBlocksRemove)
 				)
 			);
 
@@ -43,12 +45,14 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 			.executes(Commands::blacklistMobs)
 			.then(
 				literal("add").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsAdd)
+					argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+						.executes(Commands::blacklistMobsAdd)
 				)
 			)
 			.then(
 				literal("remove").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsRemove)
+					argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+						.executes(Commands::blacklistMobsRemove)
 				)
 			);
 
@@ -56,23 +60,31 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 
 		final var alwaysFastest = literal("alwaysFastest")
 			.executes(Commands::alwaysFastest)
-			.then(argument("boolean", BoolArgumentType.bool()).executes(Commands::alwaysFastestToggle));
+			.then(
+				argument("boolean", BoolArgumentType.bool())
+					.executes(Commands::alwaysFastestToggle)
+			);
 
 		final var minDurability = literal("minDurability")
 			.executes(Commands::minDurability)
-			.then(argument("integer", IntegerArgumentType.integer()).executes(Commands::minDurabilitySet));
+			.then(
+				argument("integer", IntegerArgumentType.integer())
+					.executes(Commands::minDurabilitySet)
+			);
 
 		final var prefer = literal("prefer").then(
 			literal("silk_touch")
 				.executes(Commands::preferSilkTouch)
 				.then(
 					literal("add").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::preferSilkTouchAdd)
+						argument("block", BlockIdentifierArgumentType.blockIdentifier())
+							.executes(Commands::preferSilkTouchAdd)
 					)
 				)
 				.then(
 					literal("remove").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::preferSilkTouchRemove)
+						argument("block", BlockIdentifierArgumentType.blockIdentifier())
+							.executes(Commands::preferSilkTouchRemove)
 					)
 				)
 		);

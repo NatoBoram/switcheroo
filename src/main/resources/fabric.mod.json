@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "switcheroo",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"name": "Switcheroo",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"authors": ["Nato Boram"],
@@ -20,13 +20,13 @@
 	},
 	"mixins": [],
 	"depends": {
-		"cloth-config2": ">=17.0.144",
-		"fabric": ">=0.119.2+1.21.4",
-		"fabricloader": ">=0.16.13",
+		"cloth-config2": ">=18.0.145",
+		"fabric": ">=0.121.0+1.21.5",
+		"fabricloader": ">=0.16.14",
 		"java": ">=21",
-		"minecraft": ">=1.21.4"
+		"minecraft": ">=1.21.5"
 	},
 	"suggests": {
-		"modmenu": ">=13.0.3"
+		"modmenu": ">=14.0.0-rc.2"
 	}
 }

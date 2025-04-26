@@ -1,6 +1,6 @@
 {
 	"name": "@natoboram/switcheroo",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"keywords": [
 		"fabric-mod",
@@ -36,10 +36,14 @@
 	"repository": "github:NatoBoram/switcheroo",
 	"scripts": {
 		"build": "gradle build",
-		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build run switcheroo_client.launch switcheroo_server.launch",
+		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build node_modules remappedSrc switcheroo_client.launch switcheroo_server.launch",
 		"dev": "gradle runClient",
 		"docs": "gradle javadoc",
-		"format": "prettier --write ."
+		"downloadAssets": "gradle downloadAssets",
+		"eclipse": "gradle eclipse",
+		"genSources": "gradle genSources",
+		"postinstall": "gradle downloadAssets && gradle genSources && gradle eclipse && gradle vscode",
+		"vscode": "gradle vscode"
 	},
 	"devDependencies": {
 		"@prettier/plugin-xml": "^3.4.1",

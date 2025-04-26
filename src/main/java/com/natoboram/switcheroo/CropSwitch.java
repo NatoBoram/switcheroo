@@ -55,28 +55,36 @@ public class CropSwitch implements AttackBlockCallback {
 
 		// Check if it's a crop.
 		if (!(block instanceof CropBlock)) {
-			if (config.debug) LOGGER.info("Skipping interaction with block {}", blockState.getBlock().getName().getString());
+			if (config.debug)
+				LOGGER.info("Skipping interaction with block {}", blockState.getBlock().getName().getString());
+
 			return ActionResult.PASS;
 		}
 
 		// Check if we already have the appropriate item in hand
 		final Item seedItem = block.asItem();
-		final ItemStack mainHandStack = inventory.getMainHandStack();
+		final ItemStack mainHandStack = inventory.getSelectedStack();
 		if (mainHandStack.getItem().equals(seedItem)) {
-			if (config.debug) LOGGER.info("Already holding {}", seedItem.getName().getString());
+			if (config.debug)
+				LOGGER.info("Already holding {}", seedItem.getName().getString());
+
 			return ActionResult.PASS;
 		}
 
 		// Get all the appropriate seeds
 		final ArrayList<ItemStack> seeds = new ArrayList<ItemStack>();
-		for (final ItemStack stack : inventory.main) {
-			if (stack.getItem().equals(seedItem)) seeds.add(stack);
+		for (final ItemStack stack : inventory.getMainStacks()) {
+			if (stack.getItem().equals(seedItem))
+				seeds.add(stack);
 		}
 
 		if (seeds.isEmpty()) {
-			if (config.debug) LOGGER.info("No seeds found for {}", seedItem.getName().getString());
+			if (config.debug)
+				LOGGER.info("No seeds found for {}", seedItem.getName().getString());
+
 			return ActionResult.PASS;
 		}
+
 		ItemStackUtil.keepLowestStacks(seeds);
 
 		if (seeds.isEmpty()) {
@@ -89,7 +97,8 @@ public class CropSwitch implements AttackBlockCallback {
 		// Plant the seed!
 		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;
 		final ActionResult placeSeedResult = CLIENT.interactionManager.interactBlock(CLIENT.player, hand, blockHitResult);
-		if (placeSeedResult.isAccepted()) CLIENT.player.swingHand(hand);
+		if (placeSeedResult.isAccepted())
+			CLIENT.player.swingHand(hand);
 
 		return ActionResult.PASS;
 	}

@@ -44,8 +44,10 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 		return id;
 	}
 
-	public Identifier getEntityIdentifier(final CommandContext<FabricClientCommandSource> context, final String name)
-		throws CommandSyntaxException {
+	public Identifier getEntityIdentifier(
+		final CommandContext<FabricClientCommandSource> context,
+		final String name
+	) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
 
@@ -63,7 +65,8 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 
 		Registries.ENTITY_TYPE.getIds()
 			.forEach(id -> {
-				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining)) builder.suggest(id.toString());
+				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
+					builder.suggest(id.toString());
 			});
 
 		return builder.buildFuture();

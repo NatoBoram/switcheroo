@@ -80,11 +80,14 @@ public final class Commands {
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted)) return true;
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
 					break;
+
 				case 2:
 				default:
-					if (id.toString().equals(blacklisted)) return true;
+					if (id.toString().equals(blacklisted))
+						return true;
 					break;
 			}
 			return false;
@@ -118,8 +121,9 @@ public final class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	public static int blacklistMobsAdd(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int blacklistMobsAdd(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 		CONFIG_HOLDER.getConfig().blacklist.mobs += " " + id;
 		CONFIG_HOLDER.save();
@@ -136,8 +140,9 @@ public final class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	public static int blacklistMobsRemove(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int blacklistMobsRemove(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
@@ -147,11 +152,14 @@ public final class Commands {
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted)) return true;
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
 					break;
+
 				case 2:
 				default:
-					if (id.toString().equals(blacklisted)) return true;
+					if (id.toString().equals(blacklisted))
+						return true;
 					break;
 			}
 			return false;
@@ -237,8 +245,9 @@ public final class Commands {
 	 * /switcheroo prefer silk_touch add minecraft:grass_block
 	 * </pre>
 	 */
-	public static int preferSilkTouchAdd(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int preferSilkTouchAdd(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 		CONFIG_HOLDER.getConfig().prefer.silk_touch += " " + id;
 		CONFIG_HOLDER.save();
@@ -253,8 +262,9 @@ public final class Commands {
 	 * /switcheroo prefer silk_touch remove minecraft:grass_block
 	 * </pre>
 	 */
-	public static int preferSilkTouchRemove(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int preferSilkTouchRemove(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> prefer = new ArrayList<String>(
@@ -264,11 +274,13 @@ public final class Commands {
 		prefer.removeIf(preferred -> {
 			switch (preferred.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + preferred)) return true;
+					if (id.toString().equals("minecraft:" + preferred))
+						return true;
 					break;
 				case 2:
 				default:
-					if (id.toString().equals(preferred)) return true;
+					if (id.toString().equals(preferred))
+						return true;
 					break;
 			}
 			return false;

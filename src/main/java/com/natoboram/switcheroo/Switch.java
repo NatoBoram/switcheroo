@@ -20,8 +20,10 @@ public class Switch {
 	/**
 	 * Perform the actual switcheroo.
 	 *
-	 * @param player PlayerEntity that's about to execute the switcheroo.
-	 * @param item   Item that should be put in its hand.
+	 * @param player
+	 * PlayerEntity that's about to execute the switcheroo.
+	 * @param item
+	 * Item that should be put in its hand.
 	 */
 	public static void switcheroo(final PlayerEntity player, final ItemStack item, final SwitcherooConfig config) {
 		final PlayerInventory inventory = player.getInventory();
@@ -33,17 +35,21 @@ public class Switch {
 			return;
 		}
 
-		if (config.debug) LOGGER.info("Switching for {}", itemName);
+		if (config.debug)
+			LOGGER.info("Switching for {}", itemName);
 
 		if (PlayerInventory.isValidHotbarIndex(slot)) {
 			// Select the item from the hotbar
-			if (config.debug) LOGGER.info("Selecting slot {}", slot);
+			if (config.debug)
+				LOGGER.info("Selecting slot {}", slot);
+
 			inventory.setSelectedSlot(slot);
 		} else {
 			// Pick the item from the inventory
 			final int nextSlot = Switch.findEmptyOrCurrentHotbarSlot(inventory);
 
-			if (config.debug) LOGGER.info("Switching from slot {} to {}", slot, nextSlot);
+			if (config.debug)
+				LOGGER.info("Switching from slot {} to {}", slot, nextSlot);
 
 			inventory.setSelectedSlot(nextSlot);
 			CLIENT.interactionManager.clickSlot(
@@ -51,8 +57,7 @@ public class Switch {
 				slot,
 				nextSlot,
 				SlotActionType.SWAP,
-				player
-			);
+				player);
 		}
 	}
 
@@ -60,14 +65,18 @@ public class Switch {
 	 * Finds the index of the first empty slot in the player's hotbar. If no empty
 	 * slot is found, returns the index of the currently selected hotbar slot.
 	 *
-	 * @param inventory The player's inventory.
+	 * @param inventory
+	 * The player's inventory.
 	 * @return The index of an empty hotbar slot. If there's none, fallbacks to the
-	 *         currently selected slot.
+	 * currently selected slot.
 	 */
 	private static int findEmptyOrCurrentHotbarSlot(final PlayerInventory inventory) {
-		if (inventory.getStack(inventory.getSelectedSlot()).isEmpty()) return inventory.getSelectedSlot();
+		if (inventory.getStack(inventory.getSelectedSlot()).isEmpty())
+			return inventory.getSelectedSlot();
 
-		for (int i = 0; i < PlayerInventory.getHotbarSize(); i++) if (inventory.getStack(i).isEmpty()) return i;
+		for (int i = 0; i < PlayerInventory.getHotbarSize(); i++)
+			if (inventory.getStack(i).isEmpty())
+				return i;
 
 		return inventory.getSelectedSlot();
 	}

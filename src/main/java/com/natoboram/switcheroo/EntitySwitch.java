@@ -52,25 +52,24 @@ public class EntitySwitch implements AttackEntityCallback {
 		final World world,
 		final Hand hand,
 		final Entity entity,
-		@Nullable final EntityHitResult hitResult
-	) {
+		@Nullable final EntityHitResult hitResult) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
-		if (
-			player.isSpectator() ||
+		if (player.isSpectator() ||
 			player.isSneaking() ||
 			!entity.isLiving() ||
 			!entity.isAlive() ||
 			entity.isInvulnerable() ||
-			!config.enabled
-		) {
-			if (config.debug) LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
+			!config.enabled) {
+			if (config.debug)
+				LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
 			return ActionResult.PASS;
 		}
 
 		final LivingEntity livingEntity = (LivingEntity) entity;
 
 		if (isBlacklisted(livingEntity, config)) {
-			if (config.debug) LOGGER.info("Entity {} is blacklisted", livingEntity.getName().getString());
+			if (config.debug)
+				LOGGER.info("Entity {} is blacklisted", livingEntity.getName().getString());
 			return ActionResult.PASS;
 		}
 
@@ -80,7 +79,8 @@ public class EntitySwitch implements AttackEntityCallback {
 		// Get all potential weapons
 		for (final ItemStack stack : inventory.getMainStacks()) {
 			final Item item = stack.getItem();
-			if (item instanceof AirBlockItem) continue;
+			if (item instanceof AirBlockItem)
+				continue;
 
 			// A potential weapon is any stack that has more attack damage than the player's
 			// attack damage. The calculation for attack damage includes the player's base
@@ -93,8 +93,7 @@ public class EntitySwitch implements AttackEntityCallback {
 						"Found potential weapon {} with {} attack damage and {} damage per seconds",
 						stack.getName().getString(),
 						ad,
-						round(dps)
-					);
+						round(dps));
 				}
 				weapons.add(stack);
 			}
@@ -105,7 +104,8 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		// Safety before launching streams
 		if (weapons.isEmpty()) {
-			if (config.debug) LOGGER.info("No weapons found");
+			if (config.debug)
+				LOGGER.info("No weapons found");
 			return ActionResult.PASS;
 		}
 
@@ -115,7 +115,8 @@ public class EntitySwitch implements AttackEntityCallback {
 			final double maxAd = getMaxAttackDamage(weapons, entity, world, config);
 			final double currentAd = getAttackDamage(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentAd >= maxAd || weapons.isEmpty()) {
-				if (config.debug) LOGGER.info("Current AD is already maxed at {}/{}", currentAd, maxAd);
+				if (config.debug)
+					LOGGER.info("Current AD is already maxed at {}/{}", currentAd, maxAd);
 				return ActionResult.PASS;
 			}
 
@@ -125,7 +126,9 @@ public class EntitySwitch implements AttackEntityCallback {
 			final double maxDps = getMaxDps(weapons, entity, world, config);
 			final double currentDps = getDps(CLIENT.player.getMainHandStack(), entity, world, config);
 			if (currentDps >= maxDps || weapons.isEmpty()) {
-				if (config.debug) LOGGER.info("Current DPS is already maxed at {}/{}", round(currentDps), round(maxDps));
+				if (config.debug)
+					LOGGER.info("Current DPS is already maxed at {}/{}", round(currentDps), round(maxDps));
+
 				return ActionResult.PASS;
 			}
 
@@ -134,7 +137,8 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		keepMostDamagedItems(weapons);
 
-		if (!weapons.isEmpty()) Switch.switcheroo(player, weapons.get(0), config);
+		if (!weapons.isEmpty())
+			Switch.switcheroo(player, weapons.get(0), config);
 		return ActionResult.PASS;
 	}
 
@@ -145,10 +149,13 @@ public class EntitySwitch implements AttackEntityCallback {
 		for (final String blacklisted : blacklist) {
 			switch (blacklisted.split(":").length) {
 				case 1:
-					if (id.toString().equals("minecraft:" + blacklisted)) return true;
+					if (id.toString().equals("minecraft:" + blacklisted))
+						return true;
+
 				default:
 				case 2:
-					if (id.toString().equals(blacklisted)) return true;
+					if (id.toString().equals(blacklisted))
+						return true;
 			}
 		}
 		return false;

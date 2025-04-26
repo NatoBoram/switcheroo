@@ -47,13 +47,13 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(
 		final CommandContext<S> context,
-		final SuggestionsBuilder builder
-	) {
+		final SuggestionsBuilder builder) {
 		final String remaining = builder.getRemaining();
 
 		Registries.BLOCK.getIds()
 			.forEach(id -> {
-				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining)) builder.suggest(id.toString());
+				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
+					builder.suggest(id.toString());
 			});
 
 		return builder.buildFuture();
@@ -67,7 +67,8 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 	private Identifier validate(final Identifier id) throws CommandSyntaxException {
 		final Block block = Registries.BLOCK.get(id);
 
-		if (block == null) throw NOT_FOUND_EXCEPTION.create(id);
+		if (block == null)
+			throw NOT_FOUND_EXCEPTION.create(id);
 
 		return id;
 	}

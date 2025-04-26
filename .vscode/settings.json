@@ -1,4 +1,7 @@
 {
+	"[java]": {
+		"editor.defaultFormatter": "redhat.java"
+	},
 	"[json]": {
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "never"
@@ -32,7 +35,7 @@
 	"files.trimTrailingWhitespace": true,
 	"java.completion.importOrder": ["#"],
 	"java.configuration.updateBuildConfiguration": "automatic",
-	"java.format.settings.url": "./java-formatter.xml",
+	"java.format.settings.url": ".java-formatter.xml",
 	"java.saveActions.organizeImports": true,
 	"xml.format.preservedNewlines": 1,
 	"yaml.format.printWidth": 120

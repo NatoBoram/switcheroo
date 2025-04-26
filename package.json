@@ -41,7 +41,6 @@
 		"docs": "gradle javadoc",
 		"downloadAssets": "gradle downloadAssets",
 		"eclipse": "gradle eclipse",
-		"format": "prettier --write .",
 		"genSources": "gradle genSources",
 		"postinstall": "gradle downloadAssets && gradle genSources && gradle eclipse && gradle vscode",
 		"vscode": "gradle vscode"

@@ -87,7 +87,7 @@
 		<setting id="org.eclipse.jdt.core.formatter.comment.indent_root_tags" value="false" />
 
 		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_before_root_tags" value="insert" />
-		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter" value="insert" />
+		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter" value="do not insert" />
 
 		<setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="120" />
 
@@ -131,7 +131,6 @@
 		<setting id="org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch" value="true" />
 
 		<setting id="org.eclipse.jdt.core.formatter.indentation.size" value="2" />
-
 		<setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="tab" />
 		<setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="2" />
 
@@ -580,7 +579,10 @@
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_for_statment" value="common_lines" />
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_if_while_statement" value="common_lines" />
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_lambda_declaration" value="common_lines" />
-		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_method_delcaration" value="common_lines" />
+		<setting
+			id="org.eclipse.jdt.core.formatter.parentheses_positions_in_method_delcaration"
+			value="separate_lines_if_wrapped"
+		/>
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_method_invocation" value="common_lines" />
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_switch_statement" value="common_lines" />
 		<setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_try_clause" value="common_lines" />

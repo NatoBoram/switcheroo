@@ -45,7 +45,8 @@ public class CropSwitch implements AttackBlockCallback {
 		final World world,
 		final Hand hand,
 		final BlockPos pos,
-		final Direction direction) {
+		final Direction direction
+	) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		final PlayerInventory inventory = player.getInventory();
 

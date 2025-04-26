@@ -21,7 +21,8 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 	@Override
 	public void register(
 		final CommandDispatcher<FabricClientCommandSource> dispatcher,
-		final CommandRegistryAccess registryAccess) {
+		final CommandRegistryAccess registryAccess
+	) {
 		final var enable = literal("enable").executes(Commands::enable);
 		final var disable = literal("disable").executes(Commands::disable);
 

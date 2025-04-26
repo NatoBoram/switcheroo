@@ -57,7 +57,8 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(
 		final CommandContext<S> context,
-		final SuggestionsBuilder builder) {
+		final SuggestionsBuilder builder
+	) {
 		final String remaining = builder.getRemaining();
 
 		Registries.ENTITY_TYPE.getIds()

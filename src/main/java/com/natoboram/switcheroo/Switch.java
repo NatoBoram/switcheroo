@@ -20,10 +20,8 @@ public class Switch {
 	/**
 	 * Perform the actual switcheroo.
 	 *
-	 * @param player
-	 *               PlayerEntity that's about to execute the switcheroo.
-	 * @param item
-	 *               Item that should be put in its hand.
+	 * @param player PlayerEntity that's about to execute the switcheroo.
+	 * @param item   Item that should be put in its hand.
 	 */
 	public static void switcheroo(final PlayerEntity player, final ItemStack item, final SwitcherooConfig config) {
 		final PlayerInventory inventory = player.getInventory();
@@ -65,8 +63,7 @@ public class Switch {
 	 * Finds the index of the first empty slot in the player's hotbar. If no empty
 	 * slot is found, returns the index of the currently selected hotbar slot.
 	 *
-	 * @param inventory
-	 *                  The player's inventory.
+	 * @param inventory The player's inventory.
 	 * @return The index of an empty hotbar slot. If there's none, fallbacks to the currently selected slot.
 	 */
 	private static int findEmptyOrCurrentHotbarSlot(final PlayerInventory inventory) {

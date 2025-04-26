@@ -52,7 +52,8 @@ public class EntitySwitch implements AttackEntityCallback {
 		final World world,
 		final Hand hand,
 		final Entity entity,
-		@Nullable final EntityHitResult hitResult) {
+		@Nullable final EntityHitResult hitResult
+	) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		if (player.isSpectator() ||
 			player.isSneaking() ||

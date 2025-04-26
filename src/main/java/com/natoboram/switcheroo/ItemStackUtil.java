@@ -52,7 +52,8 @@ public class ItemStackUtil {
 		final ItemStack stack,
 		final Entity entity,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		if (config.debug)
 			LOGGER.info("Calculating the damage of {}", stack.getItem().getName().getString());
 
@@ -99,7 +100,8 @@ public class ItemStackUtil {
 		final ArrayList<ItemStack> weapons,
 		final Entity entity,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		return getAttackDamage(
 			weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world, config))).get(),
 			entity,
@@ -116,7 +118,8 @@ public class ItemStackUtil {
 		final Entity entity,
 		@Nullable final Double maxAd,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		final double max = maxAd == null ? getMaxAttackDamage(weapons, entity, world, config) : maxAd.doubleValue();
 		return weapons.removeIf(stack -> max > getAttackDamage(stack, entity, world, config));
 	}
@@ -164,7 +167,8 @@ public class ItemStackUtil {
 		final ItemStack stack,
 		final Entity entity,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		return getAttackDamage(stack, entity, world, config) * getAttackSpeed(stack, config);
 	}
 
@@ -175,7 +179,8 @@ public class ItemStackUtil {
 		final ArrayList<ItemStack> weapons,
 		final Entity entity,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		return getDps(
 			weapons.stream().max(Comparator.comparing(item -> getDps(item, entity, world, config))).get(),
 			entity,
@@ -192,7 +197,8 @@ public class ItemStackUtil {
 		final Entity entityGroup,
 		@Nullable final Double maxDps,
 		final World world,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		final double max = maxDps == null ? getMaxDps(weapons, entityGroup, world, config) : maxDps.doubleValue();
 		return weapons.removeIf(stack -> max > getDps(stack, entityGroup, world, config));
 	}
@@ -204,7 +210,8 @@ public class ItemStackUtil {
 	public static boolean keepFastestTools(
 		final ArrayList<ItemStack> tools,
 		final BlockState blockState,
-		final World world) {
+		final World world
+	) {
 		final double max = getMiningSpeedMultiplier(
 			tools.stream().max(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
 			blockState,
@@ -220,7 +227,8 @@ public class ItemStackUtil {
 	public static boolean keepSlowestTools(
 		final ArrayList<ItemStack> tools,
 		final BlockState blockState,
-		final World world) {
+		final World world
+	) {
 		final double min = getMiningSpeedMultiplier(
 			tools.stream().min(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
 			blockState,
@@ -272,7 +280,8 @@ public class ItemStackUtil {
 		final ItemStack stack,
 		final Entity entity,
 		final double damage,
-		final SwitcherooConfig config) {
+		final SwitcherooConfig config
+	) {
 		final ItemEnchantmentsComponent component = stack.getOrDefault(ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
 		final var entries = component.getEnchantmentEntries();
 

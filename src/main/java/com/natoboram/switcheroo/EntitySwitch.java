@@ -55,14 +55,11 @@ public class EntitySwitch implements AttackEntityCallback {
 		@Nullable final EntityHitResult hitResult
 	) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
-		if (player.isSpectator() ||
-			player.isSneaking() ||
-			!entity.isLiving() ||
-			!entity.isAlive() ||
-			entity.isInvulnerable() ||
-			!config.enabled) {
+		if (player.isSpectator() || player.isSneaking() || !entity.isLiving() || !entity.isAlive()
+			|| entity.isInvulnerable() || !config.enabled) {
 			if (config.debug)
 				LOGGER.info("Skipping interaction with entity {}", entity.getName().getString());
+
 			return ActionResult.PASS;
 		}
 
@@ -90,6 +87,7 @@ public class EntitySwitch implements AttackEntityCallback {
 			if (ad > CLIENT.player.getAttributeValue(ATTACK_DAMAGE)) {
 				if (config.debug) {
 					final double dps = getDps(stack, entity, world, config);
+
 					LOGGER.info(
 						"Found potential weapon {} with {} attack damage and {} damage per seconds",
 						stack.getName().getString(),
@@ -97,6 +95,7 @@ public class EntitySwitch implements AttackEntityCallback {
 						round(dps)
 					);
 				}
+
 				weapons.add(stack);
 			}
 		}
@@ -108,6 +107,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		if (weapons.isEmpty()) {
 			if (config.debug)
 				LOGGER.info("No weapons found");
+
 			return ActionResult.PASS;
 		}
 
@@ -141,6 +141,7 @@ public class EntitySwitch implements AttackEntityCallback {
 
 		if (!weapons.isEmpty())
 			Switch.switcheroo(player, weapons.get(0), config);
+
 		return ActionResult.PASS;
 	}
 

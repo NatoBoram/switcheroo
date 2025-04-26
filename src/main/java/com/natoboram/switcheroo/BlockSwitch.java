@@ -169,11 +169,10 @@ public class BlockSwitch implements AttackBlockCallback {
 		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState, world);
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream()
-			.anyMatch(
-				stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
-					&& ItemStack.areItemsEqual(stack, mainHand)
-			)) {
+		if (tools.stream().anyMatch(
+			stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+				&& ItemStack.areItemsEqual(stack, mainHand)
+		)) {
 			if (config.debug)
 				LOGGER.info("There's already a {} in hand", mainHand.getItem().getName().getString());
 

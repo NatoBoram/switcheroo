@@ -74,6 +74,7 @@ public class ItemStackUtil {
 			.filter(entry -> entry.attribute().equals(ATTACK_DAMAGE))
 			.mapToDouble(entry -> entry.modifier().value())
 			.sum();
+
 		if (config.debug)
 			LOGGER.info("Weapon damage: {}", weapon);
 

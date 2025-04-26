@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<profiles version="13">
-	<profile kind="CodeFormatterProfile" name="One True Style (Eclipse)" version="0">
+<?xml version="1.1" encoding="UTF-8" standalone="no" ?>
+<profiles version="0">
+	<profile kind="CodeFormatterProfile" name="One True Style" version="0">
 		<setting id="org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode" value="enabled" />
 		<setting id="org.eclipse.jdt.core.compiler.codegen.targetPlatform" value="21" />
 		<setting id="org.eclipse.jdt.core.compiler.compliance" value="21" />

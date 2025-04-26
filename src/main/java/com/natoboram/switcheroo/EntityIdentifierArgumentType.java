@@ -44,8 +44,10 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 		return id;
 	}
 
-	public Identifier getEntityIdentifier(final CommandContext<FabricClientCommandSource> context, final String name)
-		throws CommandSyntaxException {
+	public Identifier getEntityIdentifier(
+		final CommandContext<FabricClientCommandSource> context,
+		final String name
+	) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
 

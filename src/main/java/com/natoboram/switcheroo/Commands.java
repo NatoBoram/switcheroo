@@ -121,8 +121,9 @@ public final class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	public static int blacklistMobsAdd(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int blacklistMobsAdd(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 		CONFIG_HOLDER.getConfig().blacklist.mobs += " " + id;
 		CONFIG_HOLDER.save();
@@ -139,8 +140,9 @@ public final class Commands {
 	 *
 	 * @throws CommandSyntaxException
 	 */
-	public static int blacklistMobsRemove(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int blacklistMobsRemove(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
@@ -243,8 +245,9 @@ public final class Commands {
 	 * /switcheroo prefer silk_touch add minecraft:grass_block
 	 * </pre>
 	 */
-	public static int preferSilkTouchAdd(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int preferSilkTouchAdd(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 		CONFIG_HOLDER.getConfig().prefer.silk_touch += " " + id;
 		CONFIG_HOLDER.save();
@@ -259,8 +262,9 @@ public final class Commands {
 	 * /switcheroo prefer silk_touch remove minecraft:grass_block
 	 * </pre>
 	 */
-	public static int preferSilkTouchRemove(final CommandContext<FabricClientCommandSource> command)
-		throws CommandSyntaxException {
+	public static int preferSilkTouchRemove(
+		final CommandContext<FabricClientCommandSource> command
+	) throws CommandSyntaxException {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> prefer = new ArrayList<String>(

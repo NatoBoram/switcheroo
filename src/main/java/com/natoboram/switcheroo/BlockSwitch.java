@@ -111,8 +111,10 @@ public class BlockSwitch implements AttackBlockCallback {
 					tools.add(stack);
 		} else {
 			// Use shears on glow berries, cobwebs, leaves, plants and vines
-			if (block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock || block instanceof CobwebBlock
-				|| block instanceof LeavesBlock || block instanceof PlantBlock || block instanceof VineBlock)
+			if (
+				block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock || block instanceof CobwebBlock
+					|| block instanceof LeavesBlock || block instanceof PlantBlock || block instanceof VineBlock
+			)
 				for (final ItemStack stack : inventory.getMainStacks())
 					if (stack.getItem() instanceof ShearsItem)
 						tools.add(stack);
@@ -132,8 +134,10 @@ public class BlockSwitch implements AttackBlockCallback {
 			// If there's no effective tools, check for the mining speed
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.getMainStacks())
-					if (ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F && !(stack.isIn(ItemTags.SWORDS))
-						&& axeFilter(block, stack.getItem()))
+					if (
+						ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F && !(stack.isIn(ItemTags.SWORDS))
+							&& axeFilter(block, stack.getItem())
+					)
 						tools.add(stack);
 
 			// Add Silk Touch
@@ -144,8 +148,10 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Keep Silk Touch
-		if (preferSilkTouch(block, config)
-			&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0))
+		if (
+			preferSilkTouch(block, config)
+				&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0)
+		)
 			tools.removeIf(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) <= 0);
 
 		// Filters enchanted items with low durability
@@ -169,10 +175,12 @@ public class BlockSwitch implements AttackBlockCallback {
 		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState, world);
 
 		// Stop if there's already a valid item in hand
-		if (tools.stream().anyMatch(
-			stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
-				&& ItemStack.areItemsEqual(stack, mainHand)
-		)) {
+		if (
+			tools.stream().anyMatch(
+				stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+					&& ItemStack.areItemsEqual(stack, mainHand)
+			)
+		) {
 			if (config.debug)
 				LOGGER.info("There's already a {} in hand", mainHand.getItem().getName().getString());
 

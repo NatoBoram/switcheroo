@@ -106,7 +106,8 @@ public class ItemStackUtil {
 			weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world, config))).get(),
 			entity,
 			world,
-			config);
+			config
+		);
 	}
 
 	/**
@@ -185,7 +186,8 @@ public class ItemStackUtil {
 			weapons.stream().max(Comparator.comparing(item -> getDps(item, entity, world, config))).get(),
 			entity,
 			world,
-			config);
+			config
+		);
 	}
 
 	/**
@@ -215,7 +217,8 @@ public class ItemStackUtil {
 		final double max = getMiningSpeedMultiplier(
 			tools.stream().max(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
 			blockState,
-			world);
+			world
+		);
 
 		return tools.removeIf(item -> max > getMiningSpeedMultiplier(item, blockState, world));
 	}
@@ -232,7 +235,8 @@ public class ItemStackUtil {
 		final double min = getMiningSpeedMultiplier(
 			tools.stream().min(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
 			blockState,
-			world);
+			world
+		);
 
 		return tools.removeIf(item -> min < getMiningSpeedMultiplier(item, blockState, world));
 	}
@@ -260,7 +264,8 @@ public class ItemStackUtil {
 	/** Removes enchanted items that have only 5 durability left. */
 	public static boolean removeDamagedEnchantedItems(final ArrayList<ItemStack> items, final SwitcherooConfig config) {
 		return items.removeIf(
-			item -> item.hasEnchantments() && item.getMaxDamage() - item.getDamage() <= config.minDurability);
+			item -> item.hasEnchantments() && item.getMaxDamage() - item.getDamage() <= config.minDurability
+		);
 	}
 
 	/** Removes items that have less durability than the most damaged item. */

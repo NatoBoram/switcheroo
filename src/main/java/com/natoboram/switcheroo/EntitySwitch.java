@@ -94,7 +94,8 @@ public class EntitySwitch implements AttackEntityCallback {
 						"Found potential weapon {} with {} attack damage and {} damage per seconds",
 						stack.getName().getString(),
 						ad,
-						round(dps));
+						round(dps)
+					);
 				}
 				weapons.add(stack);
 			}

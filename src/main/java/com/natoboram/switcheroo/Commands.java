@@ -18,7 +18,8 @@ import net.minecraft.util.Identifier;
 public final class Commands {
 
 	private static final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER = AutoConfig.getConfigHolder(
-		SwitcherooConfig.class);
+		SwitcherooConfig.class
+	);
 
 	public static int enable(final CommandContext<FabricClientCommandSource> command) {
 		CONFIG_HOLDER.getConfig().enabled = true;
@@ -73,7 +74,8 @@ public final class Commands {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
-			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.blocks.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.blocks.split(" "))
+		);
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
@@ -142,7 +144,8 @@ public final class Commands {
 		final Identifier id = command.getArgument("mob", Identifier.class);
 
 		final ArrayList<String> blacklist = new ArrayList<String>(
-			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.mobs.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().blacklist.mobs.split(" "))
+		);
 
 		blacklist.removeIf(blacklisted -> {
 			switch (blacklisted.split(":").length) {
@@ -261,7 +264,8 @@ public final class Commands {
 		final Identifier id = command.getArgument("block", Identifier.class);
 
 		final ArrayList<String> prefer = new ArrayList<String>(
-			Arrays.asList(CONFIG_HOLDER.getConfig().prefer.silk_touch.split(" ")));
+			Arrays.asList(CONFIG_HOLDER.getConfig().prefer.silk_touch.split(" "))
+		);
 
 		prefer.removeIf(preferred -> {
 			switch (preferred.split(":").length) {

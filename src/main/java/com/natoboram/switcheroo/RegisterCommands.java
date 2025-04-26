@@ -30,19 +30,27 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 			.executes(Commands::blacklistBlocks)
 			.then(
 				literal("add").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksAdd)))
+					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksAdd)
+				)
+			)
 			.then(
 				literal("remove").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksRemove)));
+					argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::blacklistBlocksRemove)
+				)
+			);
 
 		final var mobs = literal("mobs")
 			.executes(Commands::blacklistMobs)
 			.then(
 				literal("add").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsAdd)))
+					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsAdd)
+				)
+			)
 			.then(
 				literal("remove").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsRemove)));
+					argument("mob", EntityIdentifierArgumentType.entityIdentifier()).executes(Commands::blacklistMobsRemove)
+				)
+			);
 
 		final var blacklist = literal("blacklist").then(blocks).then(mobs);
 
@@ -59,11 +67,16 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 				.executes(Commands::preferSilkTouch)
 				.then(
 					literal("add").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::preferSilkTouchAdd)))
+						argument("block", BlockIdentifierArgumentType.blockIdentifier()).executes(Commands::preferSilkTouchAdd)
+					)
+				)
 				.then(
 					literal("remove").then(
 						argument("block", BlockIdentifierArgumentType.blockIdentifier())
-							.executes(Commands::preferSilkTouchRemove))));
+							.executes(Commands::preferSilkTouchRemove)
+					)
+				)
+		);
 
 		final var switcheroo = literal(MOD_ID)
 			.then(enable)

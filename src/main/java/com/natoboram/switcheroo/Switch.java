@@ -55,7 +55,8 @@ public class Switch {
 				slot,
 				nextSlot,
 				SlotActionType.SWAP,
-				player);
+				player
+			);
 		}
 	}
 

@@ -75,6 +75,7 @@ public class BlockSwitch implements AttackBlockCallback {
 		if (player.isCreative() || player.isSpectator() || player.isSneaking() || !config.enabled) {
 			if (config.debug)
 				LOGGER.info("Skipping interaction with block {}", block.getName().getString());
+
 			return ActionResult.PASS;
 		}
 
@@ -82,6 +83,7 @@ public class BlockSwitch implements AttackBlockCallback {
 		if (isBlacklisted(block, config)) {
 			if (config.debug)
 				LOGGER.info("{} is blacklisted", block.getName().getString());
+
 			return ActionResult.PASS;
 		}
 
@@ -92,12 +94,7 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Use CROP_SWITCH to handle crops
 		if (world.getBlockState(pos).getBlock() instanceof CropBlock && config.enableCrop)
-			return CROP_SWITCH.interact(
-				player,
-				world,
-				hand,
-				pos,
-				direction);
+			return CROP_SWITCH.interact(player, world, hand, pos, direction);
 
 		final ArrayList<ItemStack> tools = new ArrayList<ItemStack>();
 		final PlayerInventory inventory = player.getInventory();
@@ -106,8 +103,7 @@ public class BlockSwitch implements AttackBlockCallback {
 			// Use brush on suspicious blocks
 			for (final ItemStack stack : inventory.getMainStacks())
 				if (stack.getItem() instanceof BrushItem)
-					tools.add(
-						stack);
+					tools.add(stack);
 		} else if (block instanceof CropBlock) {
 			// Use hoe on crops
 			for (final ItemStack stack : inventory.getMainStacks())
@@ -115,12 +111,8 @@ public class BlockSwitch implements AttackBlockCallback {
 					tools.add(stack);
 		} else {
 			// Use shears on glow berries, cobwebs, leaves, plants and vines
-			if (block instanceof CaveVinesBodyBlock ||
-				block instanceof CaveVinesHeadBlock ||
-				block instanceof CobwebBlock ||
-				block instanceof LeavesBlock ||
-				block instanceof PlantBlock ||
-				block instanceof VineBlock)
+			if (block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock || block instanceof CobwebBlock
+				|| block instanceof LeavesBlock || block instanceof PlantBlock || block instanceof VineBlock)
 				for (final ItemStack stack : inventory.getMainStacks())
 					if (stack.getItem() instanceof ShearsItem)
 						tools.add(stack);
@@ -152,8 +144,8 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Keep Silk Touch
-		if (preferSilkTouch(block, config) &&
-			tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0))
+		if (preferSilkTouch(block, config)
+			&& tools.stream().anyMatch(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) > 0))
 			tools.removeIf(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) <= 0);
 
 		// Filters enchanted items with low durability
@@ -169,10 +161,7 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Get best or worst tool
 		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)
-			ItemStackUtil.keepFastestTools(
-				tools,
-				blockState,
-				world);
+			ItemStackUtil.keepFastestTools(tools, blockState, world);
 		else
 			ItemStackUtil.keepSlowestTools(tools, blockState, world);
 
@@ -181,10 +170,13 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Stop if there's already a valid item in hand
 		if (tools.stream()
-			.anyMatch(stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
-				&& ItemStack.areItemsEqual(stack, mainHand))) {
+			.anyMatch(
+				stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+					&& ItemStack.areItemsEqual(stack, mainHand)
+			)) {
 			if (config.debug)
 				LOGGER.info("There's already a {} in hand", mainHand.getItem().getName().getString());
+
 			return ActionResult.PASS;
 		}
 
@@ -199,8 +191,8 @@ public class BlockSwitch implements AttackBlockCallback {
 
 	/** Axes shouldn't be used on tall grass, sugar cane nor vines. */
 	private boolean axeFilter(final Block block, final Item item) {
-		return !((block instanceof PlantBlock || block instanceof SugarCaneBlock || block instanceof VineBlock) &&
-			item instanceof AxeItem);
+		return !((block instanceof PlantBlock || block instanceof SugarCaneBlock || block instanceof VineBlock)
+			&& item instanceof AxeItem);
 	}
 
 	private boolean isBlacklisted(final Block block, final SwitcherooConfig config) {
@@ -213,6 +205,7 @@ public class BlockSwitch implements AttackBlockCallback {
 					if (id.toString().equals("minecraft:" + blacklisted))
 						return true;
 					break;
+
 				case 2:
 				default:
 					if (id.toString().equals(blacklisted))
@@ -234,6 +227,7 @@ public class BlockSwitch implements AttackBlockCallback {
 					if (id.toString().equals("minecraft:" + blockId))
 						return true;
 					break;
+
 				case 2:
 				default:
 					if (id.toString().equals(blockId))

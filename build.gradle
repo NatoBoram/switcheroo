@@ -1,6 +1,14 @@
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
+	id 'com.diffplug.spotless' version '7.0.3'
+}
+
+spotless {
+	java {
+		eclipse().configFile('.java-formatter.xml')
+		target 'src/**/*.java'
+	}
 }
 
 archivesBaseName = project.archives_base_name

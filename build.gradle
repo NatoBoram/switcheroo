@@ -7,7 +7,7 @@ plugins {
 spotless {
 	java {
 		eclipse().configFile('.java-formatter.xml')
-		target 'src/**/*.java'
+		target 'src/**/*.java', 'source/**/*.java'
 	}
 }
 

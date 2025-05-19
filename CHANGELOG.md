@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
-## [1.0.15-hotfix.1] - 2025-04-25
+## [1.0.15-hotfix.1] - 2025-05-19
 
 ### Fixed
 
@@ -198,6 +198,8 @@ The switcheroo technically works, but it's kinda annoying and awkward to use. Pl
 - `Security` in case of vulnerabilities.
 
 [Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.14...main
+[1.0.15-hotfix.1]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.15-hotfix.1
+[1.0.15]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.15
 [1.0.14]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.14
 [1.0.13]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.13
 [1.0.12]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.12

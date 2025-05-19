@@ -1,6 +1,6 @@
 {
 	"name": "@natoboram/switcheroo",
-	"version": "1.0.15",
+	"version": "1.0.15-hotfix.1",
 	"description": "Switch your currently held item for an effective item when clicking on a block.",
 	"keywords": [
 		"fabric-mod",

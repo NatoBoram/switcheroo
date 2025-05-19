@@ -24,6 +24,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.AirBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -80,7 +81,8 @@ public class EntitySwitch implements AttackEntityCallback {
 		// Get all potential weapons
 		for (final ItemStack stack : inventory.main) {
 			final Item item = stack.getItem();
-			if (item instanceof AirBlockItem) continue;
+			if (item instanceof AirBlockItem || item instanceof RangedWeaponItem)
+				continue;
 
 			// A potential weapon is any stack that has more attack damage than the player's
 			// attack damage. The calculation for attack damage includes the player's base

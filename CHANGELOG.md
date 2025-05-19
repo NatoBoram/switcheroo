@@ -18,6 +18,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Security
 
+## [1.0.15-hotfix.1] - 2025-04-25
+
+### Fixed
+
+- Prevent the bow from being picked when clicking on a mob
+
 ## [1.0.15] - 2025-04-25
 
 ### Changed

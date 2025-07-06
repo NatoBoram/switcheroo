@@ -112,7 +112,8 @@ public class BlockSwitch implements AttackBlockCallback {
 		} else {
 			// Use shears on glow berries, cobwebs, leaves, plants and vines
 			if (
-				block instanceof CaveVinesBodyBlock || block instanceof CaveVinesHeadBlock
+				block instanceof CaveVinesBodyBlock
+					|| block instanceof CaveVinesHeadBlock
 					|| block instanceof CobwebBlock
 					|| block instanceof LeavesBlock
 					|| block instanceof PlantBlock

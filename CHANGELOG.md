@@ -16,6 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Fixed
 
+## [1.0.17] - 2025-07-06
+
+### Fixed
+
+- Ranged weapons should no longer be considered during melee attacks.
+
 ### Security
 
 ## [1.0.16] - 2025-04-26
@@ -197,7 +203,8 @@ The switcheroo technically works, but it's kinda annoying and awkward to use. Pl
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.16...main
+[Unreleased]: https://github.com/NatoBoram/switcheroo/compare/v1.0.17...main
+[1.0.17]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.17
 [1.0.16]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.16
 [1.0.15]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.15
 [1.0.14]: https://github.com/NatoBoram/switcheroo/releases/tag/v1.0.14

@@ -22,8 +22,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 - Ranged weapons should no longer be considered during melee attacks.
 
-### Security
-
 ## [1.0.16] - 2025-04-26
 
 ### Changed

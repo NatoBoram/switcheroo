@@ -57,7 +57,8 @@ public class EntitySwitch implements AttackEntityCallback {
 	) {
 		final SwitcherooConfig config = CONFIG_HOLDER.getConfig();
 		if (
-			player.isSpectator() || player.isSneaking()
+			player.isSpectator()
+				|| player.isSneaking()
 				|| !entity.isLiving()
 				|| !entity.isAlive()
 				|| entity.isInvulnerable()

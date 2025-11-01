@@ -28,7 +28,7 @@ jobs:
       - run: ./gradlew javadoc
         if: github.ref_type != 'tag'
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: github.ref_name == 'main' && github.actor != 'nektos/act'
         with:
           name: switcheroo

@@ -15,3 +15,7 @@ updates:
       timezone: America/Toronto
     commit-message:
       prefix: "⬆️ "
+    groups:
+      actions:
+        patterns:
+          - actions/*

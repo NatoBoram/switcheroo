@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command.argument;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

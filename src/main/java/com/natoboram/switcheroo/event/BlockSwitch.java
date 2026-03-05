@@ -1,7 +1,11 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.event;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.natoboram.switcheroo.Main;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
+import com.natoboram.switcheroo.util.ItemStackUtil;
+import com.natoboram.switcheroo.util.PlayerInventoryUtil;
 import java.util.ArrayList;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -54,7 +58,7 @@ public class BlockSwitch implements AttackBlockCallback {
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 	private final CropSwitch CROP_SWITCH;
 
-	BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
+	public BlockSwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
 		this.CROP_SWITCH = new CropSwitch(CONFIG_HOLDER);
 	}
@@ -196,7 +200,7 @@ public class BlockSwitch implements AttackBlockCallback {
 		ItemStackUtil.keepMostDamagedItems(tools);
 
 		if (!tools.isEmpty())
-			Switch.switcheroo(player, tools.get(0), config);
+			PlayerInventoryUtil.switcheroo(inventory, tools.get(0), config);
 
 		return ActionResult.PASS;
 	}

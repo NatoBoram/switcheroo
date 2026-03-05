@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 

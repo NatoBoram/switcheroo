@@ -1,7 +1,9 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.util;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.natoboram.switcheroo.Main;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Environment(value = CLIENT)
-public class Switch {
+public class PlayerInventoryUtil {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -21,10 +23,9 @@ public class Switch {
 	 * Perform the actual switcheroo.
 	 *
 	 * @param player PlayerEntity that's about to execute the switcheroo.
-	 * @param item Item that should be put in its hand.
+	 * @param item   Item that should be put in its hand.
 	 */
-	public static void switcheroo(final PlayerEntity player, final ItemStack item, final SwitcherooConfig config) {
-		final PlayerInventory inventory = player.getInventory();
+	public static void switcheroo(final PlayerInventory inventory, final ItemStack item, final SwitcherooConfig config) {
 
 		final String itemName = item.getName().getString();
 		final int slot = inventory.getSlotWithStack(item);
@@ -44,12 +45,14 @@ public class Switch {
 			inventory.setSelectedSlot(slot);
 		} else {
 			// Pick the item from the inventory
-			final int nextSlot = Switch.findEmptyOrCurrentHotbarSlot(inventory);
+			final int nextSlot = PlayerInventoryUtil.findEmptyOrCurrentHotbarSlot(inventory);
 
 			if (config.debug)
 				LOGGER.info("Switching from slot {} to {}", slot, nextSlot);
 
 			inventory.setSelectedSlot(nextSlot);
+
+			final PlayerEntity player = inventory.player;
 			CLIENT.interactionManager.clickSlot(
 				player.playerScreenHandler.syncId,
 				slot,

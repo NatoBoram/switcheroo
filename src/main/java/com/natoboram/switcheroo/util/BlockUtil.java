@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;

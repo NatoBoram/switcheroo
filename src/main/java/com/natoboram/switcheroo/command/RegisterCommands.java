@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
@@ -6,6 +6,8 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.natoboram.switcheroo.command.argument.BlockIdentifierArgumentType;
+import com.natoboram.switcheroo.command.argument.EntityIdentifierArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
@@ -14,7 +16,7 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 
 	private final String MOD_ID;
 
-	RegisterCommands(final String MOD_ID) {
+	public RegisterCommands(final String MOD_ID) {
 		this.MOD_ID = MOD_ID;
 	}
 

@@ -1,17 +1,20 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.event;
 
-import static com.natoboram.switcheroo.ItemStackUtil.getAttackDamage;
-import static com.natoboram.switcheroo.ItemStackUtil.getDps;
-import static com.natoboram.switcheroo.ItemStackUtil.getMaxAttackDamage;
-import static com.natoboram.switcheroo.ItemStackUtil.getMaxDps;
-import static com.natoboram.switcheroo.ItemStackUtil.keepMostAttackDamage;
-import static com.natoboram.switcheroo.ItemStackUtil.keepMostDamagedItems;
-import static com.natoboram.switcheroo.ItemStackUtil.keepMostDps;
-import static com.natoboram.switcheroo.ItemStackUtil.removeDamagedEnchantedItems;
-import static com.natoboram.switcheroo.ItemStackUtil.round;
+import static com.natoboram.switcheroo.util.ItemStackUtil.getAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStackUtil.getDps;
+import static com.natoboram.switcheroo.util.ItemStackUtil.getMaxAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStackUtil.getMaxDps;
+import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostDamagedItems;
+import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostDps;
+import static com.natoboram.switcheroo.util.ItemStackUtil.removeDamagedEnchantedItems;
+import static com.natoboram.switcheroo.util.ItemStackUtil.round;
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
 
+import com.natoboram.switcheroo.Main;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
+import com.natoboram.switcheroo.util.PlayerInventoryUtil;
 import java.util.ArrayList;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -43,7 +46,7 @@ public class EntitySwitch implements AttackEntityCallback {
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 
-	EntitySwitch(final ConfigHolder<SwitcherooConfig> holder) {
+	public EntitySwitch(final ConfigHolder<SwitcherooConfig> holder) {
 		this.CONFIG_HOLDER = holder;
 	}
 
@@ -146,7 +149,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		keepMostDamagedItems(weapons);
 
 		if (!weapons.isEmpty())
-			Switch.switcheroo(player, weapons.get(0), config);
+			PlayerInventoryUtil.switcheroo(inventory, weapons.get(0), config);
 
 		return ActionResult.PASS;
 	}

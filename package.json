@@ -36,7 +36,7 @@
 	"repository": "github:NatoBoram/switcheroo",
 	"scripts": {
 		"build": "gradle build",
-		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build node_modules remappedSrc switcheroo_client.launch switcheroo_server.launch",
+		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build minecraft node_modules remappedSrc switcheroo_client.launch switcheroo_server.launch",
 		"dev": "gradle runClient",
 		"docs": "gradle javadoc",
 		"downloadAssets": "gradle downloadAssets",

@@ -22,8 +22,8 @@ public class PlayerInventories {
 	/**
 	 * Perform the actual switcheroo.
 	 *
-	 * @param player PlayerEntity that's about to execute the switcheroo.
-	 * @param item Item that should be put in its hand.
+	 * @param inventory PlayerInventory where the switch will happen in.
+	 * @param item      ItemStack that should be put in hands.
 	 */
 	public static void switcheroo(final PlayerInventory inventory, final ItemStack item, final SwitcherooConfig config) {
 

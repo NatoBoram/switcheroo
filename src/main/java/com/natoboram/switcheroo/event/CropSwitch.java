@@ -96,7 +96,7 @@ public class CropSwitch implements AttackBlockCallback {
 			return ActionResult.PASS;
 		}
 		final ItemStack seed = seeds.get(0);
-		PlayerInventories.switcheroo(inventory, seed, CONFIG_HOLDER.getConfig());
+		PlayerInventories.switcheroo(inventory, seed, config);
 
 		// Plant the seed!
 		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;

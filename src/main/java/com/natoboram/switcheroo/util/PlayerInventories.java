@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Environment(value = CLIENT)
-public class PlayerInventoryUtil {
+public class PlayerInventories {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -45,7 +45,7 @@ public class PlayerInventoryUtil {
 			inventory.setSelectedSlot(slot);
 		} else {
 			// Pick the item from the inventory
-			final int nextSlot = PlayerInventoryUtil.findEmptyOrCurrentHotbarSlot(inventory);
+			final int nextSlot = PlayerInventories.findEmptyOrCurrentHotbarSlot(inventory);
 
 			if (config.debug)
 				LOGGER.info("Switching from slot {} to {}", slot, nextSlot);

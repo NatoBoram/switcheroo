@@ -41,7 +41,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 @Environment(value = CLIENT)
-public class ItemStackUtil {
+public class ItemStacks {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();

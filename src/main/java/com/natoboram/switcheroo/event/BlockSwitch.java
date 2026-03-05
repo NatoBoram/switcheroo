@@ -4,8 +4,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.natoboram.switcheroo.Main;
 import com.natoboram.switcheroo.config.SwitcherooConfig;
-import com.natoboram.switcheroo.util.ItemStackUtil;
-import com.natoboram.switcheroo.util.PlayerInventoryUtil;
+import com.natoboram.switcheroo.util.ItemStacks;
+import com.natoboram.switcheroo.util.PlayerInventories;
 import java.util.ArrayList;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -143,7 +143,7 @@ public class BlockSwitch implements AttackBlockCallback {
 			if (tools.isEmpty())
 				for (final ItemStack stack : inventory.getMainStacks())
 					if (
-						ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F && !(stack.isIn(ItemTags.SWORDS))
+						ItemStacks.getMiningSpeedMultiplier(stack, blockState, world) > 1.0F && !(stack.isIn(ItemTags.SWORDS))
 							&& axeFilter(block, stack.getItem())
 					)
 						tools.add(stack);
@@ -163,7 +163,7 @@ public class BlockSwitch implements AttackBlockCallback {
 			tools.removeIf(tool -> EnchantmentHelper.getLevel(silkTouchEntry, tool) <= 0);
 
 		// Filters enchanted items with low durability
-		ItemStackUtil.removeDamagedEnchantedItems(tools, config);
+		ItemStacks.removeDamagedEnchantedItems(tools, config);
 
 		// Safety before launching streams
 		if (tools.isEmpty()) {
@@ -175,18 +175,18 @@ public class BlockSwitch implements AttackBlockCallback {
 
 		// Get best or worst tool
 		if (CLIENT.options.sprintKey.isPressed() || config.alwaysFastest)
-			ItemStackUtil.keepFastestTools(tools, blockState, world);
+			ItemStacks.keepFastestTools(tools, blockState, world);
 		else
-			ItemStackUtil.keepSlowestTools(tools, blockState, world);
+			ItemStacks.keepSlowestTools(tools, blockState, world);
 
 		final ItemStack mainHand = player.getMainHandStack();
-		final double mainHandSpeed = ItemStackUtil.getMiningSpeedMultiplier(mainHand, blockState, world);
+		final double mainHandSpeed = ItemStacks.getMiningSpeedMultiplier(mainHand, blockState, world);
 
 		// Stop if there's already a valid item in hand
 		if (
 			tools.stream()
 				.anyMatch(
-					stack -> mainHandSpeed == ItemStackUtil.getMiningSpeedMultiplier(stack, blockState, world)
+					stack -> mainHandSpeed == ItemStacks.getMiningSpeedMultiplier(stack, blockState, world)
 						&& ItemStack.areItemsEqual(stack, mainHand)
 				)
 		) {
@@ -197,10 +197,10 @@ public class BlockSwitch implements AttackBlockCallback {
 		}
 
 		// Get most damaged item
-		ItemStackUtil.keepMostDamagedItems(tools);
+		ItemStacks.keepMostDamagedItems(tools);
 
 		if (!tools.isEmpty())
-			PlayerInventoryUtil.switcheroo(inventory, tools.get(0), config);
+			PlayerInventories.switcheroo(inventory, tools.get(0), config);
 
 		return ActionResult.PASS;
 	}

@@ -1,20 +1,20 @@
 package com.natoboram.switcheroo.event;
 
-import static com.natoboram.switcheroo.util.ItemStackUtil.getAttackDamage;
-import static com.natoboram.switcheroo.util.ItemStackUtil.getDps;
-import static com.natoboram.switcheroo.util.ItemStackUtil.getMaxAttackDamage;
-import static com.natoboram.switcheroo.util.ItemStackUtil.getMaxDps;
-import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostAttackDamage;
-import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostDamagedItems;
-import static com.natoboram.switcheroo.util.ItemStackUtil.keepMostDps;
-import static com.natoboram.switcheroo.util.ItemStackUtil.removeDamagedEnchantedItems;
-import static com.natoboram.switcheroo.util.ItemStackUtil.round;
+import static com.natoboram.switcheroo.util.ItemStacks.getAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStacks.getDps;
+import static com.natoboram.switcheroo.util.ItemStacks.getMaxAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStacks.getMaxDps;
+import static com.natoboram.switcheroo.util.ItemStacks.keepMostAttackDamage;
+import static com.natoboram.switcheroo.util.ItemStacks.keepMostDamagedItems;
+import static com.natoboram.switcheroo.util.ItemStacks.keepMostDps;
+import static com.natoboram.switcheroo.util.ItemStacks.removeDamagedEnchantedItems;
+import static com.natoboram.switcheroo.util.ItemStacks.round;
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
 
 import com.natoboram.switcheroo.Main;
 import com.natoboram.switcheroo.config.SwitcherooConfig;
-import com.natoboram.switcheroo.util.PlayerInventoryUtil;
+import com.natoboram.switcheroo.util.PlayerInventories;
 import java.util.ArrayList;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -149,7 +149,7 @@ public class EntitySwitch implements AttackEntityCallback {
 		keepMostDamagedItems(weapons);
 
 		if (!weapons.isEmpty())
-			PlayerInventoryUtil.switcheroo(inventory, weapons.get(0), config);
+			PlayerInventories.switcheroo(inventory, weapons.get(0), config);
 
 		return ActionResult.PASS;
 	}

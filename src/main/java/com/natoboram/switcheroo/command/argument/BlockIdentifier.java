@@ -11,42 +11,32 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.block.Block;
 import net.minecraft.command.argument.BlockStateArgumentType;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
- * Argument type for obtaining an entity {@link Identifier}.
+ * Argument type for obtaining a block {@link Identifier}.
  *
  * @see BlockStateArgumentType
- * @see EntityArgumentType
  */
-public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
+public class BlockIdentifier implements ArgumentType<Identifier> {
 
-	private static final Collection<String> EXAMPLES = Arrays.asList("minecraft:pig", "cow");
+	private static final Collection<String> EXAMPLES = Arrays.asList("stone", "minecraft:stone");
 
 	public static final DynamicCommandExceptionType NOT_FOUND_EXCEPTION = new DynamicCommandExceptionType(id -> {
-		return Text.translatable("switcheroo.error.mobNotFound", new Object[] { id });
+		return Text.translatable("switcheroo.error.blockNotFound", new Object[] { id });
 	});
 
-	public static EntityIdentifierArgumentType entityIdentifier() {
-		return new EntityIdentifierArgumentType();
+	public static BlockIdentifier blockIdentifier() {
+		return new BlockIdentifier();
 	}
 
-	private static Identifier validate(final Identifier id) throws CommandSyntaxException {
-		final RegistryKey<EntityType<?>> key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, id);
-		Registries.ENTITY_TYPE.getOptional(key).orElseThrow(() -> NOT_FOUND_EXCEPTION.create(id));
-		return id;
-	}
-
-	public Identifier getEntityIdentifier(
-		final CommandContext<FabricClientCommandSource> context,
-		final String name
+	public Identifier getBlockIdentifier(
+		final String name,
+		final CommandContext<FabricClientCommandSource> context
 	) throws CommandSyntaxException {
 		return validate((Identifier) context.getArgument(name, Identifier.class));
 	}
@@ -63,17 +53,25 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 	) {
 		final String remaining = builder.getRemaining();
 
-		Registries.ENTITY_TYPE.getIds()
-			.forEach(id -> {
-				if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
-					builder.suggest(id.toString());
-			});
+		Registries.BLOCK.getIds().forEach(id -> {
+			if (id.toString().startsWith(remaining) || id.getPath().startsWith(remaining))
+				builder.suggest(id.toString());
+		});
 
 		return builder.buildFuture();
 	}
 
 	@Override
-	public Identifier parse(final StringReader stringReader) throws CommandSyntaxException {
-		return validate(Identifier.fromCommandInput(stringReader));
+	public Identifier parse(final StringReader reader) throws CommandSyntaxException {
+		return validate(Identifier.fromCommandInput(reader));
+	}
+
+	private Identifier validate(final Identifier id) throws CommandSyntaxException {
+		final Block block = Registries.BLOCK.get(id);
+
+		if (block == null)
+			throw NOT_FOUND_EXCEPTION.create(id);
+
+		return id;
 	}
 }

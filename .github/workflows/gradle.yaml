@@ -1,19 +1,23 @@
 name: Java CI
 
 on:
-  push:
-    branches: main
-    tags: v*
+  merge_group:
+    branches:
+      - main
   pull_request:
-    branches: main
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  test:
     permissions:
-      contents: write
-      packages: write
+      contents: read
+
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v6
@@ -26,22 +30,11 @@ jobs:
       - run: ./gradlew build
       - run: ./gradlew spotlessCheck
       - run: ./gradlew javadoc
-        if: github.ref_type != 'tag'
 
       - uses: actions/upload-artifact@v7
-        if: github.ref_name == 'main' && github.actor != 'nektos/act'
+        if: github.actor != 'nektos/act'
         with:
           name: switcheroo
           path: build/libs
+          compression-level: 9
           if-no-files-found: error
-
-      - run: gh release create ${{ github.ref_name }} --generate-notes --title ${{ github.ref_name }} --verify-tag build/libs/*
-        if: github.ref_type == 'tag' && github.actor != 'nektos/act'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: ./gradlew publish
-        if: github.ref_type == 'tag' && github.actor != 'nektos/act'
-        env:
-          GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

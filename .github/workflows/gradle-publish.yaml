@@ -1,0 +1,62 @@
+name: Java Publish
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: temurin
+      - uses: gradle/actions/setup-gradle@v5
+
+      - run: ./gradlew build
+
+      - uses: actions/upload-artifact@v7
+        if: github.actor != 'nektos/act'
+        with:
+          name: switcheroo
+          path: build/libs
+          compression-level: 9
+          if-no-files-found: error
+
+  publish:
+    permissions:
+      contents: write
+      packages: write
+
+    needs: build
+    if: github.actor != 'nektos/act'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: temurin
+      - uses: gradle/actions/setup-gradle@v5
+
+      - uses: actions/download-artifact@v7
+        with:
+          name: switcheroo
+          path: build/libs
+
+      - run: gh release create ${{ github.ref_name }} --generate-notes --title ${{ github.ref_name }} --verify-tag build/libs/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: ./gradlew publish
+        env:
+          GITHUB_USERNAME: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

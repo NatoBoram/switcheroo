@@ -35,13 +35,13 @@
 	],
 	"repository": "github:NatoBoram/switcheroo",
 	"scripts": {
-		"build": "gradle build",
+		"build": "./gradlew build",
 		"clean": "rm -rf .classpath .factorypath .gradle .project .settings .vscode/launch.json bin build minecraft node_modules remappedSrc switcheroo_client.launch switcheroo_server.launch",
-		"dev": "gradle runClient",
-		"docs": "gradle javadoc",
-		"format": "prettier --write . && gradle spotlessApply",
-		"postinstall": "gradle downloadAssets && gradle genSources && gradle eclipse && gradle vscode",
-		"lint": "gradle spotlessCheck"
+		"dev": "./gradlew runClient",
+		"docs": "./gradlew javadoc",
+		"format": "prettier --write . && ./gradlew spotlessApply",
+		"postinstall": "./gradlew downloadAssets && ./gradlew genSources && ./gradlew eclipse && ./gradlew vscode",
+		"lint": "./gradlew spotlessCheck"
 	},
 	"devDependencies": {
 		"@prettier/plugin-xml": "^3.4.1",

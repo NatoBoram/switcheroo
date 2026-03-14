@@ -16,7 +16,7 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": ["com.natoboram.switcheroo.Main"],
-		"modmenu": ["com.natoboram.switcheroo.SwitcherooModMenu"]
+		"modmenu": ["com.natoboram.switcheroo.config.SwitcherooModMenu"]
 	},
 	"mixins": [],
 	"depends": {

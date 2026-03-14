@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command.argument;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier;
  *
  * @see BlockStateArgumentType
  */
-public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
+public class BlockIdentifier implements ArgumentType<Identifier> {
 
 	private static final Collection<String> EXAMPLES = Arrays.asList("stone", "minecraft:stone");
 
@@ -30,8 +30,8 @@ public class BlockIdentifierArgumentType implements ArgumentType<Identifier> {
 		return Text.translatable("switcheroo.error.blockNotFound", new Object[] { id });
 	});
 
-	public static BlockIdentifierArgumentType blockIdentifier() {
-		return new BlockIdentifierArgumentType();
+	public static BlockIdentifier blockIdentifier() {
+		return new BlockIdentifier();
 	}
 
 	public Identifier getBlockIdentifier(

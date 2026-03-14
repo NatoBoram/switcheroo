@@ -1,10 +1,10 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
-public class BlockUtil {
+public class Blocks {
 
 	public static boolean isInList(final Block block, final String[] blocks) {
 		final Identifier id = Registries.BLOCK.getId(block);

@@ -1,5 +1,6 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.config;
 
+import com.natoboram.switcheroo.Main;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;

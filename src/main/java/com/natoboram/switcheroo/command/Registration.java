@@ -1,20 +1,25 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command;
 
+import static net.fabricmc.api.EnvType.CLIENT;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.natoboram.switcheroo.command.argument.BlockIdentifier;
+import com.natoboram.switcheroo.command.argument.EntityIdentifier;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
 
-public class RegisterCommands implements ClientCommandRegistrationCallback {
+@Environment(value = CLIENT)
+public class Registration implements ClientCommandRegistrationCallback {
 
 	private final String MOD_ID;
 
-	RegisterCommands(final String MOD_ID) {
+	public Registration(final String MOD_ID) {
 		this.MOD_ID = MOD_ID;
 	}
 
@@ -30,13 +35,13 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 			.executes(Commands::blacklistBlocks)
 			.then(
 				literal("add").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier())
+					argument("block", BlockIdentifier.blockIdentifier())
 						.executes(Commands::blacklistBlocksAdd)
 				)
 			)
 			.then(
 				literal("remove").then(
-					argument("block", BlockIdentifierArgumentType.blockIdentifier())
+					argument("block", BlockIdentifier.blockIdentifier())
 						.executes(Commands::blacklistBlocksRemove)
 				)
 			);
@@ -45,13 +50,13 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 			.executes(Commands::blacklistMobs)
 			.then(
 				literal("add").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+					argument("mob", EntityIdentifier.entityIdentifier())
 						.executes(Commands::blacklistMobsAdd)
 				)
 			)
 			.then(
 				literal("remove").then(
-					argument("mob", EntityIdentifierArgumentType.entityIdentifier())
+					argument("mob", EntityIdentifier.entityIdentifier())
 						.executes(Commands::blacklistMobsRemove)
 				)
 			);
@@ -77,13 +82,13 @@ public class RegisterCommands implements ClientCommandRegistrationCallback {
 				.executes(Commands::preferSilkTouch)
 				.then(
 					literal("add").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier())
+						argument("block", BlockIdentifier.blockIdentifier())
 							.executes(Commands::preferSilkTouchAdd)
 					)
 				)
 				.then(
 					literal("remove").then(
-						argument("block", BlockIdentifierArgumentType.blockIdentifier())
+						argument("block", BlockIdentifier.blockIdentifier())
 							.executes(Commands::preferSilkTouchRemove)
 					)
 				)

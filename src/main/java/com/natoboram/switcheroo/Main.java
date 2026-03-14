@@ -2,6 +2,10 @@ package com.natoboram.switcheroo;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.natoboram.switcheroo.command.Registration;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
+import com.natoboram.switcheroo.event.BlockSwitch;
+import com.natoboram.switcheroo.event.EntitySwitch;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -38,7 +42,7 @@ public class Main implements ClientModInitializer {
 		AttackEntityCallback.EVENT.register(new EntitySwitch(holder));
 
 		// Register commands
-		ClientCommandRegistrationCallback.EVENT.register(new RegisterCommands(MOD_ID));
+		ClientCommandRegistrationCallback.EVENT.register(new Registration(MOD_ID));
 
 		LOGGER.info("Loaded Switcheroo!");
 	}

@@ -1,10 +1,11 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
 import me.shedaniel.autoconfig.AutoConfig;

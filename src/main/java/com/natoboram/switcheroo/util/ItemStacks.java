@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.util;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.component.DataComponentTypes.ATTRIBUTE_MODIFIERS;
@@ -8,6 +8,8 @@ import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_DAMAGE;
 import static net.minecraft.entity.attribute.EntityAttributes.ATTACK_SPEED;
 import static net.minecraft.registry.RegistryKeys.ENCHANTMENT;
 
+import com.natoboram.switcheroo.Main;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
@@ -39,7 +41,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 @Environment(value = CLIENT)
-public class ItemStackUtil {
+public class ItemStacks {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();

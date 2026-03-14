@@ -1,7 +1,11 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.event;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.natoboram.switcheroo.Main;
+import com.natoboram.switcheroo.config.SwitcherooConfig;
+import com.natoboram.switcheroo.util.ItemStacks;
+import com.natoboram.switcheroo.util.PlayerInventories;
 import java.util.ArrayList;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.Environment;
@@ -85,14 +89,14 @@ public class CropSwitch implements AttackBlockCallback {
 			return ActionResult.PASS;
 		}
 
-		ItemStackUtil.keepLowestStacks(seeds);
+		ItemStacks.keepLowestStacks(seeds);
 
 		if (seeds.isEmpty()) {
 			LOGGER.warn("No seeds found for {}", seedItem.getName().getString());
 			return ActionResult.PASS;
 		}
 		final ItemStack seed = seeds.get(0);
-		Switch.switcheroo(player, seed, CONFIG_HOLDER.getConfig());
+		PlayerInventories.switcheroo(inventory, seed, config);
 
 		// Plant the seed!
 		final BlockHitResult blockHitResult = (BlockHitResult) CLIENT.crosshairTarget;

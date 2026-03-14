@@ -1,4 +1,4 @@
-package com.natoboram.switcheroo;
+package com.natoboram.switcheroo.command.argument;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier;
  * @see BlockStateArgumentType
  * @see EntityArgumentType
  */
-public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
+public class EntityIdentifier implements ArgumentType<Identifier> {
 
 	private static final Collection<String> EXAMPLES = Arrays.asList("minecraft:pig", "cow");
 
@@ -34,8 +34,8 @@ public class EntityIdentifierArgumentType implements ArgumentType<Identifier> {
 		return Text.translatable("switcheroo.error.mobNotFound", new Object[] { id });
 	});
 
-	public static EntityIdentifierArgumentType entityIdentifier() {
-		return new EntityIdentifierArgumentType();
+	public static EntityIdentifier entityIdentifier() {
+		return new EntityIdentifier();
 	}
 
 	private static Identifier validate(final Identifier id) throws CommandSyntaxException {

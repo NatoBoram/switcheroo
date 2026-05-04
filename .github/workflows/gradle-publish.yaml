@@ -47,7 +47,7 @@ jobs:
           distribution: temurin
       - uses: gradle/actions/setup-gradle@v6
 
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: switcheroo
           path: build/libs

@@ -24,7 +24,7 @@ jobs:
           distribution: temurin
       - uses: gradle/actions/setup-gradle@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: latest
       - uses: actions/setup-node@v6

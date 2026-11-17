@@ -28,5 +28,6 @@
 	},
 	"suggests": {
 		"modmenu": ">=14.0.0-rc.2"
-	}
+	},
+	"custom": { "firmament:hide_from_modlist": true }
 }

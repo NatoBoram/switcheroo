@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Added
 
+- Enabled [`firmament:hide_from_modlist`](https://github.com/FirmamentMC/Firmament/blob/4d1ed0013927328d91892252b596c0f66ceb5d10/src/main/kotlin/features/misc/ModAnnouncer.kt#L15-L32)
+
 ### Changed
 
 ### Deprecated

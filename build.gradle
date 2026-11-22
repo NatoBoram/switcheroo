@@ -9,6 +9,11 @@ spotless {
 		eclipse().configFile('.java-formatter.xml')
 		target 'src/**/*.java', 'source/**/*.java'
 	}
+
+	groovyGradle {
+		target '*.gradle'
+		greclipse()
+	}
 }
 
 archivesBaseName = project.archives_base_name

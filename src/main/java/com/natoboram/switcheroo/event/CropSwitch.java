@@ -24,8 +24,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Execute a switcheroo action when attacking crops. The original plan was to
@@ -36,7 +36,7 @@ import org.apache.logging.log4j.Logger;
 public class CropSwitch implements AttackBlockCallback {
 
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
-	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.MOD_ID);
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 
 	CropSwitch(final ConfigHolder<SwitcherooConfig> holder) {

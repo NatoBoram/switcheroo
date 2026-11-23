@@ -14,8 +14,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Environment(value = CLIENT)
 public class Main implements ClientModInitializer {
@@ -29,7 +29,7 @@ public class Main implements ClientModInitializer {
 	 * <p>
 	 * Note: {@link Logger#debug} does not write to the console.
 	 */
-	private static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitializeClient() {

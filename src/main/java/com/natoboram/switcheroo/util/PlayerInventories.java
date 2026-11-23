@@ -10,13 +10,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Environment(value = CLIENT)
 public class PlayerInventories {
 
-	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	/**

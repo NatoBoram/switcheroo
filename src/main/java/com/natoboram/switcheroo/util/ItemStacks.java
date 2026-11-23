@@ -36,14 +36,14 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Environment(value = CLIENT)
 public class ItemStacks {
 
-	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
 	/**
@@ -96,39 +96,6 @@ public class ItemStacks {
 	}
 
 	/**
-	 * Gets the maximum attack damage the current player can deal to a specific
-	 * entity using a list of weapons.
-	 */
-	public static double getMaxAttackDamage(
-		final ArrayList<ItemStack> weapons,
-		final Entity entity,
-		final World world,
-		final SwitcherooConfig config
-	) {
-		return getAttackDamage(
-			weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world, config))).get(),
-			entity,
-			world,
-			config
-		);
-	}
-
-	/**
-	 * Removes weapons that deal less damage than the maximum attack damage the
-	 * player can deal to a specific entity.
-	 */
-	public static boolean keepMostAttackDamage(
-		final ArrayList<ItemStack> weapons,
-		final Entity entity,
-		@Nullable final Double maxAd,
-		final World world,
-		final SwitcherooConfig config
-	) {
-		final double max = maxAd == null ? getMaxAttackDamage(weapons, entity, world, config) : maxAd.doubleValue();
-		return weapons.removeIf(stack -> max > getAttackDamage(stack, entity, world, config));
-	}
-
-	/**
 	 * Calculates the attack speed of a specific item stack.
 	 */
 	public static double getAttackSpeed(final ItemStack stack, final SwitcherooConfig config) {
@@ -159,10 +126,6 @@ public class ItemStacks {
 		return speed;
 	}
 
-	public static double round(final double speed) {
-		return Math.round(speed * 10.0) / 10.0;
-	}
-
 	/**
 	 * Calculates the damage per seconds a player can deal using specific item stack
 	 * towards a specific entity.
@@ -174,6 +137,24 @@ public class ItemStacks {
 		final SwitcherooConfig config
 	) {
 		return getAttackDamage(stack, entity, world, config) * getAttackSpeed(stack, config);
+	}
+
+	/**
+	 * Gets the maximum attack damage the current player can deal to a specific
+	 * entity using a list of weapons.
+	 */
+	public static double getMaxAttackDamage(
+		final ArrayList<ItemStack> weapons,
+		final Entity entity,
+		final World world,
+		final SwitcherooConfig config
+	) {
+		return getAttackDamage(
+			weapons.stream().max(Comparator.comparing(item -> getAttackDamage(item, entity, world, config))).get(),
+			entity,
+			world,
+			config
+		);
 	}
 
 	/**
@@ -191,57 +172,6 @@ public class ItemStacks {
 			world,
 			config
 		);
-	}
-
-	/**
-	 * Removes weapons that deal less damage per seconds than the maximum damage per
-	 * seconds the player can deal to a specific entity.
-	 */
-	public static boolean keepMostDps(
-		final ArrayList<ItemStack> weapons,
-		final Entity entityGroup,
-		@Nullable final Double maxDps,
-		final World world,
-		final SwitcherooConfig config
-	) {
-		final double max = maxDps == null ? getMaxDps(weapons, entityGroup, world, config) : maxDps.doubleValue();
-		return weapons.removeIf(stack -> max > getDps(stack, entityGroup, world, config));
-	}
-
-	/**
-	 * Removes tools that have a lower mining speed than the fastest tool in the
-	 * inventory.
-	 */
-	public static boolean keepFastestTools(
-		final ArrayList<ItemStack> tools,
-		final BlockState blockState,
-		final World world
-	) {
-		final double max = getMiningSpeedMultiplier(
-			tools.stream().max(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
-			blockState,
-			world
-		);
-
-		return tools.removeIf(item -> max > getMiningSpeedMultiplier(item, blockState, world));
-	}
-
-	/**
-	 * Removes tools that have a higher mining speed than the slowest tool in the
-	 * inventory.
-	 */
-	public static boolean keepSlowestTools(
-		final ArrayList<ItemStack> tools,
-		final BlockState blockState,
-		final World world
-	) {
-		final double min = getMiningSpeedMultiplier(
-			tools.stream().min(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
-			blockState,
-			world
-		);
-
-		return tools.removeIf(item -> min < getMiningSpeedMultiplier(item, blockState, world));
 	}
 
 	/**
@@ -264,11 +194,43 @@ public class ItemStacks {
 		return multiplier;
 	}
 
-	/** Removes enchanted items that have only 5 durability left. */
-	public static boolean removeDamagedEnchantedItems(final ArrayList<ItemStack> items, final SwitcherooConfig config) {
-		return items.removeIf(
-			item -> item.hasEnchantments() && item.getMaxDamage() - item.getDamage() <= config.minDurability
+	/**
+	 * Removes tools that have a lower mining speed than the fastest tool in the
+	 * inventory.
+	 */
+	public static boolean keepFastestTools(
+		final ArrayList<ItemStack> tools,
+		final BlockState blockState,
+		final World world
+	) {
+		final double max = getMiningSpeedMultiplier(
+			tools.stream().max(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
+			blockState,
+			world
 		);
+
+		return tools.removeIf(item -> max > getMiningSpeedMultiplier(item, blockState, world));
+	}
+
+	/** Removes items that have a smaller stack size than the lowest stack size. */
+	public static boolean keepLowestStacks(final ArrayList<ItemStack> items) {
+		final float min = items.stream().min(Comparator.comparing(item -> item.getCount())).get().getCount();
+		return items.removeIf(item -> min < item.getCount());
+	}
+
+	/**
+	 * Removes weapons that deal less damage than the maximum attack damage the
+	 * player can deal to a specific entity.
+	 */
+	public static boolean keepMostAttackDamage(
+		final ArrayList<ItemStack> weapons,
+		final Entity entity,
+		@Nullable final Double maxAd,
+		final World world,
+		final SwitcherooConfig config
+	) {
+		final double max = maxAd == null ? getMaxAttackDamage(weapons, entity, world, config) : maxAd.doubleValue();
+		return weapons.removeIf(stack -> max > getAttackDamage(stack, entity, world, config));
 	}
 
 	/** Removes items that have less durability than the most damaged item. */
@@ -277,10 +239,48 @@ public class ItemStacks {
 		return items.removeIf(item -> max > item.getDamage());
 	}
 
-	/** Removes items that have a smaller stack size than the lowest stack size. */
-	public static boolean keepLowestStacks(final ArrayList<ItemStack> items) {
-		final float min = items.stream().min(Comparator.comparing(item -> item.getCount())).get().getCount();
-		return items.removeIf(item -> min < item.getCount());
+	/**
+	 * Removes weapons that deal less damage per seconds than the maximum damage per
+	 * seconds the player can deal to a specific entity.
+	 */
+	public static boolean keepMostDps(
+		final ArrayList<ItemStack> weapons,
+		final Entity entityGroup,
+		@Nullable final Double maxDps,
+		final World world,
+		final SwitcherooConfig config
+	) {
+		final double max = maxDps == null ? getMaxDps(weapons, entityGroup, world, config) : maxDps.doubleValue();
+		return weapons.removeIf(stack -> max > getDps(stack, entityGroup, world, config));
+	}
+
+	/**
+	 * Removes tools that have a higher mining speed than the slowest tool in the
+	 * inventory.
+	 */
+	public static boolean keepSlowestTools(
+		final ArrayList<ItemStack> tools,
+		final BlockState blockState,
+		final World world
+	) {
+		final double min = getMiningSpeedMultiplier(
+			tools.stream().min(Comparator.comparing(item -> getMiningSpeedMultiplier(item, blockState, world))).get(),
+			blockState,
+			world
+		);
+
+		return tools.removeIf(item -> min < getMiningSpeedMultiplier(item, blockState, world));
+	}
+
+	/** Removes enchanted items that have only 5 durability left. */
+	public static boolean removeDamagedEnchantedItems(final ArrayList<ItemStack> items, final SwitcherooConfig config) {
+		return items.removeIf(
+			item -> item.hasEnchantments() && item.getMaxDamage() - item.getDamage() <= config.minDurability
+		);
+	}
+
+	public static double round(final double speed) {
+		return Math.round(speed * 10.0) / 10.0;
 	}
 
 	/** Calculates the enchantment damage done by a weapon to an entity. */

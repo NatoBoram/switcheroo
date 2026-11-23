@@ -9,6 +9,11 @@ spotless {
 		eclipse().configFile('.java-formatter.xml')
 		target 'src/**/*.java', 'source/**/*.java'
 	}
+
+	groovyGradle {
+		target '*.gradle'
+		greclipse()
+	}
 }
 
 archivesBaseName = project.archives_base_name
@@ -100,7 +105,7 @@ publishing {
 	}
 
 	repositories {
-		 maven {
+		maven {
 			name = "GitHubPackages"
 			url = uri("https://maven.pkg.github.com/natoboram/switcheroo")
 			credentials {

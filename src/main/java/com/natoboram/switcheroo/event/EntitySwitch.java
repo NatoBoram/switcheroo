@@ -34,15 +34,15 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Execute a switcheroo action when attacking an entity. */
 @Environment(value = CLIENT)
 public class EntitySwitch implements AttackEntityCallback {
 
-	private static final Logger LOGGER = LogManager.getLogger(Main.MOD_ID);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.MOD_ID);
 	private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 	private final ConfigHolder<SwitcherooConfig> CONFIG_HOLDER;
 

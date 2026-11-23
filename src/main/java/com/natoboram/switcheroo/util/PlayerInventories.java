@@ -23,7 +23,7 @@ public class PlayerInventories {
 	 * Perform the actual switcheroo.
 	 *
 	 * @param inventory PlayerInventory where the switch will happen in.
-	 * @param item      ItemStack that should be put in hands.
+	 * @param item ItemStack that should be put in hands.
 	 */
 	public static void switcheroo(final PlayerInventory inventory, final ItemStack item, final SwitcherooConfig config) {
 

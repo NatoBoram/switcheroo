@@ -105,7 +105,7 @@ publishing {
 	}
 
 	repositories {
-		 maven {
+		maven {
 			name = "GitHubPackages"
 			url = uri("https://maven.pkg.github.com/natoboram/switcheroo")
 			credentials {
